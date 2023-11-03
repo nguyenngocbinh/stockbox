@@ -3,9 +3,9 @@ project:
   
 website: 
   page-navigation: true
-  title: "Making sharable documents with Quarto" 
-  site-url: "https://nguyenngocbinh.github.io/documents" 
-  repo-url: https://github.com/nguyenngocbinh/documents 
+  title: "Vnstock" 
+  site-url: "https://nguyenngocbinh.github.io/stockbox" 
+  repo-url: https://github.com/nguyenngocbinh/stockbox 
   repo-actions: [edit, issue]
   
   page-footer:
@@ -21,7 +21,7 @@ website:
         href: https://openscapes.org
         text: "Openscapes.org"
       - icon: github
-        href: https://github.com/nguyenngocbinh/documents
+        href: https://github.com/nguyenngocbinh/stockbox
         text: "Quarto website tutorial"
       - icon: twitter
         href: https://twitter.com/nanabi88
@@ -33,18 +33,9 @@ website:
     contents:
       - href: index.qmd
         text: Welcome
-      - explore.qmd
-      - section: quarto-workflows/index.qmd
-        contents: 
-          - quarto-workflows/browser.md
-          - quarto-workflows/rstudio.qmd
-          - quarto-workflows/jupyter.md 
-      - learning-more.qmd
-      - href: transition-from-rmarkdown.qmd
-        text: Transition from Rmd
-      - section: machine-learning/transformer.md
+      - section: price-summary/Stock_price_summary.qmd
         contents:
-          - machine-learning/transformer.md
+          - price-summary/Stock_price_summary.qmd
 
 
 format:
