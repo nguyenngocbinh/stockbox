@@ -1,39 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nguyenngocbinh.github.io/documents/transition-from-rmarkdown.html</loc>
-    <lastmod>2023-09-18T07:52:48.652Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/learning-more.html</loc>
-    <lastmod>2023-09-18T07:52:46.772Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/quarto-workflows/jupyter.html</loc>
-    <lastmod>2023-09-18T07:52:45.600Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/quarto-workflows/index.html</loc>
-    <lastmod>2023-09-18T07:52:44.300Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/index.html</loc>
-    <lastmod>2023-09-18T07:52:42.100Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/explore.html</loc>
-    <lastmod>2023-09-18T07:52:43.724Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/quarto-workflows/browser.html</loc>
-    <lastmod>2023-09-18T07:52:44.820Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/quarto-workflows/rstudio.html</loc>
-    <lastmod>2023-09-18T07:52:46.324Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/documents/machine-learning/transformer.html</loc>
-    <lastmod>2023-09-18T07:52:47.900Z</lastmod>
+    <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/Stock_price_summary.html</loc>
+    <lastmod>2023-11-03T15:23:00.688Z</lastmod>
   </url>
 </urlset>
