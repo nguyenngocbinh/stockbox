@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -193,247 +159,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> vnstock <span class="im">import</span> VNStockData</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils <span class="im">import</span> format_df</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_tickers <span class="op">=</span> pd.read_excel(<span class="st">'tickers.xlsx'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_tickers <span class="op">=</span> df_tickers[df_tickers[<span class="st">'Favorite'</span>] <span class="op">==</span> <span class="st">'yes'</span>]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df_tickers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Industry</th>
-<th data-quarto-table-cell-role="th">Company Name</th>
-<th data-quarto-table-cell-role="th">Code</th>
-<th data-quarto-table-cell-role="th">Favorite</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>Nhóm ngành ngân hàng</td>
-<td>Vietinbank</td>
-<td>CTG</td>
-<td>yes</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>Nhóm ngành ngân hàng</td>
-<td>Ngân hàng BIDV</td>
-<td>BID</td>
-<td>yes</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Nhóm ngành ngân hàng</td>
-<td>Vietcombank</td>
-<td>VCB</td>
-<td>yes</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>Nhóm ngành ngân hàng</td>
-<td>VP bank</td>
-<td>VIB</td>
-<td>yes</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>Nhóm ngành ngân hàng</td>
-<td>MB bank</td>
-<td>MBB</td>
-<td>yes</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">581</td>
-<td>Nhóm ngành bảo hiểm</td>
-<td>Tổng công ty cổ phần bảo hiểm Quân Đội</td>
-<td>MIG</td>
-<td>yes</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">583</td>
-<td>Nhóm ngành bảo hiểm</td>
-<td>Tổng công ty cổ phần Bảo Minh</td>
-<td>BMI</td>
-<td>yes</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">586</td>
-<td>Nhóm ngành bảo hiểm</td>
-<td>Tổng công ty cổ phần bảo hiểm Bưu Điện</td>
-<td>PTI</td>
-<td>yes</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">590</td>
-<td>Nhóm ngành công nghệ thông tin</td>
-<td>Công ty cổ phần FPT</td>
-<td>FPT</td>
-<td>yes</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">625</td>
-<td>Nhóm ngành cao su</td>
-<td>Công ty CP cao su Phước Hòa</td>
-<td>PHR</td>
-<td>yes</td>
-</tr>
-</tbody>
-</table>
-
-<p>89 rows × 4 columns</p>
-</div>
-</div>
-</div>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>list_tickers <span class="op">=</span> df_tickers[<span class="st">'Code'</span>].to_list()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>vn_stock <span class="op">=</span> VNStockData(list_tickers)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>vn_stock.get_data()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ohlcv_data <span class="op">=</span> vn_stock.ohlcv()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>returns_data <span class="op">=</span> vn_stock.calculate_returns()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Retrieving data for ticker: CTG
-Retrieving data for ticker: BID
-Retrieving data for ticker: VCB
-Retrieving data for ticker: VIB
-Retrieving data for ticker: MBB
-Retrieving data for ticker: TCB
-Retrieving data for ticker: TPB
-Retrieving data for ticker: HDB
-Retrieving data for ticker: STB
-Retrieving data for ticker: EIB
-Retrieving data for ticker: VIB
-Retrieving data for ticker: ACB
-Retrieving data for ticker: MSB
-Retrieving data for ticker: NCB
-No data available for ticker: NCB
-Retrieving data for ticker: LPB
-Retrieving data for ticker: NAB
-Retrieving data for ticker: PGB
-Retrieving data for ticker: ABB
-Retrieving data for ticker: BAB
-Retrieving data for ticker: KLB
-Retrieving data for ticker: VBB
-Retrieving data for ticker: BVB
-Retrieving data for ticker: SHB
-Retrieving data for ticker: SGB
-Retrieving data for ticker: DBD
-Retrieving data for ticker: DCL
-Retrieving data for ticker: DHG
-Retrieving data for ticker: JVC
-Retrieving data for ticker: TRA
-Retrieving data for ticker: AGR
-Retrieving data for ticker: CTS
-Retrieving data for ticker: BSI
-Retrieving data for ticker: HCM
-Retrieving data for ticker: FTS
-Retrieving data for ticker: SSI
-Retrieving data for ticker: VCI
-Retrieving data for ticker: TVS
-Retrieving data for ticker: VDS
-Retrieving data for ticker: VND
-Retrieving data for ticker: VIX
-Retrieving data for ticker: APS
-Retrieving data for ticker: BVS
-Retrieving data for ticker: MBS
-Retrieving data for ticker: SHS
-Retrieving data for ticker: TLH
-Retrieving data for ticker: HPG
-Retrieving data for ticker: HSG
-Retrieving data for ticker: GAS
-Retrieving data for ticker: PLX
-Retrieving data for ticker: POW
-Retrieving data for ticker: PVD
-Retrieving data for ticker: PVT
-Retrieving data for ticker: PVS
-Retrieving data for ticker: BSR
-Retrieving data for ticker: OIL
-Retrieving data for ticker: GEG
-Retrieving data for ticker: HVN
-Retrieving data for ticker: VJC
-Retrieving data for ticker: ACV
-Retrieving data for ticker: DGW
-Retrieving data for ticker: MWG
-Retrieving data for ticker: PET
-Retrieving data for ticker: CII
-Retrieving data for ticker: CTD
-Retrieving data for ticker: HTN
-Retrieving data for ticker: DXG
-Retrieving data for ticker: FCN
-Retrieving data for ticker: HBC
-Retrieving data for ticker: NDN
-Retrieving data for ticker: IDJ
-Retrieving data for ticker: THD
-Retrieving data for ticker: LDG
-Retrieving data for ticker: REE
-Retrieving data for ticker: TCD
-Retrieving data for ticker: PDR
-Retrieving data for ticker: VHM
-Retrieving data for ticker: VIC
-Retrieving data for ticker: VRE
-Retrieving data for ticker: VCG
-Retrieving data for ticker: STK
-Retrieving data for ticker: MNB
-Retrieving data for ticker: NJC
-Retrieving data for ticker: BVH
-Retrieving data for ticker: PVI
-Retrieving data for ticker: MIG
-Retrieving data for ticker: BMI
-Retrieving data for ticker: PTI
-Retrieving data for ticker: FPT
-Retrieving data for ticker: PHR</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>styled_df <span class="op">=</span> format_df(returns_data)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>styled_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/runner/work/stockbox/stockbox/price-summary/utils.py:23: FutureWarning: Styler.applymap has been deprecated. Use Styler.map instead.
   styled_df = returns_data.style.applymap(format_up_down_percent, subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]])</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <style type="text/css">
-#T_d51de_row0_col2, #T_d51de_row0_col5, #T_d51de_row1_col2, #T_d51de_row1_col5, #T_d51de_row2_col4, #T_d51de_row2_col5, #T_d51de_row3_col4, #T_d51de_row3_col5, #T_d51de_row4_col4, #T_d51de_row4_col5, #T_d51de_row5_col4, #T_d51de_row5_col5, #T_d51de_row6_col3, #T_d51de_row6_col4, #T_d51de_row6_col5, #T_d51de_row7_col3, #T_d51de_row7_col4, #T_d51de_row7_col5, #T_d51de_row8_col4, #T_d51de_row8_col5, #T_d51de_row9_col2, #T_d51de_row9_col3, #T_d51de_row9_col4, #T_d51de_row9_col5, #T_d51de_row10_col4, #T_d51de_row10_col5, #T_d51de_row11_col4, #T_d51de_row11_col5, #T_d51de_row12_col2, #T_d51de_row12_col3, #T_d51de_row12_col4, #T_d51de_row12_col5, #T_d51de_row13_col4, #T_d51de_row13_col5, #T_d51de_row14_col5, #T_d51de_row15_col2, #T_d51de_row15_col4, #T_d51de_row15_col5, #T_d51de_row16_col2, #T_d51de_row16_col4, #T_d51de_row16_col5, #T_d51de_row17_col2, #T_d51de_row17_col3, #T_d51de_row17_col4, #T_d51de_row17_col5, #T_d51de_row18_col2, #T_d51de_row18_col3, #T_d51de_row18_col4, #T_d51de_row18_col5, #T_d51de_row19_col5, #T_d51de_row20_col2, #T_d51de_row20_col3, #T_d51de_row20_col4, #T_d51de_row20_col5, #T_d51de_row21_col3, #T_d51de_row21_col4, #T_d51de_row21_col5, #T_d51de_row22_col4, #T_d51de_row22_col5, #T_d51de_row23_col4, #T_d51de_row23_col5, #T_d51de_row24_col4, #T_d51de_row24_col5, #T_d51de_row25_col4, #T_d51de_row25_col5, #T_d51de_row26_col2, #T_d51de_row26_col3, #T_d51de_row26_col4, #T_d51de_row26_col5, #T_d51de_row27_col4, #T_d51de_row27_col5, #T_d51de_row28_col2, #T_d51de_row28_col4, #T_d51de_row28_col5, #T_d51de_row29_col2, #T_d51de_row29_col3, #T_d51de_row29_col4, #T_d51de_row29_col5, #T_d51de_row30_col2, #T_d51de_row30_col5, #T_d51de_row31_col2, #T_d51de_row31_col5, #T_d51de_row32_col3, #T_d51de_row32_col4, #T_d51de_row33_col2, #T_d51de_row33_col3, #T_d51de_row33_col4, #T_d51de_row34_col2, #T_d51de_row34_col4, #T_d51de_row35_col4, #T_d51de_row36_col2, #T_d51de_row36_col3, #T_d51de_row36_col4, #T_d51de_row37_col2, #T_d51de_row37_col3, #T_d51de_row37_col4, #T_d51de_row38_col3, #T_d51de_row38_col4, #T_d51de_row40_col2, #T_d51de_row40_col3, #T_d51de_row40_col4, #T_d51de_row41_col4, #T_d51de_row42_col2, #T_d51de_row43_col2, #T_d51de_row43_col4, #T_d51de_row44_col2, #T_d51de_row45_col4, #T_d51de_row47_col2, #T_d51de_row47_col3, #T_d51de_row47_col4, #T_d51de_row48_col4, #T_d51de_row49_col2, #T_d51de_row49_col3, #T_d51de_row49_col4, #T_d51de_row50_col4, #T_d51de_row51_col2, #T_d51de_row51_col3, #T_d51de_row51_col4, #T_d51de_row53_col2, #T_d51de_row53_col4, #T_d51de_row54_col2, #T_d51de_row55_col4, #T_d51de_row56_col4, #T_d51de_row57_col2, #T_d51de_row59_col4, #T_d51de_row60_col2, #T_d51de_row62_col4, #T_d51de_row63_col3, #T_d51de_row63_col4, #T_d51de_row64_col2, #T_d51de_row64_col4, #T_d51de_row65_col2, #T_d51de_row65_col3, #T_d51de_row65_col4, #T_d51de_row67_col2, #T_d51de_row67_col4, #T_d51de_row68_col4, #T_d51de_row70_col2, #T_d51de_row70_col4, #T_d51de_row71_col2, #T_d51de_row71_col3, #T_d51de_row71_col4, #T_d51de_row72_col2, #T_d51de_row72_col4, #T_d51de_row75_col3, #T_d51de_row76_col3, #T_d51de_row76_col4, #T_d51de_row77_col3, #T_d51de_row77_col4, #T_d51de_row78_col2, #T_d51de_row78_col3, #T_d51de_row78_col4, #T_d51de_row79_col2, #T_d51de_row79_col3, #T_d51de_row80_col2, #T_d51de_row80_col3, #T_d51de_row80_col4, #T_d51de_row81_col2, #T_d51de_row81_col4, #T_d51de_row82_col3, #T_d51de_row82_col4, #T_d51de_row83_col2, #T_d51de_row83_col3, #T_d51de_row83_col4, #T_d51de_row85_col4, #T_d51de_row86_col3, #T_d51de_row86_col4 {
+#T_9e565_row0_col2, #T_9e565_row0_col3, #T_9e565_row0_col4, #T_9e565_row1_col3, #T_9e565_row1_col4, #T_9e565_row2_col3, #T_9e565_row2_col4, #T_9e565_row3_col2, #T_9e565_row3_col4, #T_9e565_row3_col5, #T_9e565_row4_col2, #T_9e565_row4_col3, #T_9e565_row4_col4, #T_9e565_row4_col5, #T_9e565_row5_col2, #T_9e565_row5_col5, #T_9e565_row6_col2, #T_9e565_row6_col4, #T_9e565_row8_col2, #T_9e565_row8_col3, #T_9e565_row8_col4, #T_9e565_row9_col2, #T_9e565_row9_col5, #T_9e565_row10_col2, #T_9e565_row10_col3, #T_9e565_row10_col4, #T_9e565_row11_col4, #T_9e565_row12_col2, #T_9e565_row12_col4, #T_9e565_row13_col4, #T_9e565_row14_col4, #T_9e565_row15_col2, #T_9e565_row15_col4, #T_9e565_row16_col2, #T_9e565_row16_col3, #T_9e565_row16_col4, #T_9e565_row17_col2, #T_9e565_row17_col4, #T_9e565_row18_col3, #T_9e565_row18_col4, #T_9e565_row19_col3, #T_9e565_row19_col4, #T_9e565_row20_col2, #T_9e565_row20_col3, #T_9e565_row20_col4, #T_9e565_row21_col2, #T_9e565_row21_col4, #T_9e565_row22_col2, #T_9e565_row22_col3, #T_9e565_row22_col4, #T_9e565_row23_col4, #T_9e565_row24_col2, #T_9e565_row24_col4, #T_9e565_row25_col4, #T_9e565_row25_col5, #T_9e565_row26_col2, #T_9e565_row26_col4, #T_9e565_row26_col5, #T_9e565_row27_col2, #T_9e565_row27_col4, #T_9e565_row28_col2, #T_9e565_row29_col3, #T_9e565_row29_col4, #T_9e565_row30_col2, #T_9e565_row30_col4, #T_9e565_row31_col2, #T_9e565_row31_col3, #T_9e565_row31_col4, #T_9e565_row32_col2, #T_9e565_row32_col3, #T_9e565_row32_col4, #T_9e565_row33_col2, #T_9e565_row33_col3, #T_9e565_row33_col4, #T_9e565_row35_col4, #T_9e565_row36_col2, #T_9e565_row36_col3, #T_9e565_row36_col4, #T_9e565_row36_col5, #T_9e565_row37_col2, #T_9e565_row37_col3, #T_9e565_row37_col4, #T_9e565_row37_col5, #T_9e565_row39_col4, #T_9e565_row39_col5, #T_9e565_row40_col4, #T_9e565_row40_col5, #T_9e565_row41_col5, #T_9e565_row42_col2, #T_9e565_row42_col3, #T_9e565_row42_col4, #T_9e565_row42_col5, #T_9e565_row43_col3, #T_9e565_row43_col4, #T_9e565_row43_col5, #T_9e565_row44_col4, #T_9e565_row44_col5, #T_9e565_row45_col4, #T_9e565_row45_col5, #T_9e565_row46_col2, #T_9e565_row46_col3, #T_9e565_row46_col4, #T_9e565_row46_col5, #T_9e565_row47_col2, #T_9e565_row47_col4, #T_9e565_row47_col5, #T_9e565_row48_col3, #T_9e565_row48_col4, #T_9e565_row49_col4, #T_9e565_row50_col2, #T_9e565_row50_col3, #T_9e565_row50_col4, #T_9e565_row51_col2, #T_9e565_row51_col3, #T_9e565_row51_col4, #T_9e565_row52_col4, #T_9e565_row53_col2, #T_9e565_row54_col2, #T_9e565_row55_col4, #T_9e565_row56_col2, #T_9e565_row56_col3, #T_9e565_row56_col4, #T_9e565_row58_col2, #T_9e565_row60_col2, #T_9e565_row60_col3, #T_9e565_row62_col4, #T_9e565_row62_col5, #T_9e565_row63_col2, #T_9e565_row65_col2, #T_9e565_row65_col5, #T_9e565_row66_col4, #T_9e565_row66_col5, #T_9e565_row67_col4, #T_9e565_row67_col5, #T_9e565_row68_col4, #T_9e565_row68_col5, #T_9e565_row69_col3, #T_9e565_row69_col4, #T_9e565_row69_col5, #T_9e565_row70_col3, #T_9e565_row70_col4, #T_9e565_row70_col5, #T_9e565_row71_col4, #T_9e565_row71_col5, #T_9e565_row72_col2, #T_9e565_row72_col3, #T_9e565_row72_col4, #T_9e565_row72_col5, #T_9e565_row73_col5, #T_9e565_row74_col4, #T_9e565_row74_col5, #T_9e565_row75_col4, #T_9e565_row76_col4, #T_9e565_row78_col4, #T_9e565_row81_col3, #T_9e565_row81_col4, #T_9e565_row82_col4, #T_9e565_row82_col5, #T_9e565_row83_col2, #T_9e565_row83_col3, #T_9e565_row83_col4, #T_9e565_row83_col5, #T_9e565_row84_col4, #T_9e565_row84_col5, #T_9e565_row85_col2, #T_9e565_row85_col5, #T_9e565_row86_col3, #T_9e565_row87_col4, #T_9e565_row87_col5 {
   color: red;
 }
-#T_d51de_row0_col3, #T_d51de_row0_col4, #T_d51de_row1_col3, #T_d51de_row1_col4, #T_d51de_row2_col2, #T_d51de_row2_col3, #T_d51de_row3_col2, #T_d51de_row3_col3, #T_d51de_row4_col2, #T_d51de_row4_col3, #T_d51de_row5_col2, #T_d51de_row5_col3, #T_d51de_row6_col2, #T_d51de_row7_col2, #T_d51de_row8_col2, #T_d51de_row8_col3, #T_d51de_row10_col2, #T_d51de_row10_col3, #T_d51de_row11_col2, #T_d51de_row11_col3, #T_d51de_row13_col2, #T_d51de_row13_col3, #T_d51de_row14_col2, #T_d51de_row14_col3, #T_d51de_row14_col4, #T_d51de_row15_col3, #T_d51de_row16_col3, #T_d51de_row19_col2, #T_d51de_row19_col3, #T_d51de_row19_col4, #T_d51de_row21_col2, #T_d51de_row22_col2, #T_d51de_row22_col3, #T_d51de_row23_col2, #T_d51de_row23_col3, #T_d51de_row24_col2, #T_d51de_row24_col3, #T_d51de_row25_col2, #T_d51de_row25_col3, #T_d51de_row27_col2, #T_d51de_row27_col3, #T_d51de_row28_col3, #T_d51de_row30_col3, #T_d51de_row30_col4, #T_d51de_row31_col3, #T_d51de_row31_col4, #T_d51de_row32_col2, #T_d51de_row32_col5, #T_d51de_row33_col5, #T_d51de_row34_col3, #T_d51de_row34_col5, #T_d51de_row35_col2, #T_d51de_row35_col3, #T_d51de_row35_col5, #T_d51de_row36_col5, #T_d51de_row37_col5, #T_d51de_row38_col2, #T_d51de_row38_col5, #T_d51de_row39_col2, #T_d51de_row39_col3, #T_d51de_row39_col4, #T_d51de_row39_col5, #T_d51de_row40_col5, #T_d51de_row41_col2, #T_d51de_row41_col3, #T_d51de_row41_col5, #T_d51de_row42_col3, #T_d51de_row42_col4, #T_d51de_row42_col5, #T_d51de_row43_col3, #T_d51de_row43_col5, #T_d51de_row44_col3, #T_d51de_row44_col4, #T_d51de_row44_col5, #T_d51de_row45_col2, #T_d51de_row45_col3, #T_d51de_row45_col5, #T_d51de_row46_col2, #T_d51de_row46_col3, #T_d51de_row46_col4, #T_d51de_row46_col5, #T_d51de_row47_col5, #T_d51de_row48_col2, #T_d51de_row48_col3, #T_d51de_row48_col5, #T_d51de_row49_col5, #T_d51de_row50_col2, #T_d51de_row50_col3, #T_d51de_row50_col5, #T_d51de_row51_col5, #T_d51de_row52_col2, #T_d51de_row52_col3, #T_d51de_row52_col4, #T_d51de_row52_col5, #T_d51de_row53_col3, #T_d51de_row53_col5, #T_d51de_row54_col3, #T_d51de_row54_col4, #T_d51de_row54_col5, #T_d51de_row55_col2, #T_d51de_row55_col3, #T_d51de_row55_col5, #T_d51de_row56_col2, #T_d51de_row56_col3, #T_d51de_row56_col5, #T_d51de_row57_col3, #T_d51de_row57_col4, #T_d51de_row57_col5, #T_d51de_row58_col2, #T_d51de_row58_col3, #T_d51de_row58_col4, #T_d51de_row58_col5, #T_d51de_row59_col2, #T_d51de_row59_col3, #T_d51de_row59_col5, #T_d51de_row60_col3, #T_d51de_row60_col4, #T_d51de_row60_col5, #T_d51de_row61_col2, #T_d51de_row61_col3, #T_d51de_row61_col4, #T_d51de_row61_col5, #T_d51de_row62_col2, #T_d51de_row62_col3, #T_d51de_row62_col5, #T_d51de_row63_col2, #T_d51de_row63_col5, #T_d51de_row64_col3, #T_d51de_row64_col5, #T_d51de_row65_col5, #T_d51de_row66_col2, #T_d51de_row66_col3, #T_d51de_row66_col4, #T_d51de_row66_col5, #T_d51de_row67_col3, #T_d51de_row67_col5, #T_d51de_row68_col2, #T_d51de_row68_col3, #T_d51de_row68_col5, #T_d51de_row69_col2, #T_d51de_row69_col3, #T_d51de_row69_col4, #T_d51de_row69_col5, #T_d51de_row70_col3, #T_d51de_row70_col5, #T_d51de_row71_col5, #T_d51de_row72_col3, #T_d51de_row72_col5, #T_d51de_row73_col2, #T_d51de_row73_col3, #T_d51de_row73_col4, #T_d51de_row73_col5, #T_d51de_row74_col2, #T_d51de_row74_col3, #T_d51de_row74_col4, #T_d51de_row74_col5, #T_d51de_row75_col2, #T_d51de_row75_col4, #T_d51de_row75_col5, #T_d51de_row76_col2, #T_d51de_row76_col5, #T_d51de_row77_col2, #T_d51de_row77_col5, #T_d51de_row78_col5, #T_d51de_row79_col4, #T_d51de_row79_col5, #T_d51de_row80_col5, #T_d51de_row81_col3, #T_d51de_row81_col5, #T_d51de_row82_col2, #T_d51de_row82_col5, #T_d51de_row83_col5, #T_d51de_row84_col2, #T_d51de_row84_col3, #T_d51de_row84_col4, #T_d51de_row84_col5, #T_d51de_row85_col2, #T_d51de_row85_col3, #T_d51de_row85_col5, #T_d51de_row86_col2, #T_d51de_row86_col5 {
+#T_9e565_row0_col5, #T_9e565_row1_col2, #T_9e565_row1_col5, #T_9e565_row2_col2, #T_9e565_row2_col5, #T_9e565_row3_col3, #T_9e565_row5_col3, #T_9e565_row5_col4, #T_9e565_row6_col3, #T_9e565_row6_col5, #T_9e565_row7_col2, #T_9e565_row7_col3, #T_9e565_row7_col4, #T_9e565_row7_col5, #T_9e565_row8_col5, #T_9e565_row9_col3, #T_9e565_row9_col4, #T_9e565_row10_col5, #T_9e565_row11_col2, #T_9e565_row11_col3, #T_9e565_row11_col5, #T_9e565_row12_col3, #T_9e565_row12_col5, #T_9e565_row13_col2, #T_9e565_row13_col3, #T_9e565_row13_col5, #T_9e565_row14_col2, #T_9e565_row14_col3, #T_9e565_row14_col5, #T_9e565_row15_col3, #T_9e565_row15_col5, #T_9e565_row16_col5, #T_9e565_row17_col3, #T_9e565_row17_col5, #T_9e565_row18_col2, #T_9e565_row18_col5, #T_9e565_row19_col2, #T_9e565_row19_col5, #T_9e565_row20_col5, #T_9e565_row21_col3, #T_9e565_row21_col5, #T_9e565_row22_col5, #T_9e565_row23_col2, #T_9e565_row23_col3, #T_9e565_row23_col5, #T_9e565_row24_col3, #T_9e565_row24_col5, #T_9e565_row25_col2, #T_9e565_row25_col3, #T_9e565_row26_col3, #T_9e565_row27_col3, #T_9e565_row27_col5, #T_9e565_row28_col3, #T_9e565_row28_col4, #T_9e565_row28_col5, #T_9e565_row29_col2, #T_9e565_row29_col5, #T_9e565_row30_col3, #T_9e565_row30_col5, #T_9e565_row31_col5, #T_9e565_row32_col5, #T_9e565_row33_col5, #T_9e565_row34_col2, #T_9e565_row34_col3, #T_9e565_row34_col4, #T_9e565_row34_col5, #T_9e565_row35_col2, #T_9e565_row35_col3, #T_9e565_row35_col5, #T_9e565_row38_col2, #T_9e565_row38_col3, #T_9e565_row38_col4, #T_9e565_row38_col5, #T_9e565_row39_col2, #T_9e565_row39_col3, #T_9e565_row40_col2, #T_9e565_row40_col3, #T_9e565_row41_col2, #T_9e565_row41_col3, #T_9e565_row41_col4, #T_9e565_row43_col2, #T_9e565_row44_col2, #T_9e565_row44_col3, #T_9e565_row45_col2, #T_9e565_row45_col3, #T_9e565_row47_col3, #T_9e565_row48_col2, #T_9e565_row48_col5, #T_9e565_row49_col2, #T_9e565_row49_col3, #T_9e565_row49_col5, #T_9e565_row50_col5, #T_9e565_row51_col5, #T_9e565_row52_col2, #T_9e565_row52_col3, #T_9e565_row52_col5, #T_9e565_row53_col3, #T_9e565_row53_col4, #T_9e565_row53_col5, #T_9e565_row54_col3, #T_9e565_row54_col4, #T_9e565_row54_col5, #T_9e565_row55_col2, #T_9e565_row55_col3, #T_9e565_row55_col5, #T_9e565_row56_col5, #T_9e565_row57_col2, #T_9e565_row57_col3, #T_9e565_row57_col4, #T_9e565_row57_col5, #T_9e565_row58_col3, #T_9e565_row58_col4, #T_9e565_row58_col5, #T_9e565_row59_col2, #T_9e565_row59_col3, #T_9e565_row59_col4, #T_9e565_row59_col5, #T_9e565_row60_col4, #T_9e565_row60_col5, #T_9e565_row61_col2, #T_9e565_row61_col3, #T_9e565_row61_col4, #T_9e565_row61_col5, #T_9e565_row62_col2, #T_9e565_row62_col3, #T_9e565_row63_col3, #T_9e565_row63_col4, #T_9e565_row63_col5, #T_9e565_row64_col2, #T_9e565_row64_col3, #T_9e565_row64_col4, #T_9e565_row64_col5, #T_9e565_row65_col3, #T_9e565_row65_col4, #T_9e565_row66_col2, #T_9e565_row66_col3, #T_9e565_row67_col2, #T_9e565_row67_col3, #T_9e565_row68_col2, #T_9e565_row68_col3, #T_9e565_row69_col2, #T_9e565_row70_col2, #T_9e565_row71_col2, #T_9e565_row71_col3, #T_9e565_row73_col2, #T_9e565_row73_col3, #T_9e565_row73_col4, #T_9e565_row74_col2, #T_9e565_row74_col3, #T_9e565_row75_col2, #T_9e565_row75_col3, #T_9e565_row75_col5, #T_9e565_row76_col2, #T_9e565_row76_col3, #T_9e565_row76_col5, #T_9e565_row77_col2, #T_9e565_row77_col3, #T_9e565_row77_col4, #T_9e565_row77_col5, #T_9e565_row78_col2, #T_9e565_row78_col3, #T_9e565_row78_col5, #T_9e565_row79_col2, #T_9e565_row79_col3, #T_9e565_row79_col4, #T_9e565_row79_col5, #T_9e565_row80_col2, #T_9e565_row80_col3, #T_9e565_row80_col4, #T_9e565_row80_col5, #T_9e565_row81_col2, #T_9e565_row81_col5, #T_9e565_row82_col2, #T_9e565_row82_col3, #T_9e565_row84_col2, #T_9e565_row84_col3, #T_9e565_row85_col3, #T_9e565_row85_col4, #T_9e565_row86_col2, #T_9e565_row86_col4, #T_9e565_row86_col5, #T_9e565_row87_col2, #T_9e565_row87_col3 {
   color: green;
 }
 </style>
 
-<table id="T_d51de" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_9e565" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th class="blank" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank" data-quarto-table-cell-role="th">&nbsp;</th>
 <th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
-<th id="T_d51de_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Price</th>
-<th id="T_d51de_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Volume</th>
-<th id="T_d51de_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">1d%</th>
-<th id="T_d51de_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">1w%</th>
-<th id="T_d51de_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">1m%</th>
-<th id="T_d51de_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">6m%</th>
+<th id="T_9e565_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Price</th>
+<th id="T_9e565_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Volume</th>
+<th id="T_9e565_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">1d%</th>
+<th id="T_9e565_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">1w%</th>
+<th id="T_9e565_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">1m%</th>
+<th id="T_9e565_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">6m%</th>
 </tr>
 <tr class="odd">
-<th class="index_name level0" data-quarto-table-cell-role="th">Symbol</th>
-<th class="index_name level1" data-quarto-table-cell-role="th">Date</th>
+<th class="index_name level0" data-quarto-table-cell-role="th">Date</th>
+<th class="index_name level1" data-quarto-table-cell-role="th">Industry</th>
+<th class="index_name level2" data-quarto-table-cell-role="th">Symbol</th>
 <th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
 <th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
 <th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
@@ -444,874 +201,810 @@ Retrieving data for ticker: PHR</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_d51de_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">IDJ</td>
-<td id="T_d51de_level1_row0" class="row_heading level1 row0" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row0_col0" class="data row0 col0">$5.9K</td>
-<td id="T_d51de_row0_col1" class="data row0 col1">$1.1M</td>
-<td id="T_d51de_row0_col2" class="data row0 col2">-3.28%</td>
-<td id="T_d51de_row0_col3" class="data row0 col3">1.72%</td>
-<td id="T_d51de_row0_col4" class="data row0 col4">0.00%</td>
-<td id="T_d51de_row0_col5" class="data row0 col5">-57.25%</td>
+<td rowspan="88" id="T_9e565_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
+<td rowspan="3" id="T_9e565_level1_row0" class="row_heading level1 row0" data-quarto-table-cell-role="th">Nhóm ngành bán lẻ</td>
+<td id="T_9e565_level2_row0" class="row_heading level2 row0" data-quarto-table-cell-role="th">PET</td>
+<td id="T_9e565_row0_col0" class="data row0 col0">$22.8K</td>
+<td id="T_9e565_row0_col1" class="data row0 col1">$0.2M</td>
+<td id="T_9e565_row0_col2" class="data row0 col2">-0.22%</td>
+<td id="T_9e565_row0_col3" class="data row0 col3">-3.18%</td>
+<td id="T_9e565_row0_col4" class="data row0 col4">-11.97%</td>
+<td id="T_9e565_row0_col5" class="data row0 col5">0.30%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">APS</td>
-<td id="T_d51de_level1_row1" class="row_heading level1 row1" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row1_col0" class="data row1 col0">$6.6K</td>
-<td id="T_d51de_row1_col1" class="data row1 col1">$0.7M</td>
-<td id="T_d51de_row1_col2" class="data row1 col2">-2.94%</td>
-<td id="T_d51de_row1_col3" class="data row1 col3">8.20%</td>
-<td id="T_d51de_row1_col4" class="data row1 col4">1.54%</td>
-<td id="T_d51de_row1_col5" class="data row1 col5">-53.19%</td>
+<td id="T_9e565_level2_row1" class="row_heading level2 row1" data-quarto-table-cell-role="th">MWG</td>
+<td id="T_9e565_row1_col0" class="data row1 col0">$39.0K</td>
+<td id="T_9e565_row1_col1" class="data row1 col1">$12.4M</td>
+<td id="T_9e565_row1_col2" class="data row1 col2">5.27%</td>
+<td id="T_9e565_row1_col3" class="data row1 col3">-7.26%</td>
+<td id="T_9e565_row1_col4" class="data row1 col4">-19.36%</td>
+<td id="T_9e565_row1_col5" class="data row1 col5">3.08%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">VHM</td>
-<td id="T_d51de_level1_row2" class="row_heading level1 row2" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row2_col0" class="data row2 col0">$40.5K</td>
-<td id="T_d51de_row2_col1" class="data row2 col1">$8.3M</td>
-<td id="T_d51de_row2_col2" class="data row2 col2">1.38%</td>
-<td id="T_d51de_row2_col3" class="data row2 col3">3.32%</td>
-<td id="T_d51de_row2_col4" class="data row2 col4">-12.05%</td>
-<td id="T_d51de_row2_col5" class="data row2 col5">-24.16%</td>
+<td id="T_9e565_level2_row2" class="row_heading level2 row2" data-quarto-table-cell-role="th">DGW</td>
+<td id="T_9e565_row2_col0" class="data row2 col0">$46.8K</td>
+<td id="T_9e565_row2_col1" class="data row2 col1">$1.8M</td>
+<td id="T_9e565_row2_col2" class="data row2 col2">0.00%</td>
+<td id="T_9e565_row2_col3" class="data row2 col3">-3.60%</td>
+<td id="T_9e565_row2_col4" class="data row2 col4">-17.96%</td>
+<td id="T_9e565_row2_col5" class="data row2 col5">44.64%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">VIC</td>
-<td id="T_d51de_level1_row3" class="row_heading level1 row3" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row3_col0" class="data row3 col0">$41.6K</td>
-<td id="T_d51de_row3_col1" class="data row3 col1">$4.1M</td>
-<td id="T_d51de_row3_col2" class="data row3 col2">0.36%</td>
-<td id="T_d51de_row3_col3" class="data row3 col3">0.00%</td>
-<td id="T_d51de_row3_col4" class="data row3 col4">-9.47%</td>
-<td id="T_d51de_row3_col5" class="data row3 col5">-21.80%</td>
+<td rowspan="5" id="T_9e565_level1_row3" class="row_heading level1 row3" data-quarto-table-cell-role="th">Nhóm ngành bảo hiểm</td>
+<td id="T_9e565_level2_row3" class="row_heading level2 row3" data-quarto-table-cell-role="th">BVH</td>
+<td id="T_9e565_row3_col0" class="data row3 col0">$40.4K</td>
+<td id="T_9e565_row3_col1" class="data row3 col1">$0.2M</td>
+<td id="T_9e565_row3_col2" class="data row3 col2">-0.49%</td>
+<td id="T_9e565_row3_col3" class="data row3 col3">2.28%</td>
+<td id="T_9e565_row3_col4" class="data row3 col4">-3.58%</td>
+<td id="T_9e565_row3_col5" class="data row3 col5">-10.32%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">LDG</td>
-<td id="T_d51de_level1_row4" class="row_heading level1 row4" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row4_col0" class="data row4 col0">$3.6K</td>
-<td id="T_d51de_row4_col1" class="data row4 col1">$1.5M</td>
-<td id="T_d51de_row4_col2" class="data row4 col2">1.39%</td>
-<td id="T_d51de_row4_col3" class="data row4 col3">1.11%</td>
-<td id="T_d51de_row4_col4" class="data row4 col4">-6.91%</td>
-<td id="T_d51de_row4_col5" class="data row4 col5">-21.04%</td>
+<td id="T_9e565_level2_row4" class="row_heading level2 row4" data-quarto-table-cell-role="th">MIG</td>
+<td id="T_9e565_row4_col0" class="data row4 col0">$16.4K</td>
+<td id="T_9e565_row4_col1" class="data row4 col1">$0.2M</td>
+<td id="T_9e565_row4_col2" class="data row4 col2">-0.30%</td>
+<td id="T_9e565_row4_col3" class="data row4 col3">-0.30%</td>
+<td id="T_9e565_row4_col4" class="data row4 col4">-4.36%</td>
+<td id="T_9e565_row4_col5" class="data row4 col5">-1.11%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">JVC</td>
-<td id="T_d51de_level1_row5" class="row_heading level1 row5" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row5_col0" class="data row5 col0">$3.2K</td>
-<td id="T_d51de_row5_col1" class="data row5 col1">$0.3M</td>
-<td id="T_d51de_row5_col2" class="data row5 col2">0.63%</td>
-<td id="T_d51de_row5_col3" class="data row5 col3">2.25%</td>
-<td id="T_d51de_row5_col4" class="data row5 col4">-8.09%</td>
-<td id="T_d51de_row5_col5" class="data row5 col5">-20.10%</td>
+<td id="T_9e565_level2_row5" class="row_heading level2 row5" data-quarto-table-cell-role="th">PVI</td>
+<td id="T_9e565_row5_col0" class="data row5 col0">$45.1K</td>
+<td id="T_9e565_row5_col1" class="data row5 col1">$1.3M</td>
+<td id="T_9e565_row5_col2" class="data row5 col2">-0.88%</td>
+<td id="T_9e565_row5_col3" class="data row5 col3">1.12%</td>
+<td id="T_9e565_row5_col4" class="data row5 col4">0.89%</td>
+<td id="T_9e565_row5_col5" class="data row5 col5">-0.95%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">TCD</td>
-<td id="T_d51de_level1_row6" class="row_heading level1 row6" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row6_col0" class="data row6 col0">$6.7K</td>
-<td id="T_d51de_row6_col1" class="data row6 col1">$1.4M</td>
-<td id="T_d51de_row6_col2" class="data row6 col2">0.15%</td>
-<td id="T_d51de_row6_col3" class="data row6 col3">-5.35%</td>
-<td id="T_d51de_row6_col4" class="data row6 col4">-10.99%</td>
-<td id="T_d51de_row6_col5" class="data row6 col5">-17.79%</td>
+<td id="T_9e565_level2_row6" class="row_heading level2 row6" data-quarto-table-cell-role="th">BMI</td>
+<td id="T_9e565_row6_col0" class="data row6 col0">$21.4K</td>
+<td id="T_9e565_row6_col1" class="data row6 col1">$0.1M</td>
+<td id="T_9e565_row6_col2" class="data row6 col2">-0.70%</td>
+<td id="T_9e565_row6_col3" class="data row6 col3">3.63%</td>
+<td id="T_9e565_row6_col4" class="data row6 col4">-9.46%</td>
+<td id="T_9e565_row6_col5" class="data row6 col5">1.36%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">HBC</td>
-<td id="T_d51de_level1_row7" class="row_heading level1 row7" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row7_col0" class="data row7 col0">$7.1K</td>
-<td id="T_d51de_row7_col1" class="data row7 col1">$0.9M</td>
-<td id="T_d51de_row7_col2" class="data row7 col2">1.57%</td>
-<td id="T_d51de_row7_col3" class="data row7 col3">-4.83%</td>
-<td id="T_d51de_row7_col4" class="data row7 col4">-9.09%</td>
-<td id="T_d51de_row7_col5" class="data row7 col5">-17.06%</td>
+<td id="T_9e565_level2_row7" class="row_heading level2 row7" data-quarto-table-cell-role="th">PTI</td>
+<td id="T_9e565_row7_col0" class="data row7 col0">$37.0K</td>
+<td id="T_9e565_row7_col1" class="data row7 col1">$0.0M</td>
+<td id="T_9e565_row7_col2" class="data row7 col2">0.00%</td>
+<td id="T_9e565_row7_col3" class="data row7 col3">1.37%</td>
+<td id="T_9e565_row7_col4" class="data row7 col4">20.13%</td>
+<td id="T_9e565_row7_col5" class="data row7 col5">15.99%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">POW</td>
-<td id="T_d51de_level1_row8" class="row_heading level1 row8" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row8_col0" class="data row8 col0">$11.1K</td>
-<td id="T_d51de_row8_col1" class="data row8 col1">$4.8M</td>
-<td id="T_d51de_row8_col2" class="data row8 col2">0.00%</td>
-<td id="T_d51de_row8_col3" class="data row8 col3">0.91%</td>
-<td id="T_d51de_row8_col4" class="data row8 col4">-0.89%</td>
-<td id="T_d51de_row8_col5" class="data row8 col5">-16.54%</td>
+<td id="T_9e565_level1_row8" class="row_heading level1 row8" data-quarto-table-cell-role="th">Nhóm ngành cao su</td>
+<td id="T_9e565_level2_row8" class="row_heading level2 row8" data-quarto-table-cell-role="th">PHR</td>
+<td id="T_9e565_row8_col0" class="data row8 col0">$44.8K</td>
+<td id="T_9e565_row8_col1" class="data row8 col1">$0.2M</td>
+<td id="T_9e565_row8_col2" class="data row8 col2">-0.44%</td>
+<td id="T_9e565_row8_col3" class="data row8 col3">-0.11%</td>
+<td id="T_9e565_row8_col4" class="data row8 col4">-7.72%</td>
+<td id="T_9e565_row8_col5" class="data row8 col5">11.40%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">HVN</td>
-<td id="T_d51de_level1_row9" class="row_heading level1 row9" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row9_col0" class="data row9 col0">$10.6K</td>
-<td id="T_d51de_row9_col1" class="data row9 col1">$0.6M</td>
-<td id="T_d51de_row9_col2" class="data row9 col2">-1.40%</td>
-<td id="T_d51de_row9_col3" class="data row9 col3">-0.47%</td>
-<td id="T_d51de_row9_col4" class="data row9 col4">-9.44%</td>
-<td id="T_d51de_row9_col5" class="data row9 col5">-15.60%</td>
+<td rowspan="15" id="T_9e565_level1_row9" class="row_heading level1 row9" data-quarto-table-cell-role="th">Nhóm ngành chứng khoán</td>
+<td id="T_9e565_level2_row9" class="row_heading level2 row9" data-quarto-table-cell-role="th">APS</td>
+<td id="T_9e565_row9_col0" class="data row9 col0">$6.6K</td>
+<td id="T_9e565_row9_col1" class="data row9 col1">$0.7M</td>
+<td id="T_9e565_row9_col2" class="data row9 col2">-2.94%</td>
+<td id="T_9e565_row9_col3" class="data row9 col3">8.20%</td>
+<td id="T_9e565_row9_col4" class="data row9 col4">1.54%</td>
+<td id="T_9e565_row9_col5" class="data row9 col5">-53.19%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">GEG</td>
-<td id="T_d51de_level1_row10" class="row_heading level1 row10" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row10_col0" class="data row10 col0">$12.8K</td>
-<td id="T_d51de_row10_col1" class="data row10 col1">$0.3M</td>
-<td id="T_d51de_row10_col2" class="data row10 col2">0.00%</td>
-<td id="T_d51de_row10_col3" class="data row10 col3">1.99%</td>
-<td id="T_d51de_row10_col4" class="data row10 col4">-13.51%</td>
-<td id="T_d51de_row10_col5" class="data row10 col5">-14.40%</td>
+<td id="T_9e565_level2_row10" class="row_heading level2 row10" data-quarto-table-cell-role="th">HCM</td>
+<td id="T_9e565_row10_col0" class="data row10 col0">$27.0K</td>
+<td id="T_9e565_row10_col1" class="data row10 col1">$5.6M</td>
+<td id="T_9e565_row10_col2" class="data row10 col2">-1.46%</td>
+<td id="T_9e565_row10_col3" class="data row10 col3">-1.82%</td>
+<td id="T_9e565_row10_col4" class="data row10 col4">-9.55%</td>
+<td id="T_9e565_row10_col5" class="data row10 col5">9.12%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">VRE</td>
-<td id="T_d51de_level1_row11" class="row_heading level1 row11" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row11_col0" class="data row11 col0">$24.4K</td>
-<td id="T_d51de_row11_col1" class="data row11 col1">$12.6M</td>
-<td id="T_d51de_row11_col2" class="data row11 col2">4.95%</td>
-<td id="T_d51de_row11_col3" class="data row11 col3">6.55%</td>
-<td id="T_d51de_row11_col4" class="data row11 col4">-11.11%</td>
-<td id="T_d51de_row11_col5" class="data row11 col5">-12.54%</td>
+<td id="T_9e565_level2_row11" class="row_heading level2 row11" data-quarto-table-cell-role="th">TVS</td>
+<td id="T_9e565_row11_col0" class="data row11 col0">$20.1K</td>
+<td id="T_9e565_row11_col1" class="data row11 col1">$0.0M</td>
+<td id="T_9e565_row11_col2" class="data row11 col2">0.00%</td>
+<td id="T_9e565_row11_col3" class="data row11 col3">5.53%</td>
+<td id="T_9e565_row11_col4" class="data row11 col4">-12.25%</td>
+<td id="T_9e565_row11_col5" class="data row11 col5">11.38%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row12" class="row_heading level0 row12" data-quarto-table-cell-role="th">ACV</td>
-<td id="T_d51de_level1_row12" class="row_heading level1 row12" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row12_col0" class="data row12 col0">$70.0K</td>
-<td id="T_d51de_row12_col1" class="data row12 col1">$0.0M</td>
-<td id="T_d51de_row12_col2" class="data row12 col2">-0.28%</td>
-<td id="T_d51de_row12_col3" class="data row12 col3">-0.57%</td>
-<td id="T_d51de_row12_col4" class="data row12 col4">-5.79%</td>
-<td id="T_d51de_row12_col5" class="data row12 col5">-11.39%</td>
+<td id="T_9e565_level2_row12" class="row_heading level2 row12" data-quarto-table-cell-role="th">BVS</td>
+<td id="T_9e565_row12_col0" class="data row12 col0">$23.6K</td>
+<td id="T_9e565_row12_col1" class="data row12 col1">$0.1M</td>
+<td id="T_9e565_row12_col2" class="data row12 col2">-2.88%</td>
+<td id="T_9e565_row12_col3" class="data row12 col3">3.06%</td>
+<td id="T_9e565_row12_col4" class="data row12 col4">-9.23%</td>
+<td id="T_9e565_row12_col5" class="data row12 col5">11.46%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row13" class="row_heading level0 row13" data-quarto-table-cell-role="th">PGB</td>
-<td id="T_d51de_level1_row13" class="row_heading level1 row13" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row13_col0" class="data row13 col0">$24.9K</td>
-<td id="T_d51de_row13_col1" class="data row13 col1">$0.0M</td>
-<td id="T_d51de_row13_col2" class="data row13 col2">0.00%</td>
-<td id="T_d51de_row13_col3" class="data row13 col3">3.75%</td>
-<td id="T_d51de_row13_col4" class="data row13 col4">-10.43%</td>
-<td id="T_d51de_row13_col5" class="data row13 col5">-11.39%</td>
+<td id="T_9e565_level2_row13" class="row_heading level2 row13" data-quarto-table-cell-role="th">AGR</td>
+<td id="T_9e565_row13_col0" class="data row13 col0">$13.4K</td>
+<td id="T_9e565_row13_col1" class="data row13 col1">$2.1M</td>
+<td id="T_9e565_row13_col2" class="data row13 col2">0.37%</td>
+<td id="T_9e565_row13_col3" class="data row13 col3">2.67%</td>
+<td id="T_9e565_row13_col4" class="data row13 col4">-16.46%</td>
+<td id="T_9e565_row13_col5" class="data row13 col5">14.87%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row14" class="row_heading level0 row14" data-quarto-table-cell-role="th">VIB</td>
-<td id="T_d51de_level1_row14" class="row_heading level1 row14" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row14_col0" class="data row14 col0">$18.6K</td>
-<td id="T_d51de_row14_col1" class="data row14 col1">$3.3M</td>
-<td id="T_d51de_row14_col2" class="data row14 col2">0.00%</td>
-<td id="T_d51de_row14_col3" class="data row14 col3">3.33%</td>
-<td id="T_d51de_row14_col4" class="data row14 col4">1.36%</td>
-<td id="T_d51de_row14_col5" class="data row14 col5">-11.22%</td>
+<td id="T_9e565_level2_row14" class="row_heading level2 row14" data-quarto-table-cell-role="th">VCI</td>
+<td id="T_9e565_row14_col0" class="data row14 col0">$37.5K</td>
+<td id="T_9e565_row14_col1" class="data row14 col1">$9.4M</td>
+<td id="T_9e565_row14_col2" class="data row14 col2">0.81%</td>
+<td id="T_9e565_row14_col3" class="data row14 col3">5.34%</td>
+<td id="T_9e565_row14_col4" class="data row14 col4">-3.85%</td>
+<td id="T_9e565_row14_col5" class="data row14 col5">16.46%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row15" class="row_heading level0 row15" data-quarto-table-cell-role="th">BVH</td>
-<td id="T_d51de_level1_row15" class="row_heading level1 row15" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row15_col0" class="data row15 col0">$40.4K</td>
-<td id="T_d51de_row15_col1" class="data row15 col1">$0.2M</td>
-<td id="T_d51de_row15_col2" class="data row15 col2">-0.49%</td>
-<td id="T_d51de_row15_col3" class="data row15 col3">2.28%</td>
-<td id="T_d51de_row15_col4" class="data row15 col4">-3.58%</td>
-<td id="T_d51de_row15_col5" class="data row15 col5">-10.32%</td>
+<td id="T_9e565_level2_row15" class="row_heading level2 row15" data-quarto-table-cell-role="th">VND</td>
+<td id="T_9e565_row15_col0" class="data row15 col0">$18.5K</td>
+<td id="T_9e565_row15_col1" class="data row15 col1">$21.2M</td>
+<td id="T_9e565_row15_col2" class="data row15 col2">-0.27%</td>
+<td id="T_9e565_row15_col3" class="data row15 col3">0.00%</td>
+<td id="T_9e565_row15_col4" class="data row15 col4">-11.48%</td>
+<td id="T_9e565_row15_col5" class="data row15 col5">21.31%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row16" class="row_heading level0 row16" data-quarto-table-cell-role="th">PLX</td>
-<td id="T_d51de_level1_row16" class="row_heading level1 row16" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row16_col0" class="data row16 col0">$33.1K</td>
-<td id="T_d51de_row16_col1" class="data row16 col1">$0.6M</td>
-<td id="T_d51de_row16_col2" class="data row16 col2">-0.90%</td>
-<td id="T_d51de_row16_col3" class="data row16 col3">0.30%</td>
-<td id="T_d51de_row16_col4" class="data row16 col4">-5.43%</td>
-<td id="T_d51de_row16_col5" class="data row16 col5">-10.18%</td>
+<td id="T_9e565_level2_row16" class="row_heading level2 row16" data-quarto-table-cell-role="th">MBS</td>
+<td id="T_9e565_row16_col0" class="data row16 col0">$18.4K</td>
+<td id="T_9e565_row16_col1" class="data row16 col1">$3.5M</td>
+<td id="T_9e565_row16_col2" class="data row16 col2">-1.08%</td>
+<td id="T_9e565_row16_col3" class="data row16 col3">-0.54%</td>
+<td id="T_9e565_row16_col4" class="data row16 col4">-16.36%</td>
+<td id="T_9e565_row16_col5" class="data row16 col5">25.86%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row17" class="row_heading level0 row17" data-quarto-table-cell-role="th">TRA</td>
-<td id="T_d51de_level1_row17" class="row_heading level1 row17" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row17_col0" class="data row17 col0">$77.8K</td>
-<td id="T_d51de_row17_col1" class="data row17 col1">$0.0M</td>
-<td id="T_d51de_row17_col2" class="data row17 col2">-4.54%</td>
-<td id="T_d51de_row17_col3" class="data row17 col3">-5.12%</td>
-<td id="T_d51de_row17_col4" class="data row17 col4">-8.47%</td>
-<td id="T_d51de_row17_col5" class="data row17 col5">-9.79%</td>
+<td id="T_9e565_level2_row17" class="row_heading level2 row17" data-quarto-table-cell-role="th">VDS</td>
+<td id="T_9e565_row17_col0" class="data row17 col0">$14.2K</td>
+<td id="T_9e565_row17_col1" class="data row17 col1">$0.3M</td>
+<td id="T_9e565_row17_col2" class="data row17 col2">-1.74%</td>
+<td id="T_9e565_row17_col3" class="data row17 col3">1.80%</td>
+<td id="T_9e565_row17_col4" class="data row17 col4">-5.98%</td>
+<td id="T_9e565_row17_col5" class="data row17 col5">26.91%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row18" class="row_heading level0 row18" data-quarto-table-cell-role="th">REE</td>
-<td id="T_d51de_level1_row18" class="row_heading level1 row18" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row18_col0" class="data row18 col0">$53.0K</td>
-<td id="T_d51de_row18_col1" class="data row18 col1">$0.9M</td>
-<td id="T_d51de_row18_col2" class="data row18 col2">-2.93%</td>
-<td id="T_d51de_row18_col3" class="data row18 col3">-3.64%</td>
-<td id="T_d51de_row18_col4" class="data row18 col4">-14.79%</td>
-<td id="T_d51de_row18_col5" class="data row18 col5">-8.62%</td>
+<td id="T_9e565_level2_row18" class="row_heading level2 row18" data-quarto-table-cell-role="th">CTS</td>
+<td id="T_9e565_row18_col0" class="data row18 col0">$22.2K</td>
+<td id="T_9e565_row18_col1" class="data row18 col1">$2.3M</td>
+<td id="T_9e565_row18_col2" class="data row18 col2">0.23%</td>
+<td id="T_9e565_row18_col3" class="data row18 col3">-0.22%</td>
+<td id="T_9e565_row18_col4" class="data row18 col4">-15.08%</td>
+<td id="T_9e565_row18_col5" class="data row18 col5">33.63%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row19" class="row_heading level0 row19" data-quarto-table-cell-role="th">THD</td>
-<td id="T_d51de_level1_row19" class="row_heading level1 row19" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row19_col0" class="data row19 col0">$36.3K</td>
-<td id="T_d51de_row19_col1" class="data row19 col1">$0.0M</td>
-<td id="T_d51de_row19_col2" class="data row19 col2">0.83%</td>
-<td id="T_d51de_row19_col3" class="data row19 col3">1.68%</td>
-<td id="T_d51de_row19_col4" class="data row19 col4">2.25%</td>
-<td id="T_d51de_row19_col5" class="data row19 col5">-8.33%</td>
+<td id="T_9e565_level2_row19" class="row_heading level2 row19" data-quarto-table-cell-role="th">SSI</td>
+<td id="T_9e565_row19_col0" class="data row19 col0">$28.9K</td>
+<td id="T_9e565_row19_col1" class="data row19 col1">$25.4M</td>
+<td id="T_9e565_row19_col2" class="data row19 col2">0.00%</td>
+<td id="T_9e565_row19_col3" class="data row19 col3">-1.87%</td>
+<td id="T_9e565_row19_col4" class="data row19 col4">-12.29%</td>
+<td id="T_9e565_row19_col5" class="data row19 col5">33.80%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row20" class="row_heading level0 row20" data-quarto-table-cell-role="th">BID</td>
-<td id="T_d51de_level1_row20" class="row_heading level1 row20" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row20_col0" class="data row20 col0">$41.5K</td>
-<td id="T_d51de_row20_col1" class="data row20 col1">$0.6M</td>
-<td id="T_d51de_row20_col2" class="data row20 col2">-0.36%</td>
-<td id="T_d51de_row20_col3" class="data row20 col3">-1.19%</td>
-<td id="T_d51de_row20_col4" class="data row20 col4">-1.66%</td>
-<td id="T_d51de_row20_col5" class="data row20 col5">-7.37%</td>
+<td id="T_9e565_level2_row20" class="row_heading level2 row20" data-quarto-table-cell-role="th">FTS</td>
+<td id="T_9e565_row20_col0" class="data row20 col0">$36.0K</td>
+<td id="T_9e565_row20_col1" class="data row20 col1">$2.2M</td>
+<td id="T_9e565_row20_col2" class="data row20 col2">-0.96%</td>
+<td id="T_9e565_row20_col3" class="data row20 col3">-2.96%</td>
+<td id="T_9e565_row20_col4" class="data row20 col4">-17.15%</td>
+<td id="T_9e565_row20_col5" class="data row20 col5">42.86%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row21" class="row_heading level0 row21" data-quarto-table-cell-role="th">ABB</td>
-<td id="T_d51de_level1_row21" class="row_heading level1 row21" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row21_col0" class="data row21 col0">$7.7K</td>
-<td id="T_d51de_row21_col1" class="data row21 col1">$0.6M</td>
-<td id="T_d51de_row21_col2" class="data row21 col2">0.00%</td>
-<td id="T_d51de_row21_col3" class="data row21 col3">-1.28%</td>
-<td id="T_d51de_row21_col4" class="data row21 col4">-7.23%</td>
-<td id="T_d51de_row21_col5" class="data row21 col5">-7.23%</td>
+<td id="T_9e565_level2_row21" class="row_heading level2 row21" data-quarto-table-cell-role="th">SHS</td>
+<td id="T_9e565_row21_col0" class="data row21 col0">$15.3K</td>
+<td id="T_9e565_row21_col1" class="data row21 col1">$29.0M</td>
+<td id="T_9e565_row21_col2" class="data row21 col2">-0.65%</td>
+<td id="T_9e565_row21_col3" class="data row21 col3">1.32%</td>
+<td id="T_9e565_row21_col4" class="data row21 col4">-11.56%</td>
+<td id="T_9e565_row21_col5" class="data row21 col5">42.99%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row22" class="row_heading level0 row22" data-quarto-table-cell-role="th">BAB</td>
-<td id="T_d51de_level1_row22" class="row_heading level1 row22" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row22_col0" class="data row22 col0">$12.8K</td>
-<td id="T_d51de_row22_col1" class="data row22 col1">$0.0M</td>
-<td id="T_d51de_row22_col2" class="data row22 col2">1.59%</td>
-<td id="T_d51de_row22_col3" class="data row22 col3">0.79%</td>
-<td id="T_d51de_row22_col4" class="data row22 col4">-5.88%</td>
-<td id="T_d51de_row22_col5" class="data row22 col5">-6.57%</td>
+<td id="T_9e565_level2_row22" class="row_heading level2 row22" data-quarto-table-cell-role="th">BSI</td>
+<td id="T_9e565_row22_col0" class="data row22 col0">$37.0K</td>
+<td id="T_9e565_row22_col1" class="data row22 col1">$1.2M</td>
+<td id="T_9e565_row22_col2" class="data row22 col2">-0.27%</td>
+<td id="T_9e565_row22_col3" class="data row22 col3">-3.14%</td>
+<td id="T_9e565_row22_col4" class="data row22 col4">-5.13%</td>
+<td id="T_9e565_row22_col5" class="data row22 col5">46.99%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row23" class="row_heading level0 row23" data-quarto-table-cell-role="th">TLH</td>
-<td id="T_d51de_level1_row23" class="row_heading level1 row23" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row23_col0" class="data row23 col0">$6.9K</td>
-<td id="T_d51de_row23_col1" class="data row23 col1">$0.7M</td>
-<td id="T_d51de_row23_col2" class="data row23 col2">1.32%</td>
-<td id="T_d51de_row23_col3" class="data row23 col3">4.23%</td>
-<td id="T_d51de_row23_col4" class="data row23 col4">-7.51%</td>
-<td id="T_d51de_row23_col5" class="data row23 col5">-6.06%</td>
+<td id="T_9e565_level2_row23" class="row_heading level2 row23" data-quarto-table-cell-role="th">VIX</td>
+<td id="T_9e565_row23_col0" class="data row23 col0">$13.7K</td>
+<td id="T_9e565_row23_col1" class="data row23 col1">$39.6M</td>
+<td id="T_9e565_row23_col2" class="data row23 col2">0.00%</td>
+<td id="T_9e565_row23_col3" class="data row23 col3">0.37%</td>
+<td id="T_9e565_row23_col4" class="data row23 col4">-9.90%</td>
+<td id="T_9e565_row23_col5" class="data row23 col5">57.93%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row24" class="row_heading level0 row24" data-quarto-table-cell-role="th">DHG</td>
-<td id="T_d51de_level1_row24" class="row_heading level1 row24" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row24_col0" class="data row24 col0">$103.6K</td>
-<td id="T_d51de_row24_col1" class="data row24 col1">$0.0M</td>
-<td id="T_d51de_row24_col2" class="data row24 col2">0.58%</td>
-<td id="T_d51de_row24_col3" class="data row24 col3">2.17%</td>
-<td id="T_d51de_row24_col4" class="data row24 col4">-11.83%</td>
-<td id="T_d51de_row24_col5" class="data row24 col5">-5.73%</td>
+<td id="T_9e565_level1_row24" class="row_heading level1 row24" data-quarto-table-cell-role="th">Nhóm ngành công nghệ thông tin</td>
+<td id="T_9e565_level2_row24" class="row_heading level2 row24" data-quarto-table-cell-role="th">FPT</td>
+<td id="T_9e565_row24_col0" class="data row24 col0">$87.0K</td>
+<td id="T_9e565_row24_col1" class="data row24 col1">$4.8M</td>
+<td id="T_9e565_row24_col2" class="data row24 col2">-2.25%</td>
+<td id="T_9e565_row24_col3" class="data row24 col3">0.00%</td>
+<td id="T_9e565_row24_col4" class="data row24 col4">-6.15%</td>
+<td id="T_9e565_row24_col5" class="data row24 col5">25.64%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row25" class="row_heading level0 row25" data-quarto-table-cell-role="th">VBB</td>
-<td id="T_d51de_level1_row25" class="row_heading level1 row25" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row25_col0" class="data row25 col0">$10.0K</td>
-<td id="T_d51de_row25_col1" class="data row25 col1">$0.0M</td>
-<td id="T_d51de_row25_col2" class="data row25 col2">1.01%</td>
-<td id="T_d51de_row25_col3" class="data row25 col3">2.04%</td>
-<td id="T_d51de_row25_col4" class="data row25 col4">-2.91%</td>
-<td id="T_d51de_row25_col5" class="data row25 col5">-4.76%</td>
+<td rowspan="8" id="T_9e565_level1_row25" class="row_heading level1 row25" data-quarto-table-cell-role="th">Nhóm ngành dầu khí</td>
+<td id="T_9e565_level2_row25" class="row_heading level2 row25" data-quarto-table-cell-role="th">POW</td>
+<td id="T_9e565_row25_col0" class="data row25 col0">$11.1K</td>
+<td id="T_9e565_row25_col1" class="data row25 col1">$4.8M</td>
+<td id="T_9e565_row25_col2" class="data row25 col2">0.00%</td>
+<td id="T_9e565_row25_col3" class="data row25 col3">0.91%</td>
+<td id="T_9e565_row25_col4" class="data row25 col4">-0.89%</td>
+<td id="T_9e565_row25_col5" class="data row25 col5">-16.54%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row26" class="row_heading level0 row26" data-quarto-table-cell-role="th">TPB</td>
-<td id="T_d51de_level1_row26" class="row_heading level1 row26" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row26_col0" class="data row26 col0">$16.1K</td>
-<td id="T_d51de_row26_col1" class="data row26 col1">$5.7M</td>
-<td id="T_d51de_row26_col2" class="data row26 col2">-2.13%</td>
-<td id="T_d51de_row26_col3" class="data row26 col3">-0.93%</td>
-<td id="T_d51de_row26_col4" class="data row26 col4">-4.46%</td>
-<td id="T_d51de_row26_col5" class="data row26 col5">-3.91%</td>
+<td id="T_9e565_level2_row26" class="row_heading level2 row26" data-quarto-table-cell-role="th">PLX</td>
+<td id="T_9e565_row26_col0" class="data row26 col0">$33.1K</td>
+<td id="T_9e565_row26_col1" class="data row26 col1">$0.6M</td>
+<td id="T_9e565_row26_col2" class="data row26 col2">-0.90%</td>
+<td id="T_9e565_row26_col3" class="data row26 col3">0.30%</td>
+<td id="T_9e565_row26_col4" class="data row26 col4">-5.43%</td>
+<td id="T_9e565_row26_col5" class="data row26 col5">-10.18%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row27" class="row_heading level0 row27" data-quarto-table-cell-role="th">FCN</td>
-<td id="T_d51de_level1_row27" class="row_heading level1 row27" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row27_col0" class="data row27 col0">$12.9K</td>
-<td id="T_d51de_row27_col1" class="data row27 col1">$2.6M</td>
-<td id="T_d51de_row27_col2" class="data row27 col2">1.57%</td>
-<td id="T_d51de_row27_col3" class="data row27 col3">3.20%</td>
-<td id="T_d51de_row27_col4" class="data row27 col4">-15.13%</td>
-<td id="T_d51de_row27_col5" class="data row27 col5">-3.01%</td>
+<td id="T_9e565_level2_row27" class="row_heading level2 row27" data-quarto-table-cell-role="th">GAS</td>
+<td id="T_9e565_row27_col0" class="data row27 col0">$79.1K</td>
+<td id="T_9e565_row27_col1" class="data row27 col1">$0.5M</td>
+<td id="T_9e565_row27_col2" class="data row27 col2">-0.13%</td>
+<td id="T_9e565_row27_col3" class="data row27 col3">1.93%</td>
+<td id="T_9e565_row27_col4" class="data row27 col4">-6.06%</td>
+<td id="T_9e565_row27_col5" class="data row27 col5">7.02%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row28" class="row_heading level0 row28" data-quarto-table-cell-role="th">BVB</td>
-<td id="T_d51de_level1_row28" class="row_heading level1 row28" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row28_col0" class="data row28 col0">$10.2K</td>
-<td id="T_d51de_row28_col1" class="data row28 col1">$0.1M</td>
-<td id="T_d51de_row28_col2" class="data row28 col2">-0.97%</td>
-<td id="T_d51de_row28_col3" class="data row28 col3">0.99%</td>
-<td id="T_d51de_row28_col4" class="data row28 col4">-2.86%</td>
-<td id="T_d51de_row28_col5" class="data row28 col5">-1.92%</td>
+<td id="T_9e565_level2_row28" class="row_heading level2 row28" data-quarto-table-cell-role="th">OIL</td>
+<td id="T_9e565_row28_col0" class="data row28 col0">$10.2K</td>
+<td id="T_9e565_row28_col1" class="data row28 col1">$0.6M</td>
+<td id="T_9e565_row28_col2" class="data row28 col2">-0.97%</td>
+<td id="T_9e565_row28_col3" class="data row28 col3">0.99%</td>
+<td id="T_9e565_row28_col4" class="data row28 col4">0.00%</td>
+<td id="T_9e565_row28_col5" class="data row28 col5">11.84%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row29" class="row_heading level0 row29" data-quarto-table-cell-role="th">MIG</td>
-<td id="T_d51de_level1_row29" class="row_heading level1 row29" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row29_col0" class="data row29 col0">$16.4K</td>
-<td id="T_d51de_row29_col1" class="data row29 col1">$0.2M</td>
-<td id="T_d51de_row29_col2" class="data row29 col2">-0.30%</td>
-<td id="T_d51de_row29_col3" class="data row29 col3">-0.30%</td>
-<td id="T_d51de_row29_col4" class="data row29 col4">-4.36%</td>
-<td id="T_d51de_row29_col5" class="data row29 col5">-1.11%</td>
+<td id="T_9e565_level2_row29" class="row_heading level2 row29" data-quarto-table-cell-role="th">PVD</td>
+<td id="T_9e565_row29_col0" class="data row29 col0">$25.8K</td>
+<td id="T_9e565_row29_col1" class="data row29 col1">$4.2M</td>
+<td id="T_9e565_row29_col2" class="data row29 col2">0.39%</td>
+<td id="T_9e565_row29_col3" class="data row29 col3">-0.19%</td>
+<td id="T_9e565_row29_col4" class="data row29 col4">-0.19%</td>
+<td id="T_9e565_row29_col5" class="data row29 col5">17.31%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row30" class="row_heading level0 row30" data-quarto-table-cell-role="th">DCL</td>
-<td id="T_d51de_level1_row30" class="row_heading level1 row30" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row30_col0" class="data row30 col0">$22.8K</td>
-<td id="T_d51de_row30_col1" class="data row30 col1">$0.1M</td>
-<td id="T_d51de_row30_col2" class="data row30 col2">-0.44%</td>
-<td id="T_d51de_row30_col3" class="data row30 col3">0.00%</td>
-<td id="T_d51de_row30_col4" class="data row30 col4">0.22%</td>
-<td id="T_d51de_row30_col5" class="data row30 col5">-1.08%</td>
+<td id="T_9e565_level2_row30" class="row_heading level2 row30" data-quarto-table-cell-role="th">BSR</td>
+<td id="T_9e565_row30_col0" class="data row30 col0">$18.6K</td>
+<td id="T_9e565_row30_col1" class="data row30 col1">$6.8M</td>
+<td id="T_9e565_row30_col2" class="data row30 col2">-0.53%</td>
+<td id="T_9e565_row30_col3" class="data row30 col3">0.00%</td>
+<td id="T_9e565_row30_col4" class="data row30 col4">-6.53%</td>
+<td id="T_9e565_row30_col5" class="data row30 col5">18.49%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row31" class="row_heading level0 row31" data-quarto-table-cell-role="th">PVI</td>
-<td id="T_d51de_level1_row31" class="row_heading level1 row31" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row31_col0" class="data row31 col0">$45.1K</td>
-<td id="T_d51de_row31_col1" class="data row31 col1">$1.3M</td>
-<td id="T_d51de_row31_col2" class="data row31 col2">-0.88%</td>
-<td id="T_d51de_row31_col3" class="data row31 col3">1.12%</td>
-<td id="T_d51de_row31_col4" class="data row31 col4">0.89%</td>
-<td id="T_d51de_row31_col5" class="data row31 col5">-0.95%</td>
+<td id="T_9e565_level2_row31" class="row_heading level2 row31" data-quarto-table-cell-role="th">PVT</td>
+<td id="T_9e565_row31_col0" class="data row31 col0">$23.8K</td>
+<td id="T_9e565_row31_col1" class="data row31 col1">$7.3M</td>
+<td id="T_9e565_row31_col2" class="data row31 col2">-2.26%</td>
+<td id="T_9e565_row31_col3" class="data row31 col3">-5.56%</td>
+<td id="T_9e565_row31_col4" class="data row31 col4">-13.77%</td>
+<td id="T_9e565_row31_col5" class="data row31 col5">19.19%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row32" class="row_heading level0 row32" data-quarto-table-cell-role="th">SGB</td>
-<td id="T_d51de_level1_row32" class="row_heading level1 row32" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row32_col0" class="data row32 col0">$13.3K</td>
-<td id="T_d51de_row32_col1" class="data row32 col1">$0.0M</td>
-<td id="T_d51de_row32_col2" class="data row32 col2">0.00%</td>
-<td id="T_d51de_row32_col3" class="data row32 col3">-0.75%</td>
-<td id="T_d51de_row32_col4" class="data row32 col4">-11.92%</td>
-<td id="T_d51de_row32_col5" class="data row32 col5">0.00%</td>
+<td id="T_9e565_level2_row32" class="row_heading level2 row32" data-quarto-table-cell-role="th">PVS</td>
+<td id="T_9e565_row32_col0" class="data row32 col0">$34.9K</td>
+<td id="T_9e565_row32_col1" class="data row32 col1">$3.9M</td>
+<td id="T_9e565_row32_col2" class="data row32 col2">-0.57%</td>
+<td id="T_9e565_row32_col3" class="data row32 col3">-5.93%</td>
+<td id="T_9e565_row32_col4" class="data row32 col4">-3.37%</td>
+<td id="T_9e565_row32_col5" class="data row32 col5">34.69%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row33" class="row_heading level0 row33" data-quarto-table-cell-role="th">PET</td>
-<td id="T_d51de_level1_row33" class="row_heading level1 row33" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row33_col0" class="data row33 col0">$22.8K</td>
-<td id="T_d51de_row33_col1" class="data row33 col1">$0.2M</td>
-<td id="T_d51de_row33_col2" class="data row33 col2">-0.22%</td>
-<td id="T_d51de_row33_col3" class="data row33 col3">-3.18%</td>
-<td id="T_d51de_row33_col4" class="data row33 col4">-11.97%</td>
-<td id="T_d51de_row33_col5" class="data row33 col5">0.30%</td>
+<td rowspan="3" id="T_9e565_level1_row33" class="row_heading level1 row33" data-quarto-table-cell-role="th">Nhóm ngành dệt may</td>
+<td id="T_9e565_level2_row33" class="row_heading level2 row33" data-quarto-table-cell-role="th">NJC</td>
+<td id="T_9e565_row33_col0" class="data row33 col0">$18.5K</td>
+<td id="T_9e565_row33_col1" class="data row33 col1">$0.0M</td>
+<td id="T_9e565_row33_col2" class="data row33 col2">-9.31%</td>
+<td id="T_9e565_row33_col3" class="data row33 col3">-3.14%</td>
+<td id="T_9e565_row33_col4" class="data row33 col4">-0.54%</td>
+<td id="T_9e565_row33_col5" class="data row33 col5">2.11%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row34" class="row_heading level0 row34" data-quarto-table-cell-role="th">BMI</td>
-<td id="T_d51de_level1_row34" class="row_heading level1 row34" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row34_col0" class="data row34 col0">$21.4K</td>
-<td id="T_d51de_row34_col1" class="data row34 col1">$0.1M</td>
-<td id="T_d51de_row34_col2" class="data row34 col2">-0.70%</td>
-<td id="T_d51de_row34_col3" class="data row34 col3">3.63%</td>
-<td id="T_d51de_row34_col4" class="data row34 col4">-9.46%</td>
-<td id="T_d51de_row34_col5" class="data row34 col5">1.36%</td>
+<td id="T_9e565_level2_row34" class="row_heading level2 row34" data-quarto-table-cell-role="th">MNB</td>
+<td id="T_9e565_row34_col0" class="data row34 col0">$23.0K</td>
+<td id="T_9e565_row34_col1" class="data row34 col1">$0.0M</td>
+<td id="T_9e565_row34_col2" class="data row34 col2">0.00%</td>
+<td id="T_9e565_row34_col3" class="data row34 col3">0.00%</td>
+<td id="T_9e565_row34_col4" class="data row34 col4">0.00%</td>
+<td id="T_9e565_row34_col5" class="data row34 col5">4.57%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row35" class="row_heading level0 row35" data-quarto-table-cell-role="th">KLB</td>
-<td id="T_d51de_level1_row35" class="row_heading level1 row35" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row35_col0" class="data row35 col0">$11.7K</td>
-<td id="T_d51de_row35_col1" class="data row35 col1">$0.0M</td>
-<td id="T_d51de_row35_col2" class="data row35 col2">0.86%</td>
-<td id="T_d51de_row35_col3" class="data row35 col3">2.63%</td>
-<td id="T_d51de_row35_col4" class="data row35 col4">-2.50%</td>
-<td id="T_d51de_row35_col5" class="data row35 col5">1.74%</td>
+<td id="T_9e565_level2_row35" class="row_heading level2 row35" data-quarto-table-cell-role="th">STK</td>
+<td id="T_9e565_row35_col0" class="data row35 col0">$26.5K</td>
+<td id="T_9e565_row35_col1" class="data row35 col1">$0.0M</td>
+<td id="T_9e565_row35_col2" class="data row35 col2">3.52%</td>
+<td id="T_9e565_row35_col3" class="data row35 col3">0.38%</td>
+<td id="T_9e565_row35_col4" class="data row35 col4">-17.19%</td>
+<td id="T_9e565_row35_col5" class="data row35 col5">12.24%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row36" class="row_heading level0 row36" data-quarto-table-cell-role="th">CTG</td>
-<td id="T_d51de_level1_row36" class="row_heading level1 row36" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row36_col0" class="data row36 col0">$28.0K</td>
-<td id="T_d51de_row36_col1" class="data row36 col1">$3.6M</td>
-<td id="T_d51de_row36_col2" class="data row36 col2">-0.88%</td>
-<td id="T_d51de_row36_col3" class="data row36 col3">-0.71%</td>
-<td id="T_d51de_row36_col4" class="data row36 col4">-2.44%</td>
-<td id="T_d51de_row36_col5" class="data row36 col5">1.82%</td>
+<td rowspan="3" id="T_9e565_level1_row36" class="row_heading level1 row36" data-quarto-table-cell-role="th">Nhóm ngành hàng không</td>
+<td id="T_9e565_level2_row36" class="row_heading level2 row36" data-quarto-table-cell-role="th">HVN</td>
+<td id="T_9e565_row36_col0" class="data row36 col0">$10.6K</td>
+<td id="T_9e565_row36_col1" class="data row36 col1">$0.6M</td>
+<td id="T_9e565_row36_col2" class="data row36 col2">-1.40%</td>
+<td id="T_9e565_row36_col3" class="data row36 col3">-0.47%</td>
+<td id="T_9e565_row36_col4" class="data row36 col4">-9.44%</td>
+<td id="T_9e565_row36_col5" class="data row36 col5">-15.60%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row37" class="row_heading level0 row37" data-quarto-table-cell-role="th">NJC</td>
-<td id="T_d51de_level1_row37" class="row_heading level1 row37" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row37_col0" class="data row37 col0">$18.5K</td>
-<td id="T_d51de_row37_col1" class="data row37 col1">$0.0M</td>
-<td id="T_d51de_row37_col2" class="data row37 col2">-9.31%</td>
-<td id="T_d51de_row37_col3" class="data row37 col3">-3.14%</td>
-<td id="T_d51de_row37_col4" class="data row37 col4">-0.54%</td>
-<td id="T_d51de_row37_col5" class="data row37 col5">2.11%</td>
+<td id="T_9e565_level2_row37" class="row_heading level2 row37" data-quarto-table-cell-role="th">ACV</td>
+<td id="T_9e565_row37_col0" class="data row37 col0">$70.0K</td>
+<td id="T_9e565_row37_col1" class="data row37 col1">$0.0M</td>
+<td id="T_9e565_row37_col2" class="data row37 col2">-0.28%</td>
+<td id="T_9e565_row37_col3" class="data row37 col3">-0.57%</td>
+<td id="T_9e565_row37_col4" class="data row37 col4">-5.79%</td>
+<td id="T_9e565_row37_col5" class="data row37 col5">-11.39%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row38" class="row_heading level0 row38" data-quarto-table-cell-role="th">MWG</td>
-<td id="T_d51de_level1_row38" class="row_heading level1 row38" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row38_col0" class="data row38 col0">$39.0K</td>
-<td id="T_d51de_row38_col1" class="data row38 col1">$12.4M</td>
-<td id="T_d51de_row38_col2" class="data row38 col2">5.27%</td>
-<td id="T_d51de_row38_col3" class="data row38 col3">-7.26%</td>
-<td id="T_d51de_row38_col4" class="data row38 col4">-19.36%</td>
-<td id="T_d51de_row38_col5" class="data row38 col5">3.08%</td>
+<td id="T_9e565_level2_row38" class="row_heading level2 row38" data-quarto-table-cell-role="th">VJC</td>
+<td id="T_9e565_row38_col0" class="data row38 col0">$106.5K</td>
+<td id="T_9e565_row38_col1" class="data row38 col1">$1.0M</td>
+<td id="T_9e565_row38_col2" class="data row38 col2">1.53%</td>
+<td id="T_9e565_row38_col3" class="data row38 col3">6.71%</td>
+<td id="T_9e565_row38_col4" class="data row38 col4">9.79%</td>
+<td id="T_9e565_row38_col5" class="data row38 col5">8.34%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row39" class="row_heading level0 row39" data-quarto-table-cell-role="th">MNB</td>
-<td id="T_d51de_level1_row39" class="row_heading level1 row39" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row39_col0" class="data row39 col0">$23.0K</td>
-<td id="T_d51de_row39_col1" class="data row39 col1">$0.0M</td>
-<td id="T_d51de_row39_col2" class="data row39 col2">0.00%</td>
-<td id="T_d51de_row39_col3" class="data row39 col3">0.00%</td>
-<td id="T_d51de_row39_col4" class="data row39 col4">0.00%</td>
-<td id="T_d51de_row39_col5" class="data row39 col5">4.57%</td>
+<td rowspan="23" id="T_9e565_level1_row39" class="row_heading level1 row39" data-quarto-table-cell-role="th">Nhóm ngành ngân hàng</td>
+<td id="T_9e565_level2_row39" class="row_heading level2 row39" data-quarto-table-cell-role="th">NVB</td>
+<td id="T_9e565_row39_col0" class="data row39 col0">$10.3K</td>
+<td id="T_9e565_row39_col1" class="data row39 col1">$0.1M</td>
+<td id="T_9e565_row39_col2" class="data row39 col2">0.98%</td>
+<td id="T_9e565_row39_col3" class="data row39 col3">3.00%</td>
+<td id="T_9e565_row39_col4" class="data row39 col4">-12.71%</td>
+<td id="T_9e565_row39_col5" class="data row39 col5">-25.90%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row40" class="row_heading level0 row40" data-quarto-table-cell-role="th">STB</td>
-<td id="T_d51de_level1_row40" class="row_heading level1 row40" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row40_col0" class="data row40 col0">$28.5K</td>
-<td id="T_d51de_row40_col1" class="data row40 col1">$18.9M</td>
-<td id="T_d51de_row40_col2" class="data row40 col2">-1.72%</td>
-<td id="T_d51de_row40_col3" class="data row40 col3">-0.70%</td>
-<td id="T_d51de_row40_col4" class="data row40 col4">-7.92%</td>
-<td id="T_d51de_row40_col5" class="data row40 col5">5.56%</td>
+<td id="T_9e565_level2_row40" class="row_heading level2 row40" data-quarto-table-cell-role="th">PGB</td>
+<td id="T_9e565_row40_col0" class="data row40 col0">$24.9K</td>
+<td id="T_9e565_row40_col1" class="data row40 col1">$0.0M</td>
+<td id="T_9e565_row40_col2" class="data row40 col2">0.00%</td>
+<td id="T_9e565_row40_col3" class="data row40 col3">3.75%</td>
+<td id="T_9e565_row40_col4" class="data row40 col4">-10.43%</td>
+<td id="T_9e565_row40_col5" class="data row40 col5">-11.39%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row41" class="row_heading level0 row41" data-quarto-table-cell-role="th">TCB</td>
-<td id="T_d51de_level1_row41" class="row_heading level1 row41" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row41_col0" class="data row41 col0">$31.0K</td>
-<td id="T_d51de_row41_col1" class="data row41 col1">$8.1M</td>
-<td id="T_d51de_row41_col2" class="data row41 col2">5.62%</td>
-<td id="T_d51de_row41_col3" class="data row41 col3">4.91%</td>
-<td id="T_d51de_row41_col4" class="data row41 col4">-3.28%</td>
-<td id="T_d51de_row41_col5" class="data row41 col5">5.98%</td>
+<td id="T_9e565_level2_row41" class="row_heading level2 row41" data-quarto-table-cell-role="th">VIB</td>
+<td id="T_9e565_row41_col0" class="data row41 col0">$18.6K</td>
+<td id="T_9e565_row41_col1" class="data row41 col1">$3.3M</td>
+<td id="T_9e565_row41_col2" class="data row41 col2">0.00%</td>
+<td id="T_9e565_row41_col3" class="data row41 col3">3.33%</td>
+<td id="T_9e565_row41_col4" class="data row41 col4">1.36%</td>
+<td id="T_9e565_row41_col5" class="data row41 col5">-11.22%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row42" class="row_heading level0 row42" data-quarto-table-cell-role="th">ACB</td>
-<td id="T_d51de_level1_row42" class="row_heading level1 row42" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row42_col0" class="data row42 col0">$22.1K</td>
-<td id="T_d51de_row42_col1" class="data row42 col1">$4.9M</td>
-<td id="T_d51de_row42_col2" class="data row42 col2">-1.12%</td>
-<td id="T_d51de_row42_col3" class="data row42 col3">2.32%</td>
-<td id="T_d51de_row42_col4" class="data row42 col4">1.15%</td>
-<td id="T_d51de_row42_col5" class="data row42 col5">6.01%</td>
+<td id="T_9e565_level2_row42" class="row_heading level2 row42" data-quarto-table-cell-role="th">BID</td>
+<td id="T_9e565_row42_col0" class="data row42 col0">$41.5K</td>
+<td id="T_9e565_row42_col1" class="data row42 col1">$0.6M</td>
+<td id="T_9e565_row42_col2" class="data row42 col2">-0.36%</td>
+<td id="T_9e565_row42_col3" class="data row42 col3">-1.19%</td>
+<td id="T_9e565_row42_col4" class="data row42 col4">-1.66%</td>
+<td id="T_9e565_row42_col5" class="data row42 col5">-7.37%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row43" class="row_heading level0 row43" data-quarto-table-cell-role="th">GAS</td>
-<td id="T_d51de_level1_row43" class="row_heading level1 row43" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row43_col0" class="data row43 col0">$79.1K</td>
-<td id="T_d51de_row43_col1" class="data row43 col1">$0.5M</td>
-<td id="T_d51de_row43_col2" class="data row43 col2">-0.13%</td>
-<td id="T_d51de_row43_col3" class="data row43 col3">1.93%</td>
-<td id="T_d51de_row43_col4" class="data row43 col4">-6.06%</td>
-<td id="T_d51de_row43_col5" class="data row43 col5">7.02%</td>
+<td id="T_9e565_level2_row43" class="row_heading level2 row43" data-quarto-table-cell-role="th">ABB</td>
+<td id="T_9e565_row43_col0" class="data row43 col0">$7.7K</td>
+<td id="T_9e565_row43_col1" class="data row43 col1">$0.6M</td>
+<td id="T_9e565_row43_col2" class="data row43 col2">0.00%</td>
+<td id="T_9e565_row43_col3" class="data row43 col3">-1.28%</td>
+<td id="T_9e565_row43_col4" class="data row43 col4">-7.23%</td>
+<td id="T_9e565_row43_col5" class="data row43 col5">-7.23%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row44" class="row_heading level0 row44" data-quarto-table-cell-role="th">SHB</td>
-<td id="T_d51de_level1_row44" class="row_heading level1 row44" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row44_col0" class="data row44 col0">$10.7K</td>
-<td id="T_d51de_row44_col1" class="data row44 col1">$14.1M</td>
-<td id="T_d51de_row44_col2" class="data row44 col2">-1.83%</td>
-<td id="T_d51de_row44_col3" class="data row44 col3">3.88%</td>
-<td id="T_d51de_row44_col4" class="data row44 col4">0.00%</td>
-<td id="T_d51de_row44_col5" class="data row44 col5">7.92%</td>
+<td id="T_9e565_level2_row44" class="row_heading level2 row44" data-quarto-table-cell-role="th">BAB</td>
+<td id="T_9e565_row44_col0" class="data row44 col0">$12.8K</td>
+<td id="T_9e565_row44_col1" class="data row44 col1">$0.0M</td>
+<td id="T_9e565_row44_col2" class="data row44 col2">1.59%</td>
+<td id="T_9e565_row44_col3" class="data row44 col3">0.79%</td>
+<td id="T_9e565_row44_col4" class="data row44 col4">-5.88%</td>
+<td id="T_9e565_row44_col5" class="data row44 col5">-6.57%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row45" class="row_heading level0 row45" data-quarto-table-cell-role="th">NDN</td>
-<td id="T_d51de_level1_row45" class="row_heading level1 row45" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row45_col0" class="data row45 col0">$9.5K</td>
-<td id="T_d51de_row45_col1" class="data row45 col1">$0.1M</td>
-<td id="T_d51de_row45_col2" class="data row45 col2">0.00%</td>
-<td id="T_d51de_row45_col3" class="data row45 col3">0.00%</td>
-<td id="T_d51de_row45_col4" class="data row45 col4">-5.94%</td>
-<td id="T_d51de_row45_col5" class="data row45 col5">7.95%</td>
+<td id="T_9e565_level2_row45" class="row_heading level2 row45" data-quarto-table-cell-role="th">VBB</td>
+<td id="T_9e565_row45_col0" class="data row45 col0">$10.0K</td>
+<td id="T_9e565_row45_col1" class="data row45 col1">$0.0M</td>
+<td id="T_9e565_row45_col2" class="data row45 col2">1.01%</td>
+<td id="T_9e565_row45_col3" class="data row45 col3">2.04%</td>
+<td id="T_9e565_row45_col4" class="data row45 col4">-2.91%</td>
+<td id="T_9e565_row45_col5" class="data row45 col5">-4.76%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row46" class="row_heading level0 row46" data-quarto-table-cell-role="th">VJC</td>
-<td id="T_d51de_level1_row46" class="row_heading level1 row46" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row46_col0" class="data row46 col0">$106.5K</td>
-<td id="T_d51de_row46_col1" class="data row46 col1">$1.0M</td>
-<td id="T_d51de_row46_col2" class="data row46 col2">1.53%</td>
-<td id="T_d51de_row46_col3" class="data row46 col3">6.71%</td>
-<td id="T_d51de_row46_col4" class="data row46 col4">9.79%</td>
-<td id="T_d51de_row46_col5" class="data row46 col5">8.34%</td>
+<td id="T_9e565_level2_row46" class="row_heading level2 row46" data-quarto-table-cell-role="th">TPB</td>
+<td id="T_9e565_row46_col0" class="data row46 col0">$16.1K</td>
+<td id="T_9e565_row46_col1" class="data row46 col1">$5.7M</td>
+<td id="T_9e565_row46_col2" class="data row46 col2">-2.13%</td>
+<td id="T_9e565_row46_col3" class="data row46 col3">-0.93%</td>
+<td id="T_9e565_row46_col4" class="data row46 col4">-4.46%</td>
+<td id="T_9e565_row46_col5" class="data row46 col5">-3.91%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row47" class="row_heading level0 row47" data-quarto-table-cell-role="th">HCM</td>
-<td id="T_d51de_level1_row47" class="row_heading level1 row47" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row47_col0" class="data row47 col0">$27.0K</td>
-<td id="T_d51de_row47_col1" class="data row47 col1">$5.6M</td>
-<td id="T_d51de_row47_col2" class="data row47 col2">-1.46%</td>
-<td id="T_d51de_row47_col3" class="data row47 col3">-1.82%</td>
-<td id="T_d51de_row47_col4" class="data row47 col4">-9.55%</td>
-<td id="T_d51de_row47_col5" class="data row47 col5">9.12%</td>
+<td id="T_9e565_level2_row47" class="row_heading level2 row47" data-quarto-table-cell-role="th">BVB</td>
+<td id="T_9e565_row47_col0" class="data row47 col0">$10.2K</td>
+<td id="T_9e565_row47_col1" class="data row47 col1">$0.1M</td>
+<td id="T_9e565_row47_col2" class="data row47 col2">-0.97%</td>
+<td id="T_9e565_row47_col3" class="data row47 col3">0.99%</td>
+<td id="T_9e565_row47_col4" class="data row47 col4">-2.86%</td>
+<td id="T_9e565_row47_col5" class="data row47 col5">-1.92%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row48" class="row_heading level0 row48" data-quarto-table-cell-role="th">MSB</td>
-<td id="T_d51de_level1_row48" class="row_heading level1 row48" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row48_col0" class="data row48 col0">$13.3K</td>
-<td id="T_d51de_row48_col1" class="data row48 col1">$13.4M</td>
-<td id="T_d51de_row48_col2" class="data row48 col2">2.31%</td>
-<td id="T_d51de_row48_col3" class="data row48 col3">8.13%</td>
-<td id="T_d51de_row48_col4" class="data row48 col4">-3.97%</td>
-<td id="T_d51de_row48_col5" class="data row48 col5">10.83%</td>
+<td id="T_9e565_level2_row48" class="row_heading level2 row48" data-quarto-table-cell-role="th">SGB</td>
+<td id="T_9e565_row48_col0" class="data row48 col0">$13.3K</td>
+<td id="T_9e565_row48_col1" class="data row48 col1">$0.0M</td>
+<td id="T_9e565_row48_col2" class="data row48 col2">0.00%</td>
+<td id="T_9e565_row48_col3" class="data row48 col3">-0.75%</td>
+<td id="T_9e565_row48_col4" class="data row48 col4">-11.92%</td>
+<td id="T_9e565_row48_col5" class="data row48 col5">0.00%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row49" class="row_heading level0 row49" data-quarto-table-cell-role="th">MBB</td>
-<td id="T_d51de_level1_row49" class="row_heading level1 row49" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row49_col0" class="data row49 col0">$17.4K</td>
-<td id="T_d51de_row49_col1" class="data row49 col1">$11.9M</td>
-<td id="T_d51de_row49_col2" class="data row49 col2">-1.69%</td>
-<td id="T_d51de_row49_col3" class="data row49 col3">-0.29%</td>
-<td id="T_d51de_row49_col4" class="data row49 col4">-4.13%</td>
-<td id="T_d51de_row49_col5" class="data row49 col5">11.19%</td>
+<td id="T_9e565_level2_row49" class="row_heading level2 row49" data-quarto-table-cell-role="th">KLB</td>
+<td id="T_9e565_row49_col0" class="data row49 col0">$11.7K</td>
+<td id="T_9e565_row49_col1" class="data row49 col1">$0.0M</td>
+<td id="T_9e565_row49_col2" class="data row49 col2">0.86%</td>
+<td id="T_9e565_row49_col3" class="data row49 col3">2.63%</td>
+<td id="T_9e565_row49_col4" class="data row49 col4">-2.50%</td>
+<td id="T_9e565_row49_col5" class="data row49 col5">1.74%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row50" class="row_heading level0 row50" data-quarto-table-cell-role="th">TVS</td>
-<td id="T_d51de_level1_row50" class="row_heading level1 row50" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row50_col0" class="data row50 col0">$20.1K</td>
-<td id="T_d51de_row50_col1" class="data row50 col1">$0.0M</td>
-<td id="T_d51de_row50_col2" class="data row50 col2">0.00%</td>
-<td id="T_d51de_row50_col3" class="data row50 col3">5.53%</td>
-<td id="T_d51de_row50_col4" class="data row50 col4">-12.25%</td>
-<td id="T_d51de_row50_col5" class="data row50 col5">11.38%</td>
+<td id="T_9e565_level2_row50" class="row_heading level2 row50" data-quarto-table-cell-role="th">CTG</td>
+<td id="T_9e565_row50_col0" class="data row50 col0">$28.0K</td>
+<td id="T_9e565_row50_col1" class="data row50 col1">$3.6M</td>
+<td id="T_9e565_row50_col2" class="data row50 col2">-0.88%</td>
+<td id="T_9e565_row50_col3" class="data row50 col3">-0.71%</td>
+<td id="T_9e565_row50_col4" class="data row50 col4">-2.44%</td>
+<td id="T_9e565_row50_col5" class="data row50 col5">1.82%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row51" class="row_heading level0 row51" data-quarto-table-cell-role="th">PHR</td>
-<td id="T_d51de_level1_row51" class="row_heading level1 row51" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row51_col0" class="data row51 col0">$44.8K</td>
-<td id="T_d51de_row51_col1" class="data row51 col1">$0.2M</td>
-<td id="T_d51de_row51_col2" class="data row51 col2">-0.44%</td>
-<td id="T_d51de_row51_col3" class="data row51 col3">-0.11%</td>
-<td id="T_d51de_row51_col4" class="data row51 col4">-7.72%</td>
-<td id="T_d51de_row51_col5" class="data row51 col5">11.40%</td>
+<td id="T_9e565_level2_row51" class="row_heading level2 row51" data-quarto-table-cell-role="th">STB</td>
+<td id="T_9e565_row51_col0" class="data row51 col0">$28.5K</td>
+<td id="T_9e565_row51_col1" class="data row51 col1">$18.9M</td>
+<td id="T_9e565_row51_col2" class="data row51 col2">-1.72%</td>
+<td id="T_9e565_row51_col3" class="data row51 col3">-0.70%</td>
+<td id="T_9e565_row51_col4" class="data row51 col4">-7.92%</td>
+<td id="T_9e565_row51_col5" class="data row51 col5">5.56%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row52" class="row_heading level0 row52" data-quarto-table-cell-role="th">EIB</td>
-<td id="T_d51de_level1_row52" class="row_heading level1 row52" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row52_col0" class="data row52 col0">$17.8K</td>
-<td id="T_d51de_row52_col1" class="data row52 col1">$3.6M</td>
-<td id="T_d51de_row52_col2" class="data row52 col2">1.14%</td>
-<td id="T_d51de_row52_col3" class="data row52 col3">0.00%</td>
-<td id="T_d51de_row52_col4" class="data row52 col4">4.40%</td>
-<td id="T_d51de_row52_col5" class="data row52 col5">11.42%</td>
+<td id="T_9e565_level2_row52" class="row_heading level2 row52" data-quarto-table-cell-role="th">TCB</td>
+<td id="T_9e565_row52_col0" class="data row52 col0">$31.0K</td>
+<td id="T_9e565_row52_col1" class="data row52 col1">$8.1M</td>
+<td id="T_9e565_row52_col2" class="data row52 col2">5.62%</td>
+<td id="T_9e565_row52_col3" class="data row52 col3">4.91%</td>
+<td id="T_9e565_row52_col4" class="data row52 col4">-3.28%</td>
+<td id="T_9e565_row52_col5" class="data row52 col5">5.98%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row53" class="row_heading level0 row53" data-quarto-table-cell-role="th">BVS</td>
-<td id="T_d51de_level1_row53" class="row_heading level1 row53" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row53_col0" class="data row53 col0">$23.6K</td>
-<td id="T_d51de_row53_col1" class="data row53 col1">$0.1M</td>
-<td id="T_d51de_row53_col2" class="data row53 col2">-2.88%</td>
-<td id="T_d51de_row53_col3" class="data row53 col3">3.06%</td>
-<td id="T_d51de_row53_col4" class="data row53 col4">-9.23%</td>
-<td id="T_d51de_row53_col5" class="data row53 col5">11.46%</td>
+<td id="T_9e565_level2_row53" class="row_heading level2 row53" data-quarto-table-cell-role="th">ACB</td>
+<td id="T_9e565_row53_col0" class="data row53 col0">$22.1K</td>
+<td id="T_9e565_row53_col1" class="data row53 col1">$4.9M</td>
+<td id="T_9e565_row53_col2" class="data row53 col2">-1.12%</td>
+<td id="T_9e565_row53_col3" class="data row53 col3">2.32%</td>
+<td id="T_9e565_row53_col4" class="data row53 col4">1.15%</td>
+<td id="T_9e565_row53_col5" class="data row53 col5">6.01%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row54" class="row_heading level0 row54" data-quarto-table-cell-role="th">OIL</td>
-<td id="T_d51de_level1_row54" class="row_heading level1 row54" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row54_col0" class="data row54 col0">$10.2K</td>
-<td id="T_d51de_row54_col1" class="data row54 col1">$0.6M</td>
-<td id="T_d51de_row54_col2" class="data row54 col2">-0.97%</td>
-<td id="T_d51de_row54_col3" class="data row54 col3">0.99%</td>
-<td id="T_d51de_row54_col4" class="data row54 col4">0.00%</td>
-<td id="T_d51de_row54_col5" class="data row54 col5">11.84%</td>
+<td id="T_9e565_level2_row54" class="row_heading level2 row54" data-quarto-table-cell-role="th">SHB</td>
+<td id="T_9e565_row54_col0" class="data row54 col0">$10.7K</td>
+<td id="T_9e565_row54_col1" class="data row54 col1">$14.1M</td>
+<td id="T_9e565_row54_col2" class="data row54 col2">-1.83%</td>
+<td id="T_9e565_row54_col3" class="data row54 col3">3.88%</td>
+<td id="T_9e565_row54_col4" class="data row54 col4">0.00%</td>
+<td id="T_9e565_row54_col5" class="data row54 col5">7.92%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row55" class="row_heading level0 row55" data-quarto-table-cell-role="th">STK</td>
-<td id="T_d51de_level1_row55" class="row_heading level1 row55" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row55_col0" class="data row55 col0">$26.5K</td>
-<td id="T_d51de_row55_col1" class="data row55 col1">$0.0M</td>
-<td id="T_d51de_row55_col2" class="data row55 col2">3.52%</td>
-<td id="T_d51de_row55_col3" class="data row55 col3">0.38%</td>
-<td id="T_d51de_row55_col4" class="data row55 col4">-17.19%</td>
-<td id="T_d51de_row55_col5" class="data row55 col5">12.24%</td>
+<td id="T_9e565_level2_row55" class="row_heading level2 row55" data-quarto-table-cell-role="th">MSB</td>
+<td id="T_9e565_row55_col0" class="data row55 col0">$13.3K</td>
+<td id="T_9e565_row55_col1" class="data row55 col1">$13.4M</td>
+<td id="T_9e565_row55_col2" class="data row55 col2">2.31%</td>
+<td id="T_9e565_row55_col3" class="data row55 col3">8.13%</td>
+<td id="T_9e565_row55_col4" class="data row55 col4">-3.97%</td>
+<td id="T_9e565_row55_col5" class="data row55 col5">10.83%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row56" class="row_heading level0 row56" data-quarto-table-cell-role="th">CII</td>
-<td id="T_d51de_level1_row56" class="row_heading level1 row56" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row56_col0" class="data row56 col0">$16.2K</td>
-<td id="T_d51de_row56_col1" class="data row56 col1">$16.1M</td>
-<td id="T_d51de_row56_col2" class="data row56 col2">4.18%</td>
-<td id="T_d51de_row56_col3" class="data row56 col3">7.28%</td>
-<td id="T_d51de_row56_col4" class="data row56 col4">-7.51%</td>
-<td id="T_d51de_row56_col5" class="data row56 col5">12.24%</td>
+<td id="T_9e565_level2_row56" class="row_heading level2 row56" data-quarto-table-cell-role="th">MBB</td>
+<td id="T_9e565_row56_col0" class="data row56 col0">$17.4K</td>
+<td id="T_9e565_row56_col1" class="data row56 col1">$11.9M</td>
+<td id="T_9e565_row56_col2" class="data row56 col2">-1.69%</td>
+<td id="T_9e565_row56_col3" class="data row56 col3">-0.29%</td>
+<td id="T_9e565_row56_col4" class="data row56 col4">-4.13%</td>
+<td id="T_9e565_row56_col5" class="data row56 col5">11.19%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row57" class="row_heading level0 row57" data-quarto-table-cell-role="th">VCB</td>
-<td id="T_d51de_level1_row57" class="row_heading level1 row57" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row57_col0" class="data row57 col0">$88.9K</td>
-<td id="T_d51de_row57_col1" class="data row57 col1">$1.1M</td>
-<td id="T_d51de_row57_col2" class="data row57 col2">-0.11%</td>
-<td id="T_d51de_row57_col3" class="data row57 col3">4.59%</td>
-<td id="T_d51de_row57_col4" class="data row57 col4">4.10%</td>
-<td id="T_d51de_row57_col5" class="data row57 col5">13.14%</td>
+<td id="T_9e565_level2_row57" class="row_heading level2 row57" data-quarto-table-cell-role="th">EIB</td>
+<td id="T_9e565_row57_col0" class="data row57 col0">$17.8K</td>
+<td id="T_9e565_row57_col1" class="data row57 col1">$3.6M</td>
+<td id="T_9e565_row57_col2" class="data row57 col2">1.14%</td>
+<td id="T_9e565_row57_col3" class="data row57 col3">0.00%</td>
+<td id="T_9e565_row57_col4" class="data row57 col4">4.40%</td>
+<td id="T_9e565_row57_col5" class="data row57 col5">11.42%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row58" class="row_heading level0 row58" data-quarto-table-cell-role="th">HDB</td>
-<td id="T_d51de_level1_row58" class="row_heading level1 row58" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row58_col0" class="data row58 col0">$18.4K</td>
-<td id="T_d51de_row58_col1" class="data row58 col1">$15.7M</td>
-<td id="T_d51de_row58_col2" class="data row58 col2">4.26%</td>
-<td id="T_d51de_row58_col3" class="data row58 col3">6.38%</td>
-<td id="T_d51de_row58_col4" class="data row58 col4">7.31%</td>
-<td id="T_d51de_row58_col5" class="data row58 col5">13.48%</td>
+<td id="T_9e565_level2_row58" class="row_heading level2 row58" data-quarto-table-cell-role="th">VCB</td>
+<td id="T_9e565_row58_col0" class="data row58 col0">$88.9K</td>
+<td id="T_9e565_row58_col1" class="data row58 col1">$1.1M</td>
+<td id="T_9e565_row58_col2" class="data row58 col2">-0.11%</td>
+<td id="T_9e565_row58_col3" class="data row58 col3">4.59%</td>
+<td id="T_9e565_row58_col4" class="data row58 col4">4.10%</td>
+<td id="T_9e565_row58_col5" class="data row58 col5">13.14%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row59" class="row_heading level0 row59" data-quarto-table-cell-role="th">AGR</td>
-<td id="T_d51de_level1_row59" class="row_heading level1 row59" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row59_col0" class="data row59 col0">$13.4K</td>
-<td id="T_d51de_row59_col1" class="data row59 col1">$2.1M</td>
-<td id="T_d51de_row59_col2" class="data row59 col2">0.37%</td>
-<td id="T_d51de_row59_col3" class="data row59 col3">2.67%</td>
-<td id="T_d51de_row59_col4" class="data row59 col4">-16.46%</td>
-<td id="T_d51de_row59_col5" class="data row59 col5">14.87%</td>
+<td id="T_9e565_level2_row59" class="row_heading level2 row59" data-quarto-table-cell-role="th">HDB</td>
+<td id="T_9e565_row59_col0" class="data row59 col0">$18.4K</td>
+<td id="T_9e565_row59_col1" class="data row59 col1">$15.7M</td>
+<td id="T_9e565_row59_col2" class="data row59 col2">4.26%</td>
+<td id="T_9e565_row59_col3" class="data row59 col3">6.38%</td>
+<td id="T_9e565_row59_col4" class="data row59 col4">7.31%</td>
+<td id="T_9e565_row59_col5" class="data row59 col5">13.48%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row60" class="row_heading level0 row60" data-quarto-table-cell-role="th">HPG</td>
-<td id="T_d51de_level1_row60" class="row_heading level1 row60" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row60_col0" class="data row60 col0">$25.1K</td>
-<td id="T_d51de_row60_col1" class="data row60 col1">$20.5M</td>
-<td id="T_d51de_row60_col2" class="data row60 col2">-0.59%</td>
-<td id="T_d51de_row60_col3" class="data row60 col3">7.49%</td>
-<td id="T_d51de_row60_col4" class="data row60 col4">0.60%</td>
-<td id="T_d51de_row60_col5" class="data row60 col5">15.14%</td>
+<td id="T_9e565_level2_row60" class="row_heading level2 row60" data-quarto-table-cell-role="th">LPB</td>
+<td id="T_9e565_row60_col0" class="data row60 col0">$15.2K</td>
+<td id="T_9e565_row60_col1" class="data row60 col1">$3.4M</td>
+<td id="T_9e565_row60_col2" class="data row60 col2">-0.97%</td>
+<td id="T_9e565_row60_col3" class="data row60 col3">-0.33%</td>
+<td id="T_9e565_row60_col4" class="data row60 col4">10.91%</td>
+<td id="T_9e565_row60_col5" class="data row60 col5">42.26%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row61" class="row_heading level0 row61" data-quarto-table-cell-role="th">PTI</td>
-<td id="T_d51de_level1_row61" class="row_heading level1 row61" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row61_col0" class="data row61 col0">$37.0K</td>
-<td id="T_d51de_row61_col1" class="data row61 col1">$0.0M</td>
-<td id="T_d51de_row61_col2" class="data row61 col2">0.00%</td>
-<td id="T_d51de_row61_col3" class="data row61 col3">1.37%</td>
-<td id="T_d51de_row61_col4" class="data row61 col4">20.13%</td>
-<td id="T_d51de_row61_col5" class="data row61 col5">15.99%</td>
+<td id="T_9e565_level2_row61" class="row_heading level2 row61" data-quarto-table-cell-role="th">NAB</td>
+<td id="T_9e565_row61_col0" class="data row61 col0">$14.3K</td>
+<td id="T_9e565_row61_col1" class="data row61 col1">$0.4M</td>
+<td id="T_9e565_row61_col2" class="data row61 col2">0.70%</td>
+<td id="T_9e565_row61_col3" class="data row61 col3">7.52%</td>
+<td id="T_9e565_row61_col4" class="data row61 col4">2.88%</td>
+<td id="T_9e565_row61_col5" class="data row61 col5">52.53%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row62" class="row_heading level0 row62" data-quarto-table-cell-role="th">VCI</td>
-<td id="T_d51de_level1_row62" class="row_heading level1 row62" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row62_col0" class="data row62 col0">$37.5K</td>
-<td id="T_d51de_row62_col1" class="data row62 col1">$9.4M</td>
-<td id="T_d51de_row62_col2" class="data row62 col2">0.81%</td>
-<td id="T_d51de_row62_col3" class="data row62 col3">5.34%</td>
-<td id="T_d51de_row62_col4" class="data row62 col4">-3.85%</td>
-<td id="T_d51de_row62_col5" class="data row62 col5">16.46%</td>
+<td rowspan="3" id="T_9e565_level1_row62" class="row_heading level1 row62" data-quarto-table-cell-role="th">Nhóm ngành thép</td>
+<td id="T_9e565_level2_row62" class="row_heading level2 row62" data-quarto-table-cell-role="th">TLH</td>
+<td id="T_9e565_row62_col0" class="data row62 col0">$6.9K</td>
+<td id="T_9e565_row62_col1" class="data row62 col1">$0.7M</td>
+<td id="T_9e565_row62_col2" class="data row62 col2">1.32%</td>
+<td id="T_9e565_row62_col3" class="data row62 col3">4.23%</td>
+<td id="T_9e565_row62_col4" class="data row62 col4">-7.51%</td>
+<td id="T_9e565_row62_col5" class="data row62 col5">-6.06%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row63" class="row_heading level0 row63" data-quarto-table-cell-role="th">PVD</td>
-<td id="T_d51de_level1_row63" class="row_heading level1 row63" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row63_col0" class="data row63 col0">$25.8K</td>
-<td id="T_d51de_row63_col1" class="data row63 col1">$4.2M</td>
-<td id="T_d51de_row63_col2" class="data row63 col2">0.39%</td>
-<td id="T_d51de_row63_col3" class="data row63 col3">-0.19%</td>
-<td id="T_d51de_row63_col4" class="data row63 col4">-0.19%</td>
-<td id="T_d51de_row63_col5" class="data row63 col5">17.31%</td>
+<td id="T_9e565_level2_row63" class="row_heading level2 row63" data-quarto-table-cell-role="th">HPG</td>
+<td id="T_9e565_row63_col0" class="data row63 col0">$25.1K</td>
+<td id="T_9e565_row63_col1" class="data row63 col1">$20.5M</td>
+<td id="T_9e565_row63_col2" class="data row63 col2">-0.59%</td>
+<td id="T_9e565_row63_col3" class="data row63 col3">7.49%</td>
+<td id="T_9e565_row63_col4" class="data row63 col4">0.60%</td>
+<td id="T_9e565_row63_col5" class="data row63 col5">15.14%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row64" class="row_heading level0 row64" data-quarto-table-cell-role="th">BSR</td>
-<td id="T_d51de_level1_row64" class="row_heading level1 row64" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row64_col0" class="data row64 col0">$18.6K</td>
-<td id="T_d51de_row64_col1" class="data row64 col1">$6.8M</td>
-<td id="T_d51de_row64_col2" class="data row64 col2">-0.53%</td>
-<td id="T_d51de_row64_col3" class="data row64 col3">0.00%</td>
-<td id="T_d51de_row64_col4" class="data row64 col4">-6.53%</td>
-<td id="T_d51de_row64_col5" class="data row64 col5">18.49%</td>
+<td id="T_9e565_level2_row64" class="row_heading level2 row64" data-quarto-table-cell-role="th">HSG</td>
+<td id="T_9e565_row64_col0" class="data row64 col0">$19.4K</td>
+<td id="T_9e565_row64_col1" class="data row64 col1">$15.0M</td>
+<td id="T_9e565_row64_col2" class="data row64 col2">2.91%</td>
+<td id="T_9e565_row64_col3" class="data row64 col3">10.20%</td>
+<td id="T_9e565_row64_col4" class="data row64 col4">3.73%</td>
+<td id="T_9e565_row64_col5" class="data row64 col5">29.24%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row65" class="row_heading level0 row65" data-quarto-table-cell-role="th">PVT</td>
-<td id="T_d51de_level1_row65" class="row_heading level1 row65" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row65_col0" class="data row65 col0">$23.8K</td>
-<td id="T_d51de_row65_col1" class="data row65 col1">$7.3M</td>
-<td id="T_d51de_row65_col2" class="data row65 col2">-2.26%</td>
-<td id="T_d51de_row65_col3" class="data row65 col3">-5.56%</td>
-<td id="T_d51de_row65_col4" class="data row65 col4">-13.77%</td>
-<td id="T_d51de_row65_col5" class="data row65 col5">19.19%</td>
+<td rowspan="17" id="T_9e565_level1_row65" class="row_heading level1 row65" data-quarto-table-cell-role="th">Nhóm ngành xây dựng</td>
+<td id="T_9e565_level2_row65" class="row_heading level2 row65" data-quarto-table-cell-role="th">IDJ</td>
+<td id="T_9e565_row65_col0" class="data row65 col0">$5.9K</td>
+<td id="T_9e565_row65_col1" class="data row65 col1">$1.1M</td>
+<td id="T_9e565_row65_col2" class="data row65 col2">-3.28%</td>
+<td id="T_9e565_row65_col3" class="data row65 col3">1.72%</td>
+<td id="T_9e565_row65_col4" class="data row65 col4">0.00%</td>
+<td id="T_9e565_row65_col5" class="data row65 col5">-57.25%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row66" class="row_heading level0 row66" data-quarto-table-cell-role="th">CTD</td>
-<td id="T_d51de_level1_row66" class="row_heading level1 row66" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row66_col0" class="data row66 col0">$57.5K</td>
-<td id="T_d51de_row66_col1" class="data row66 col1">$3.6M</td>
-<td id="T_d51de_row66_col2" class="data row66 col2">6.88%</td>
-<td id="T_d51de_row66_col3" class="data row66 col3">4.93%</td>
-<td id="T_d51de_row66_col4" class="data row66 col4">11.65%</td>
-<td id="T_d51de_row66_col5" class="data row66 col5">19.76%</td>
+<td id="T_9e565_level2_row66" class="row_heading level2 row66" data-quarto-table-cell-role="th">VHM</td>
+<td id="T_9e565_row66_col0" class="data row66 col0">$40.5K</td>
+<td id="T_9e565_row66_col1" class="data row66 col1">$8.3M</td>
+<td id="T_9e565_row66_col2" class="data row66 col2">1.38%</td>
+<td id="T_9e565_row66_col3" class="data row66 col3">3.32%</td>
+<td id="T_9e565_row66_col4" class="data row66 col4">-12.05%</td>
+<td id="T_9e565_row66_col5" class="data row66 col5">-24.16%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row67" class="row_heading level0 row67" data-quarto-table-cell-role="th">VND</td>
-<td id="T_d51de_level1_row67" class="row_heading level1 row67" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row67_col0" class="data row67 col0">$18.5K</td>
-<td id="T_d51de_row67_col1" class="data row67 col1">$21.2M</td>
-<td id="T_d51de_row67_col2" class="data row67 col2">-0.27%</td>
-<td id="T_d51de_row67_col3" class="data row67 col3">0.00%</td>
-<td id="T_d51de_row67_col4" class="data row67 col4">-11.48%</td>
-<td id="T_d51de_row67_col5" class="data row67 col5">21.31%</td>
+<td id="T_9e565_level2_row67" class="row_heading level2 row67" data-quarto-table-cell-role="th">VIC</td>
+<td id="T_9e565_row67_col0" class="data row67 col0">$41.6K</td>
+<td id="T_9e565_row67_col1" class="data row67 col1">$4.1M</td>
+<td id="T_9e565_row67_col2" class="data row67 col2">0.36%</td>
+<td id="T_9e565_row67_col3" class="data row67 col3">0.00%</td>
+<td id="T_9e565_row67_col4" class="data row67 col4">-9.47%</td>
+<td id="T_9e565_row67_col5" class="data row67 col5">-21.80%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row68" class="row_heading level0 row68" data-quarto-table-cell-role="th">VCG</td>
-<td id="T_d51de_level1_row68" class="row_heading level1 row68" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row68_col0" class="data row68 col0">$21.6K</td>
-<td id="T_d51de_row68_col1" class="data row68 col1">$11.4M</td>
-<td id="T_d51de_row68_col2" class="data row68 col2">2.61%</td>
-<td id="T_d51de_row68_col3" class="data row68 col3">1.17%</td>
-<td id="T_d51de_row68_col4" class="data row68 col4">-15.10%</td>
-<td id="T_d51de_row68_col5" class="data row68 col5">23.39%</td>
+<td id="T_9e565_level2_row68" class="row_heading level2 row68" data-quarto-table-cell-role="th">LDG</td>
+<td id="T_9e565_row68_col0" class="data row68 col0">$3.6K</td>
+<td id="T_9e565_row68_col1" class="data row68 col1">$1.5M</td>
+<td id="T_9e565_row68_col2" class="data row68 col2">1.39%</td>
+<td id="T_9e565_row68_col3" class="data row68 col3">1.11%</td>
+<td id="T_9e565_row68_col4" class="data row68 col4">-6.91%</td>
+<td id="T_9e565_row68_col5" class="data row68 col5">-21.04%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row69" class="row_heading level0 row69" data-quarto-table-cell-role="th">HTN</td>
-<td id="T_d51de_level1_row69" class="row_heading level1 row69" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row69_col0" class="data row69 col0">$15.8K</td>
-<td id="T_d51de_row69_col1" class="data row69 col1">$0.8M</td>
-<td id="T_d51de_row69_col2" class="data row69 col2">2.27%</td>
-<td id="T_d51de_row69_col3" class="data row69 col3">4.29%</td>
-<td id="T_d51de_row69_col4" class="data row69 col4">1.61%</td>
-<td id="T_d51de_row69_col5" class="data row69 col5">23.44%</td>
+<td id="T_9e565_level2_row69" class="row_heading level2 row69" data-quarto-table-cell-role="th">TCD</td>
+<td id="T_9e565_row69_col0" class="data row69 col0">$6.7K</td>
+<td id="T_9e565_row69_col1" class="data row69 col1">$1.4M</td>
+<td id="T_9e565_row69_col2" class="data row69 col2">0.15%</td>
+<td id="T_9e565_row69_col3" class="data row69 col3">-5.35%</td>
+<td id="T_9e565_row69_col4" class="data row69 col4">-10.99%</td>
+<td id="T_9e565_row69_col5" class="data row69 col5">-17.79%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row70" class="row_heading level0 row70" data-quarto-table-cell-role="th">FPT</td>
-<td id="T_d51de_level1_row70" class="row_heading level1 row70" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row70_col0" class="data row70 col0">$87.0K</td>
-<td id="T_d51de_row70_col1" class="data row70 col1">$4.8M</td>
-<td id="T_d51de_row70_col2" class="data row70 col2">-2.25%</td>
-<td id="T_d51de_row70_col3" class="data row70 col3">0.00%</td>
-<td id="T_d51de_row70_col4" class="data row70 col4">-6.15%</td>
-<td id="T_d51de_row70_col5" class="data row70 col5">25.64%</td>
+<td id="T_9e565_level2_row70" class="row_heading level2 row70" data-quarto-table-cell-role="th">HBC</td>
+<td id="T_9e565_row70_col0" class="data row70 col0">$7.1K</td>
+<td id="T_9e565_row70_col1" class="data row70 col1">$0.9M</td>
+<td id="T_9e565_row70_col2" class="data row70 col2">1.57%</td>
+<td id="T_9e565_row70_col3" class="data row70 col3">-4.83%</td>
+<td id="T_9e565_row70_col4" class="data row70 col4">-9.09%</td>
+<td id="T_9e565_row70_col5" class="data row70 col5">-17.06%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row71" class="row_heading level0 row71" data-quarto-table-cell-role="th">MBS</td>
-<td id="T_d51de_level1_row71" class="row_heading level1 row71" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row71_col0" class="data row71 col0">$18.4K</td>
-<td id="T_d51de_row71_col1" class="data row71 col1">$3.5M</td>
-<td id="T_d51de_row71_col2" class="data row71 col2">-1.08%</td>
-<td id="T_d51de_row71_col3" class="data row71 col3">-0.54%</td>
-<td id="T_d51de_row71_col4" class="data row71 col4">-16.36%</td>
-<td id="T_d51de_row71_col5" class="data row71 col5">25.86%</td>
+<td id="T_9e565_level2_row71" class="row_heading level2 row71" data-quarto-table-cell-role="th">VRE</td>
+<td id="T_9e565_row71_col0" class="data row71 col0">$24.4K</td>
+<td id="T_9e565_row71_col1" class="data row71 col1">$12.6M</td>
+<td id="T_9e565_row71_col2" class="data row71 col2">4.95%</td>
+<td id="T_9e565_row71_col3" class="data row71 col3">6.55%</td>
+<td id="T_9e565_row71_col4" class="data row71 col4">-11.11%</td>
+<td id="T_9e565_row71_col5" class="data row71 col5">-12.54%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row72" class="row_heading level0 row72" data-quarto-table-cell-role="th">VDS</td>
-<td id="T_d51de_level1_row72" class="row_heading level1 row72" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row72_col0" class="data row72 col0">$14.2K</td>
-<td id="T_d51de_row72_col1" class="data row72 col1">$0.3M</td>
-<td id="T_d51de_row72_col2" class="data row72 col2">-1.74%</td>
-<td id="T_d51de_row72_col3" class="data row72 col3">1.80%</td>
-<td id="T_d51de_row72_col4" class="data row72 col4">-5.98%</td>
-<td id="T_d51de_row72_col5" class="data row72 col5">26.91%</td>
+<td id="T_9e565_level2_row72" class="row_heading level2 row72" data-quarto-table-cell-role="th">REE</td>
+<td id="T_9e565_row72_col0" class="data row72 col0">$53.0K</td>
+<td id="T_9e565_row72_col1" class="data row72 col1">$0.9M</td>
+<td id="T_9e565_row72_col2" class="data row72 col2">-2.93%</td>
+<td id="T_9e565_row72_col3" class="data row72 col3">-3.64%</td>
+<td id="T_9e565_row72_col4" class="data row72 col4">-14.79%</td>
+<td id="T_9e565_row72_col5" class="data row72 col5">-8.62%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row73" class="row_heading level0 row73" data-quarto-table-cell-role="th">HSG</td>
-<td id="T_d51de_level1_row73" class="row_heading level1 row73" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row73_col0" class="data row73 col0">$19.4K</td>
-<td id="T_d51de_row73_col1" class="data row73 col1">$15.0M</td>
-<td id="T_d51de_row73_col2" class="data row73 col2">2.91%</td>
-<td id="T_d51de_row73_col3" class="data row73 col3">10.20%</td>
-<td id="T_d51de_row73_col4" class="data row73 col4">3.73%</td>
-<td id="T_d51de_row73_col5" class="data row73 col5">29.24%</td>
+<td id="T_9e565_level2_row73" class="row_heading level2 row73" data-quarto-table-cell-role="th">THD</td>
+<td id="T_9e565_row73_col0" class="data row73 col0">$36.3K</td>
+<td id="T_9e565_row73_col1" class="data row73 col1">$0.0M</td>
+<td id="T_9e565_row73_col2" class="data row73 col2">0.83%</td>
+<td id="T_9e565_row73_col3" class="data row73 col3">1.68%</td>
+<td id="T_9e565_row73_col4" class="data row73 col4">2.25%</td>
+<td id="T_9e565_row73_col5" class="data row73 col5">-8.33%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row74" class="row_heading level0 row74" data-quarto-table-cell-role="th">DXG</td>
-<td id="T_d51de_level1_row74" class="row_heading level1 row74" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row74_col0" class="data row74 col0">$18.1K</td>
-<td id="T_d51de_row74_col1" class="data row74 col1">$20.8M</td>
-<td id="T_d51de_row74_col2" class="data row74 col2">0.28%</td>
-<td id="T_d51de_row74_col3" class="data row74 col3">3.74%</td>
-<td id="T_d51de_row74_col4" class="data row74 col4">8.08%</td>
-<td id="T_d51de_row74_col5" class="data row74 col5">29.39%</td>
+<td id="T_9e565_level2_row74" class="row_heading level2 row74" data-quarto-table-cell-role="th">FCN</td>
+<td id="T_9e565_row74_col0" class="data row74 col0">$12.9K</td>
+<td id="T_9e565_row74_col1" class="data row74 col1">$2.6M</td>
+<td id="T_9e565_row74_col2" class="data row74 col2">1.57%</td>
+<td id="T_9e565_row74_col3" class="data row74 col3">3.20%</td>
+<td id="T_9e565_row74_col4" class="data row74 col4">-15.13%</td>
+<td id="T_9e565_row74_col5" class="data row74 col5">-3.01%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row75" class="row_heading level0 row75" data-quarto-table-cell-role="th">DBD</td>
-<td id="T_d51de_level1_row75" class="row_heading level1 row75" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row75_col0" class="data row75 col0">$58.9K</td>
-<td id="T_d51de_row75_col1" class="data row75 col1">$0.0M</td>
-<td id="T_d51de_row75_col2" class="data row75 col2">0.68%</td>
-<td id="T_d51de_row75_col3" class="data row75 col3">-1.01%</td>
-<td id="T_d51de_row75_col4" class="data row75 col4">2.26%</td>
-<td id="T_d51de_row75_col5" class="data row75 col5">32.66%</td>
+<td id="T_9e565_level2_row75" class="row_heading level2 row75" data-quarto-table-cell-role="th">NDN</td>
+<td id="T_9e565_row75_col0" class="data row75 col0">$9.5K</td>
+<td id="T_9e565_row75_col1" class="data row75 col1">$0.1M</td>
+<td id="T_9e565_row75_col2" class="data row75 col2">0.00%</td>
+<td id="T_9e565_row75_col3" class="data row75 col3">0.00%</td>
+<td id="T_9e565_row75_col4" class="data row75 col4">-5.94%</td>
+<td id="T_9e565_row75_col5" class="data row75 col5">7.95%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row76" class="row_heading level0 row76" data-quarto-table-cell-role="th">CTS</td>
-<td id="T_d51de_level1_row76" class="row_heading level1 row76" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row76_col0" class="data row76 col0">$22.2K</td>
-<td id="T_d51de_row76_col1" class="data row76 col1">$2.3M</td>
-<td id="T_d51de_row76_col2" class="data row76 col2">0.23%</td>
-<td id="T_d51de_row76_col3" class="data row76 col3">-0.22%</td>
-<td id="T_d51de_row76_col4" class="data row76 col4">-15.08%</td>
-<td id="T_d51de_row76_col5" class="data row76 col5">33.63%</td>
+<td id="T_9e565_level2_row76" class="row_heading level2 row76" data-quarto-table-cell-role="th">CII</td>
+<td id="T_9e565_row76_col0" class="data row76 col0">$16.2K</td>
+<td id="T_9e565_row76_col1" class="data row76 col1">$16.1M</td>
+<td id="T_9e565_row76_col2" class="data row76 col2">4.18%</td>
+<td id="T_9e565_row76_col3" class="data row76 col3">7.28%</td>
+<td id="T_9e565_row76_col4" class="data row76 col4">-7.51%</td>
+<td id="T_9e565_row76_col5" class="data row76 col5">12.24%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row77" class="row_heading level0 row77" data-quarto-table-cell-role="th">SSI</td>
-<td id="T_d51de_level1_row77" class="row_heading level1 row77" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row77_col0" class="data row77 col0">$28.9K</td>
-<td id="T_d51de_row77_col1" class="data row77 col1">$25.4M</td>
-<td id="T_d51de_row77_col2" class="data row77 col2">0.00%</td>
-<td id="T_d51de_row77_col3" class="data row77 col3">-1.87%</td>
-<td id="T_d51de_row77_col4" class="data row77 col4">-12.29%</td>
-<td id="T_d51de_row77_col5" class="data row77 col5">33.80%</td>
+<td id="T_9e565_level2_row77" class="row_heading level2 row77" data-quarto-table-cell-role="th">CTD</td>
+<td id="T_9e565_row77_col0" class="data row77 col0">$57.5K</td>
+<td id="T_9e565_row77_col1" class="data row77 col1">$3.6M</td>
+<td id="T_9e565_row77_col2" class="data row77 col2">6.88%</td>
+<td id="T_9e565_row77_col3" class="data row77 col3">4.93%</td>
+<td id="T_9e565_row77_col4" class="data row77 col4">11.65%</td>
+<td id="T_9e565_row77_col5" class="data row77 col5">19.76%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row78" class="row_heading level0 row78" data-quarto-table-cell-role="th">PVS</td>
-<td id="T_d51de_level1_row78" class="row_heading level1 row78" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row78_col0" class="data row78 col0">$34.9K</td>
-<td id="T_d51de_row78_col1" class="data row78 col1">$3.9M</td>
-<td id="T_d51de_row78_col2" class="data row78 col2">-0.57%</td>
-<td id="T_d51de_row78_col3" class="data row78 col3">-5.93%</td>
-<td id="T_d51de_row78_col4" class="data row78 col4">-3.37%</td>
-<td id="T_d51de_row78_col5" class="data row78 col5">34.69%</td>
+<td id="T_9e565_level2_row78" class="row_heading level2 row78" data-quarto-table-cell-role="th">VCG</td>
+<td id="T_9e565_row78_col0" class="data row78 col0">$21.6K</td>
+<td id="T_9e565_row78_col1" class="data row78 col1">$11.4M</td>
+<td id="T_9e565_row78_col2" class="data row78 col2">2.61%</td>
+<td id="T_9e565_row78_col3" class="data row78 col3">1.17%</td>
+<td id="T_9e565_row78_col4" class="data row78 col4">-15.10%</td>
+<td id="T_9e565_row78_col5" class="data row78 col5">23.39%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row79" class="row_heading level0 row79" data-quarto-table-cell-role="th">LPB</td>
-<td id="T_d51de_level1_row79" class="row_heading level1 row79" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row79_col0" class="data row79 col0">$15.2K</td>
-<td id="T_d51de_row79_col1" class="data row79 col1">$3.4M</td>
-<td id="T_d51de_row79_col2" class="data row79 col2">-0.97%</td>
-<td id="T_d51de_row79_col3" class="data row79 col3">-0.33%</td>
-<td id="T_d51de_row79_col4" class="data row79 col4">10.91%</td>
-<td id="T_d51de_row79_col5" class="data row79 col5">42.26%</td>
+<td id="T_9e565_level2_row79" class="row_heading level2 row79" data-quarto-table-cell-role="th">HTN</td>
+<td id="T_9e565_row79_col0" class="data row79 col0">$15.8K</td>
+<td id="T_9e565_row79_col1" class="data row79 col1">$0.8M</td>
+<td id="T_9e565_row79_col2" class="data row79 col2">2.27%</td>
+<td id="T_9e565_row79_col3" class="data row79 col3">4.29%</td>
+<td id="T_9e565_row79_col4" class="data row79 col4">1.61%</td>
+<td id="T_9e565_row79_col5" class="data row79 col5">23.44%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row80" class="row_heading level0 row80" data-quarto-table-cell-role="th">FTS</td>
-<td id="T_d51de_level1_row80" class="row_heading level1 row80" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row80_col0" class="data row80 col0">$36.0K</td>
-<td id="T_d51de_row80_col1" class="data row80 col1">$2.2M</td>
-<td id="T_d51de_row80_col2" class="data row80 col2">-0.96%</td>
-<td id="T_d51de_row80_col3" class="data row80 col3">-2.96%</td>
-<td id="T_d51de_row80_col4" class="data row80 col4">-17.15%</td>
-<td id="T_d51de_row80_col5" class="data row80 col5">42.86%</td>
+<td id="T_9e565_level2_row80" class="row_heading level2 row80" data-quarto-table-cell-role="th">DXG</td>
+<td id="T_9e565_row80_col0" class="data row80 col0">$18.1K</td>
+<td id="T_9e565_row80_col1" class="data row80 col1">$20.8M</td>
+<td id="T_9e565_row80_col2" class="data row80 col2">0.28%</td>
+<td id="T_9e565_row80_col3" class="data row80 col3">3.74%</td>
+<td id="T_9e565_row80_col4" class="data row80 col4">8.08%</td>
+<td id="T_9e565_row80_col5" class="data row80 col5">29.39%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row81" class="row_heading level0 row81" data-quarto-table-cell-role="th">SHS</td>
-<td id="T_d51de_level1_row81" class="row_heading level1 row81" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row81_col0" class="data row81 col0">$15.3K</td>
-<td id="T_d51de_row81_col1" class="data row81 col1">$29.0M</td>
-<td id="T_d51de_row81_col2" class="data row81 col2">-0.65%</td>
-<td id="T_d51de_row81_col3" class="data row81 col3">1.32%</td>
-<td id="T_d51de_row81_col4" class="data row81 col4">-11.56%</td>
-<td id="T_d51de_row81_col5" class="data row81 col5">42.99%</td>
+<td id="T_9e565_level2_row81" class="row_heading level2 row81" data-quarto-table-cell-role="th">PDR</td>
+<td id="T_9e565_row81_col0" class="data row81 col0">$22.6K</td>
+<td id="T_9e565_row81_col1" class="data row81 col1">$10.9M</td>
+<td id="T_9e565_row81_col2" class="data row81 col2">0.45%</td>
+<td id="T_9e565_row81_col3" class="data row81 col3">-3.84%</td>
+<td id="T_9e565_row81_col4" class="data row81 col4">-2.38%</td>
+<td id="T_9e565_row81_col5" class="data row81 col5">68.28%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row82" class="row_heading level0 row82" data-quarto-table-cell-role="th">DGW</td>
-<td id="T_d51de_level1_row82" class="row_heading level1 row82" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row82_col0" class="data row82 col0">$46.8K</td>
-<td id="T_d51de_row82_col1" class="data row82 col1">$1.8M</td>
-<td id="T_d51de_row82_col2" class="data row82 col2">0.00%</td>
-<td id="T_d51de_row82_col3" class="data row82 col3">-3.60%</td>
-<td id="T_d51de_row82_col4" class="data row82 col4">-17.96%</td>
-<td id="T_d51de_row82_col5" class="data row82 col5">44.64%</td>
+<td rowspan="5" id="T_9e565_level1_row82" class="row_heading level1 row82" data-quarto-table-cell-role="th">Nhóm ngành y tế – dược</td>
+<td id="T_9e565_level2_row82" class="row_heading level2 row82" data-quarto-table-cell-role="th">JVC</td>
+<td id="T_9e565_row82_col0" class="data row82 col0">$3.2K</td>
+<td id="T_9e565_row82_col1" class="data row82 col1">$0.3M</td>
+<td id="T_9e565_row82_col2" class="data row82 col2">0.63%</td>
+<td id="T_9e565_row82_col3" class="data row82 col3">2.25%</td>
+<td id="T_9e565_row82_col4" class="data row82 col4">-8.09%</td>
+<td id="T_9e565_row82_col5" class="data row82 col5">-20.10%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row83" class="row_heading level0 row83" data-quarto-table-cell-role="th">BSI</td>
-<td id="T_d51de_level1_row83" class="row_heading level1 row83" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row83_col0" class="data row83 col0">$37.0K</td>
-<td id="T_d51de_row83_col1" class="data row83 col1">$1.2M</td>
-<td id="T_d51de_row83_col2" class="data row83 col2">-0.27%</td>
-<td id="T_d51de_row83_col3" class="data row83 col3">-3.14%</td>
-<td id="T_d51de_row83_col4" class="data row83 col4">-5.13%</td>
-<td id="T_d51de_row83_col5" class="data row83 col5">46.99%</td>
+<td id="T_9e565_level2_row83" class="row_heading level2 row83" data-quarto-table-cell-role="th">TRA</td>
+<td id="T_9e565_row83_col0" class="data row83 col0">$77.8K</td>
+<td id="T_9e565_row83_col1" class="data row83 col1">$0.0M</td>
+<td id="T_9e565_row83_col2" class="data row83 col2">-4.54%</td>
+<td id="T_9e565_row83_col3" class="data row83 col3">-5.12%</td>
+<td id="T_9e565_row83_col4" class="data row83 col4">-8.47%</td>
+<td id="T_9e565_row83_col5" class="data row83 col5">-9.79%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row84" class="row_heading level0 row84" data-quarto-table-cell-role="th">NAB</td>
-<td id="T_d51de_level1_row84" class="row_heading level1 row84" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row84_col0" class="data row84 col0">$14.3K</td>
-<td id="T_d51de_row84_col1" class="data row84 col1">$0.4M</td>
-<td id="T_d51de_row84_col2" class="data row84 col2">0.70%</td>
-<td id="T_d51de_row84_col3" class="data row84 col3">7.52%</td>
-<td id="T_d51de_row84_col4" class="data row84 col4">2.88%</td>
-<td id="T_d51de_row84_col5" class="data row84 col5">52.53%</td>
+<td id="T_9e565_level2_row84" class="row_heading level2 row84" data-quarto-table-cell-role="th">DHG</td>
+<td id="T_9e565_row84_col0" class="data row84 col0">$103.6K</td>
+<td id="T_9e565_row84_col1" class="data row84 col1">$0.0M</td>
+<td id="T_9e565_row84_col2" class="data row84 col2">0.58%</td>
+<td id="T_9e565_row84_col3" class="data row84 col3">2.17%</td>
+<td id="T_9e565_row84_col4" class="data row84 col4">-11.83%</td>
+<td id="T_9e565_row84_col5" class="data row84 col5">-5.73%</td>
 </tr>
 <tr class="even">
-<td id="T_d51de_level0_row85" class="row_heading level0 row85" data-quarto-table-cell-role="th">VIX</td>
-<td id="T_d51de_level1_row85" class="row_heading level1 row85" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row85_col0" class="data row85 col0">$13.7K</td>
-<td id="T_d51de_row85_col1" class="data row85 col1">$39.6M</td>
-<td id="T_d51de_row85_col2" class="data row85 col2">0.00%</td>
-<td id="T_d51de_row85_col3" class="data row85 col3">0.37%</td>
-<td id="T_d51de_row85_col4" class="data row85 col4">-9.90%</td>
-<td id="T_d51de_row85_col5" class="data row85 col5">57.93%</td>
+<td id="T_9e565_level2_row85" class="row_heading level2 row85" data-quarto-table-cell-role="th">DCL</td>
+<td id="T_9e565_row85_col0" class="data row85 col0">$22.8K</td>
+<td id="T_9e565_row85_col1" class="data row85 col1">$0.1M</td>
+<td id="T_9e565_row85_col2" class="data row85 col2">-0.44%</td>
+<td id="T_9e565_row85_col3" class="data row85 col3">0.00%</td>
+<td id="T_9e565_row85_col4" class="data row85 col4">0.22%</td>
+<td id="T_9e565_row85_col5" class="data row85 col5">-1.08%</td>
 </tr>
 <tr class="odd">
-<td id="T_d51de_level0_row86" class="row_heading level0 row86" data-quarto-table-cell-role="th">PDR</td>
-<td id="T_d51de_level1_row86" class="row_heading level1 row86" data-quarto-table-cell-role="th">2023-11-03 00:00:00</td>
-<td id="T_d51de_row86_col0" class="data row86 col0">$22.6K</td>
-<td id="T_d51de_row86_col1" class="data row86 col1">$10.9M</td>
-<td id="T_d51de_row86_col2" class="data row86 col2">0.45%</td>
-<td id="T_d51de_row86_col3" class="data row86 col3">-3.84%</td>
-<td id="T_d51de_row86_col4" class="data row86 col4">-2.38%</td>
-<td id="T_d51de_row86_col5" class="data row86 col5">68.28%</td>
+<td id="T_9e565_level2_row86" class="row_heading level2 row86" data-quarto-table-cell-role="th">DBD</td>
+<td id="T_9e565_row86_col0" class="data row86 col0">$58.9K</td>
+<td id="T_9e565_row86_col1" class="data row86 col1">$0.0M</td>
+<td id="T_9e565_row86_col2" class="data row86 col2">0.68%</td>
+<td id="T_9e565_row86_col3" class="data row86 col3">-1.01%</td>
+<td id="T_9e565_row86_col4" class="data row86 col4">2.26%</td>
+<td id="T_9e565_row86_col5" class="data row86 col5">32.66%</td>
+</tr>
+<tr class="even">
+<td id="T_9e565_level1_row87" class="row_heading level1 row87" data-quarto-table-cell-role="th">Nhóm ngành điện</td>
+<td id="T_9e565_level2_row87" class="row_heading level2 row87" data-quarto-table-cell-role="th">GEG</td>
+<td id="T_9e565_row87_col0" class="data row87 col0">$12.8K</td>
+<td id="T_9e565_row87_col1" class="data row87 col1">$0.3M</td>
+<td id="T_9e565_row87_col2" class="data row87 col2">0.00%</td>
+<td id="T_9e565_row87_col3" class="data row87 col3">1.99%</td>
+<td id="T_9e565_row87_col4" class="data row87 col4">-13.51%</td>
+<td id="T_9e565_row87_col5" class="data row87 col5">-14.40%</td>
 </tr>
 </tbody>
 </table>

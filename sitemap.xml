@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/volume-spike.html</loc>
+    <lastmod>2023-11-04T03:46:46.401Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nguyenngocbinh.github.io/stockbox/volume-spike.html</loc>
+    <lastmod>2023-11-04T03:46:39.921Z</lastmod>
+  </url>
+  <url>
     <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/Stock_price_summary.html</loc>
-    <lastmod>2023-11-04T02:08:19.175Z</lastmod>
+    <lastmod>2023-11-04T03:48:33.669Z</lastmod>
   </url>
 </urlset>
