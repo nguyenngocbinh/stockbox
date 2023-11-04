@@ -7,13 +7,14 @@ class VNStockData:
         'User-Agent': 'Mozilla'
     }
 
-    def __init__(self, tickers, size=125):
+    def __init__(self, tickers, size=125, verbose=False):
         self.base_url = "https://finfo-api.vndirect.com.vn/v4/stock_prices/"
         self.tickers = tickers
         self.size = size
         self.raw_data = None
         self.ohlcv_df = None
         self.returns_data = None
+        self.verbose = verbose
 
     def get_data(self):
         """
@@ -41,8 +42,9 @@ class VNStockData:
 
             # Define the endpoint for each ticker
             endpoint = f"code:{ticker}"
-            print(f"Retrieving data for ticker: {ticker}")
- 
+            if self.verbose:  # Check if verbose is True
+                print(f"Retrieving data for ticker: {ticker}")
+             
             # Set query parameters, including the HEADERS
             params = {
                 "sort": "date",
@@ -105,15 +107,15 @@ class VNStockData:
         returns_data.sort_index(inplace=True)
 
             # Calculate returns for yesterday
-        returns_data['1d'] = returns_data.groupby('Symbol')['Adj Close'].pct_change()
+        returns_data['1d%'] = returns_data.groupby('Symbol')['Adj Close'].pct_change()
 
         # Calculate returns for last week
-        returns_data['1w'] = returns_data.groupby('Symbol')['Adj Close'].pct_change(periods=5)
+        returns_data['1w%'] = returns_data.groupby('Symbol')['Adj Close'].pct_change(periods=5)
 
         # Calculate returns for last month
-        returns_data['1m'] = returns_data.groupby('Symbol')['Adj Close'].pct_change(periods=20)
+        returns_data['1m%'] = returns_data.groupby('Symbol')['Adj Close'].pct_change(periods=20)
         
         # Calculate returns for last 6 month
-        returns_data['6m'] = returns_data.groupby('Symbol')['Adj Close'].pct_change(periods=120)
+        returns_data['6m%'] = returns_data.groupby('Symbol')['Adj Close'].pct_change(periods=120)
         self.returns_data = returns_data
         return self.returns_data

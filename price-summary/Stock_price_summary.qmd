@@ -1,6 +1,8 @@
 ---
 title: "Stock Price Summary"
 format: html
+execute:
+  echo: false
 ---
 
 ```{python}
@@ -12,12 +14,11 @@ import pandas as pd
 ```{python}
 df_tickers = pd.read_excel('tickers.xlsx')
 df_tickers = df_tickers[df_tickers['Favorite'] == 'yes']
-df_tickers
+df_tickers = df_tickers[['Industry', 'Code']]
+df_tickers.rename(columns = {'Code': 'Symbol'}, inplace = True)
+list_tickers = df_tickers['Symbol'].to_list()
 ```
 
-```{python}
-list_tickers = df_tickers['Code'].to_list()
-```
 
 ```{python}
 vn_stock = VNStockData(list_tickers)
@@ -27,6 +28,19 @@ returns_data = vn_stock.calculate_returns()
 ```
 
 ```{python}
-styled_df = format_df(returns_data)
+styled_df = returns_data.copy()
+styled_df.reset_index(inplace = True)
+styled_df = df_tickers.merge(styled_df, how = 'inner', on = 'Symbol')
+styled_df.set_index(['Industry', 'Symbol', 'Date'], inplace = True)
+styled_df = format_df(styled_df, ['Industry', '6m%'])
 styled_df
 ```
+
+
+
+
+
+
+
+
+
