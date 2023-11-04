@@ -29,7 +29,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           # Add any other dependencies you need, for example:
-          pip install jupyter numpy scipy
+          pip install jupyter numpy scipy pandas 
       
       # If you need to run a Python script before rendering the Quarto file
       #- name: Run Python Script
