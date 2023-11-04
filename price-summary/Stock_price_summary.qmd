@@ -3,31 +3,30 @@ title: "Stock Price Summary"
 format: html
 ---
 
-
-``` python
+```{python}
 from vnstock import VNStockData
 from utils import format_df
 import pandas as pd
 ```
 
-``` python
+```{python}
 df_tickers = pd.read_excel('tickers.xlsx')
 df_tickers = df_tickers[df_tickers['Favorite'] == 'yes']
 df_tickers
 ```
 
-``` python
+```{python}
 list_tickers = df_tickers['Code'].to_list()
 ```
 
-``` python
+```{python}
 vn_stock = VNStockData(list_tickers)
 vn_stock.get_data()
 ohlcv_data = vn_stock.ohlcv()
 returns_data = vn_stock.calculate_returns()
 ```
 
-``` python
+```{python}
 styled_df = format_df(returns_data)
 styled_df
 ```
