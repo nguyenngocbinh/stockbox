@@ -12,15 +12,15 @@ def format_thousand(val):
 
 def format_df(returns_data, sort_by = '6m%'):
     returns_data = returns_data.copy()
-    # Rename columns
-    returns_data.rename(columns={"1d": "1d%", "1w": "1w%", "1m": "1m%", "6m": "6m%"}, inplace=True)
     returns_data['Volume'] = (returns_data['Volume'] / 1e6).apply(format_milion)
     returns_data['Price'] = (returns_data['Adj Close']).apply(format_thousand)
     returns_data = returns_data.groupby('Symbol').tail(1)
     returns_data = returns_data[['Price', 'Volume', '1d%', "1w%", "1m%", "6m%"]]
+    returns_data.reset_index(inplace = True)
     returns_data.sort_values(sort_by, inplace = True)
+    returns_data.set_index(['Date', 'Industry', 'Symbol'], inplace = True)
     # Apply styling to the specified columns
     styled_df = returns_data.style.applymap(format_up_down_percent, subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]])
-    styled_df.format(subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]], formatter="{:.2%}")
+    styled_df = styled_df.format(subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]], formatter="{:.2%}")
 
     return styled_df
