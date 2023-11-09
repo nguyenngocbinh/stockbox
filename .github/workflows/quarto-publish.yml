@@ -1,6 +1,9 @@
 on:
   push:
-    branches: main
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 1-5'  # Run on weekdays (Monday to Friday)
 
 name: Render and Publish
 
