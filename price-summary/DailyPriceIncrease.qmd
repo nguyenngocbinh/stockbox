@@ -1,0 +1,75 @@
+---
+title: "Daily Price Increase"
+format: html
+execute:
+  echo: false
+---
+
+```{python}
+from vnstock import VNStockData
+from utils import format_df
+import pandas as pd
+```
+
+```{python}
+list_tickers = ['TCB', 'AGR', 'BSI', 'HPG', 'SSI', 'VNM', 'DHG', 'VHC']
+vn_stock = VNStockData(list_tickers, 1000)
+vn_stock.get_data()
+ohlcv_data = vn_stock.ohlcv()
+returns_data = vn_stock.calculate_returns()
+```
+
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+def plot_price_increase(stock_data, ticker_name):
+  # Tạo cột mới 'Daily Change' để lưu giá trị thay đổi giá trong ngày
+  stock_data['Daily Change'] = stock_data['Adj Close'].diff()
+  
+  # Tính phần trăm thay đổi giá
+  stock_data['Daily Change (%)'] = stock_data['Adj Close'].pct_change() * 100
+  
+  # Thêm cột 'Direction' để xác định hướng thay đổi (Tăng, Giảm, Đứng giá)
+  stock_data['Direction'] = pd.cut(stock_data['Daily Change'], bins=[float('-inf'), 0, float('inf')], labels=['Decrease', 'Increase'])
+  
+  # Lọc chỉ những ngày tăng giá
+  increasing_days = stock_data[stock_data['Direction'] == 'Increase']
+  
+  # Tạo một DataFrame mới chỉ chứa thông tin ngày và hướng thay đổi
+  calendar_data = increasing_days[['Direction']].resample('D').first()
+  
+  # Đổi tên cột để dễ vẽ hơn
+  calendar_data = calendar_data.rename(columns={'Direction': 'D'})
+  
+  # Vẽ biểu đồ lịch
+  plt.figure(figsize=(12, 6))
+  ax = sns.heatmap(calendar_data.pivot_table(index=calendar_data.index.month, columns=calendar_data.index.day, aggfunc='count', fill_value=0), cmap="RdYlGn", annot=True, fmt='g', cbar=True)
+  
+  plt.title(f'Daily Price Increase ({ticker_name})')
+  plt.xlabel('Day')
+  plt.ylabel('Month')
+  plt.show()
+
+```
+
+```{python}
+ohlcv_data.reset_index(inplace = True)
+ohlcv_data.set_index('Date', inplace = True)
+```
+
+```{python}
+ohlcv_data
+```
+
+
+```{python}
+for tk in list_tickers:
+  df = ohlcv_data.copy()
+  df = df[df['Symbol'] == tk]
+  plot_price_increase(df, tk)
+
+```
