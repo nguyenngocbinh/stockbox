@@ -36,6 +36,7 @@ website:
       - section: price-summary/Stock_price_summary.qmd
         contents:
           - price-summary/Stock_price_summary.qmd
+          - price-summary/DailyPriceIncrease.qmd
 
 
 format:
