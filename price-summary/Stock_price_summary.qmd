@@ -10,13 +10,20 @@ from vnstock import VNStockData
 from utils import format_df
 import pandas as pd
 ```
+```{python}
+# Read features from the text file
+file_path = 'selected_tickers.txt'  # Replace with the actual path to your file
+
+with open(file_path, 'r') as file:
+    list_tickers = [line.strip() for line in file]
+
+```
 
 ```{python}
 df_tickers = pd.read_excel('tickers.xlsx')
-df_tickers = df_tickers[df_tickers['Favorite'] == 'yes']
 df_tickers = df_tickers[['Industry', 'Code']]
 df_tickers.rename(columns = {'Code': 'Symbol'}, inplace = True)
-list_tickers = df_tickers['Symbol'].to_list()
+df_tickers = df_tickers[df_tickers['Symbol'].isin(list_tickers)]
 ```
 
 
@@ -25,6 +32,10 @@ vn_stock = VNStockData(list_tickers)
 vn_stock.get_data()
 ohlcv_data = vn_stock.ohlcv()
 returns_data = vn_stock.calculate_returns()
+```
+
+```{python}
+
 ```
 
 ```{python}
