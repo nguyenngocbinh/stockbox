@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nguyenngocbinh.github.io/stockbox/volume-spike.html</loc>
-    <lastmod>2024-01-29T00:40:36.716Z</lastmod>
-  </url>
-  <url>
     <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/DailyPriceIncrease.html</loc>
-    <lastmod>2024-01-29T00:40:36.712Z</lastmod>
-  </url>
-  <url>
-    <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/Stock_price_summary.html</loc>
-    <lastmod>2024-01-29T00:40:36.712Z</lastmod>
+    <lastmod>2024-01-30T00:40:21.726Z</lastmod>
   </url>
   <url>
     <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/volume-spike.html</loc>
-    <lastmod>2024-01-29T00:40:36.716Z</lastmod>
+    <lastmod>2024-01-30T00:40:21.726Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nguyenngocbinh.github.io/stockbox/volume-spike.html</loc>
+    <lastmod>2024-01-30T00:40:21.726Z</lastmod>
+  </url>
+  <url>
+    <loc>https://nguyenngocbinh.github.io/stockbox/price-summary/Stock_price_summary.html</loc>
+    <lastmod>2024-01-30T00:40:21.726Z</lastmod>
   </url>
 </urlset>
