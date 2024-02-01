@@ -3,7 +3,7 @@ project:
   
 website: 
   page-navigation: true
-  title: "Vnstock" 
+  title: "Stockbox" 
   site-url: "https://nguyenngocbinh.github.io/stockbox" 
   repo-url: https://github.com/nguyenngocbinh/stockbox 
   repo-actions: [edit, issue]
@@ -18,11 +18,11 @@ website:
     align: center
     tools: 
       - icon: globe
-        href: https://openscapes.org
-        text: "Openscapes.org"
+        href: https://github.com/nguyenngocbinh/stockbox
+        text: "stockbox"
       - icon: github
         href: https://github.com/nguyenngocbinh/stockbox
-        text: "Quarto website tutorial"
+        text: "Stockbox"
       - icon: twitter
         href: https://twitter.com/nanabi88
         text: "nanabi88 Twitter"         
