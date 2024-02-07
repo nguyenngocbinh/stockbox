@@ -15,10 +15,9 @@ def format_df(returns_data, sort_by='6m%'):
     returns_data['Volume'] = (returns_data['Volume'] / 1e6).apply(format_milion)
     returns_data['Price'] = (returns_data['Adj Close']).apply(format_thousand)
     returns_data = returns_data.groupby('Symbol').tail(1)
-    returns_data = returns_data[['Price', 'Volume', '1d%', "1w%", "1m%", "6m%"]]
-    returns_data.reset_index(inplace=True)
+    returns_data = returns_data[['Industry', 'Symbol', 'Price', '1d%', "1w%", "1m%", "6m%", 'Volume']]    
     returns_data.sort_values(sort_by, inplace=True)
-    returns_data.set_index(['Date', 'Industry', 'Symbol'], inplace=True)
+    returns_data.set_index(['Industry', 'Symbol'], inplace=True)
 
     # Apply styling to the specified columns
     styled_df = returns_data.style.format(subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]], formatter="{:.2%}")
