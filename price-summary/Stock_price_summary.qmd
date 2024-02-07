@@ -35,14 +35,10 @@ returns_data = vn_stock.calculate_returns()
 ```
 
 ```{python}
-
-```
-
-```{python}
 styled_df = returns_data.copy()
 styled_df.reset_index(inplace = True)
 styled_df = df_tickers.merge(styled_df, how = 'inner', on = 'Symbol')
-styled_df.set_index(['Industry', 'Symbol', 'Date'], inplace = True)
+styled_df.drop('Date', axis=1, inplace=True)
 styled_df = format_df(styled_df, ['Industry', '6m%'])
 styled_df
 ```
