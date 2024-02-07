@@ -22,5 +22,6 @@ def format_df(returns_data, sort_by='6m%'):
     # Apply styling to the specified columns
     styled_df = returns_data.style.format(subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]], formatter="{:.2%}")
     styled_df.map(format_up_down_percent, subset=pd.IndexSlice[:, ['1d%', "1w%", "1m%", "6m%"]])
+    styled_df.set_sticky(axis="index")
 
     return styled_df
