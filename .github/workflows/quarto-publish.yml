@@ -3,7 +3,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * 1-5'  # Run on weekdays (Monday to Friday)
+    - cron: '0 15 * * 1-5'  # Run at 15:00 (3:00 PM) on weekdays (Monday to Friday)
 
 name: Render and Publish
 
