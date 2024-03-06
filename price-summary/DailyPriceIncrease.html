@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -174,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div id="e6b653c7" class="cell" data-execution_count="5">
+<div id="537e19bc" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <div>
@@ -205,6 +205,16 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td data-quarto-table-cell-role="th">2024-03-05</td>
+<td>TCB</td>
+<td>41.80</td>
+<td>42.20</td>
+<td>41.40</td>
+<td>42.20</td>
+<td>42.200</td>
+<td>6316800.0</td>
+</tr>
+<tr class="even">
 <td data-quarto-table-cell-role="th">2024-03-04</td>
 <td>TCB</td>
 <td>41.75</td>
@@ -214,7 +224,7 @@ ul.task-list li input[type="checkbox"] {
 <td>41.850</td>
 <td>8435000.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">2024-03-01</td>
 <td>TCB</td>
 <td>41.70</td>
@@ -224,7 +234,7 @@ ul.task-list li input[type="checkbox"] {
 <td>41.850</td>
 <td>9291100.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td data-quarto-table-cell-role="th">2024-02-29</td>
 <td>TCB</td>
 <td>42.45</td>
@@ -234,7 +244,7 @@ ul.task-list li input[type="checkbox"] {
 <td>42.200</td>
 <td>9026500.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">2024-02-28</td>
 <td>TCB</td>
 <td>42.05</td>
@@ -243,16 +253,6 @@ ul.task-list li input[type="checkbox"] {
 <td>42.20</td>
 <td>42.200</td>
 <td>7524100.0</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2024-02-27</td>
-<td>TCB</td>
-<td>41.40</td>
-<td>41.95</td>
-<td>41.00</td>
-<td>41.95</td>
-<td>41.950</td>
-<td>8413100.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -265,6 +265,16 @@ ul.task-list li input[type="checkbox"] {
 <td>...</td>
 </tr>
 <tr class="odd">
+<td data-quarto-table-cell-role="th">2020-03-12</td>
+<td>VHC</td>
+<td>26.00</td>
+<td>26.10</td>
+<td>25.20</td>
+<td>25.20</td>
+<td>18.392</td>
+<td>707300.0</td>
+</tr>
+<tr class="even">
 <td data-quarto-table-cell-role="th">2020-03-11</td>
 <td>VHC</td>
 <td>29.00</td>
@@ -274,7 +284,7 @@ ul.task-list li input[type="checkbox"] {
 <td>19.742</td>
 <td>390690.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">2020-03-10</td>
 <td>VHC</td>
 <td>28.85</td>
@@ -284,7 +294,7 @@ ul.task-list li input[type="checkbox"] {
 <td>21.165</td>
 <td>247410.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td data-quarto-table-cell-role="th">2020-03-09</td>
 <td>VHC</td>
 <td>30.00</td>
@@ -294,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
 <td>21.786</td>
 <td>404540.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">2020-03-06</td>
 <td>VHC</td>
 <td>32.05</td>
@@ -304,16 +314,6 @@ ul.task-list li input[type="checkbox"] {
 <td>23.391</td>
 <td>187990.0</td>
 </tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2020-03-05</td>
-<td>VHC</td>
-<td>32.80</td>
-<td>33.00</td>
-<td>32.05</td>
-<td>32.05</td>
-<td>23.391</td>
-<td>163510.0</td>
-</tr>
 </tbody>
 </table>
 
@@ -322,7 +322,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<div id="a8307357" class="cell" data-execution_count="6">
+<div id="70507049" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -607,6 +607,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/nguyenngocbinh\.github\.io\/stockbox");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -641,7 +659,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
