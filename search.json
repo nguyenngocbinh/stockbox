@@ -10,11 +10,24 @@
     ]
   },
   {
-    "objectID": "volume-spike.html",
-    "href": "volume-spike.html",
-    "title": "Đột biến khối lượng",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Stock Indicator",
     "section": "",
-    "text": "from vnstock import VNStockData\nfrom utils import format_df\nimport pandas as pd"
+    "text": "Ai chiến thắng mà không hề chiến bại Ai nên khôn mà chẳng dại đôi lần",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "Stock Indicator",
+    "section": "",
+    "text": "Ai chiến thắng mà không hề chiến bại Ai nên khôn mà chẳng dại đôi lần",
+    "crumbs": [
+      "Welcome"
+    ]
   },
   {
     "objectID": "price-summary/DailyPriceIncrease.html",
