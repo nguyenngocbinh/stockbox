@@ -32,7 +32,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           # Add any other dependencies you need, for example:
-          pip install jupyter numpy scipy pandas openpyxl matplotlib seaborn vnstock 
+          pip install jupyter numpy scipy pandas openpyxl matplotlib seaborn vnstock plotly
       
       # If you need to run a Python script before rendering the Quarto file
       #- name: Run Python Script
