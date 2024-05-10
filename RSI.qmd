@@ -17,7 +17,7 @@ $ RS (Relative Strength) = \frac{\text{Average Gain}}{\text{Average Loss}} $
 ```{python}
 from vnstock import stock_historical_data
 import pandas as pd
-import matplotlib.pyplot as pltf
+import matplotlib.pyplot as plt
 ```
 
 
