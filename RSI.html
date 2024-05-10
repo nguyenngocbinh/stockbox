@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -63,7 +29,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./price-summary/Stock_price_summary.html" rel="next">
+<link href="./MACD.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -104,6 +70,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -157,6 +152,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./RSI.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">So sánh tốc độ tăng giá và tốc độ tăng của RSI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./MACD.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Moving Average Convergence Divergence (MACD)</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -215,90 +216,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="chỉ-số-rsi-relative-strength-index---chỉ-số-sức-mạnh-tương-đối" class="level3">
 <h3 class="anchored" data-anchor-id="chỉ-số-rsi-relative-strength-index---chỉ-số-sức-mạnh-tương-đối">Chỉ số RSI (Relative Strength Index - Chỉ số Sức mạnh Tương đối)</h3>
 <p>Công thức tính:</p>
-<p>$ RSI = 100 - $</p>
+<p><span class="math display">\[RSI = 100 - \frac{100}{1 + RS}\]</span></p>
 <p>Trong đó:</p>
-<p>$ RS (Relative Strength) = $</p>
-<div id="8892779d" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> vnstock <span class="im">import</span> stock_historical_data</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="0071da47" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_rsi(data, window<span class="op">=</span><span class="dv">14</span>):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Tính toán chỉ số RSI (Relative Strength Index) cho dữ liệu giá đóng cửa của một tài sản tài chính.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Tham số:</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">    - data: Dữ liệu giá đóng cửa của tài sản tài chính.</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    - window: Số lượng ngày được sử dụng để tính toán RSI. Mặc định là 14.</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - RSI: Chỉ số RSI cho dữ liệu đầu vào.</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> data.diff()</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    gain <span class="op">=</span> (delta.where(delta <span class="op">&gt;</span> <span class="dv">0</span>, <span class="dv">0</span>)).rolling(window<span class="op">=</span>window).mean()</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> (<span class="op">-</span>delta.where(delta <span class="op">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>)).rolling(window<span class="op">=</span>window).mean()</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    rs <span class="op">=</span> gain <span class="op">/</span> loss</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    rsi <span class="op">=</span> <span class="dv">100</span> <span class="op">-</span> (<span class="dv">100</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> rs))</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rsi</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_rsi_price(data, window<span class="op">=</span><span class="dv">14</span>, frequency<span class="op">=</span><span class="st">'D'</span>, latest_days<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">    Vẽ biểu đồ giá và chỉ số RSI trên cùng một đồ thị.</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">    Tham số:</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">    - data: DataFrame chứa dữ liệu giá và thời gian.</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">    - window: Số lượng ngày được sử dụng để tính toán RSI. Mặc định là 14.</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">    - frequency: Tần suất resample dữ liệu. Mặc định là 'D' (daily). Các giá trị có thể là 'W' (weekly), 'M' (monthly), hoặc 'Q' (quarterly).</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">    - latest_days: Số lượng ngày cuối cùng muốn hiển thị. Mặc định là None (hiển thị tất cả).</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert index to datetime and set 'time' as index</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    data.index <span class="op">=</span> pd.to_datetime(data[<span class="st">'time'</span>])</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Select the latest days if specified</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> latest_days:</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data.tail(latest_days)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Resample data</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    data_resampled <span class="op">=</span> data.resample(frequency).last()           </span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop null values</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    data_resampled <span class="op">=</span> data_resampled.dropna()</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Scale price between 0 and 1</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    scaled_price_resampled <span class="op">=</span> (data_resampled[<span class="st">'close'</span>] <span class="op">-</span> data_resampled[<span class="st">'close'</span>].<span class="bu">min</span>()) <span class="op">/</span> (data_resampled[<span class="st">'close'</span>].<span class="bu">max</span>() <span class="op">-</span> data_resampled[<span class="st">'close'</span>].<span class="bu">min</span>()) <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate RSI</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    rsi_resampled <span class="op">=</span> calculate_rsi(data_resampled[<span class="st">'close'</span>], window)</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plotting    </span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    fig, ax1 <span class="op">=</span> plt.subplots()</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    color <span class="op">=</span> <span class="st">'tab:blue'</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    ax1.set_ylabel(<span class="st">'Price'</span>, color<span class="op">=</span>color)</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    ax1.plot(data_resampled.index, scaled_price_resampled, color<span class="op">=</span>color)</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelcolor<span class="op">=</span>color)</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    ax1.xaxis.set_tick_params(rotation<span class="op">=</span><span class="dv">90</span>, labelsize<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    ax2 <span class="op">=</span> ax1.twinx()  </span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    color <span class="op">=</span> <span class="st">'tab:red'</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    ax2.set_ylabel(<span class="st">'RSI'</span>, color<span class="op">=</span>color)  </span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    ax2.plot(rsi_resampled.index, rsi_resampled, color<span class="op">=</span>color)</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelcolor<span class="op">=</span>color)</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    fig.tight_layout() </span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'Price and RSI by </span><span class="sc">{</span>frequency<span class="sc">}</span><span class="ss">'</span>)     </span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="e5ee17c9" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> stock_historical_data(<span class="st">"VNINDEX"</span>, <span class="st">"2019-01-01"</span>, <span class="st">"2024-05-05"</span>, <span class="st">"1D"</span>, <span class="st">"index"</span>, source<span class="op">=</span><span class="st">'TCBS'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="math inline">\(RS (Relative Strength) = \frac{\text{Average Gain}}{\text{Average Loss}}\)</span></p>
+<div id="108938fd" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
-<pre><code>Time range is 1951 days. Looping through 6 requests</code></pre>
+<pre><code>Time range is 6704 days. Looping through 19 requests</code></pre>
 </div>
 </div>
-<div id="0ba3edb4" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot RSI and Price by day</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plot_rsi_price(data, window<span class="op">=</span><span class="dv">14</span>, frequency<span class="op">=</span><span class="st">'D'</span>, latest_days<span class="op">=</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="192ae5f5" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -307,9 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="85afcbcc" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot RSI and Price by week</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plot_rsi_price(data, window<span class="op">=</span><span class="dv">14</span>, frequency<span class="op">=</span><span class="st">'W'</span>, latest_days<span class="op">=</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="327eb7a4" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -318,17 +242,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="7ec882cd" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot RSI and Price by month</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plot_rsi_price(data, window<span class="op">=</span><span class="dv">14</span>, frequency<span class="op">=</span><span class="st">'M'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="77729b06" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_2285/806953472.py:37: FutureWarning: 'M' is deprecated and will be removed in a future version, please use 'ME' instead.
-  data_resampled = data.resample(frequency).last()</code></pre>
+<pre><code>/tmp/ipykernel_2175/2408578159.py:35: FutureWarning:
+
+'M' is deprecated and will be removed in a future version, please use 'ME' instead.
+</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="RSI_files/figure-html/cell-7-output-2.png" width="662" height="488" class="figure-img"></p>
+<p><img src="RSI_files/figure-html/cell-7-output-2.png" width="662" height="490" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -898,8 +822,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./price-summary/Stock_price_summary.html" class="pagination-link" aria-label="Stock Price Summary">
-        <span class="nav-page-text">Stock Price Summary</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./MACD.html" class="pagination-link" aria-label="Moving Average Convergence Divergence (MACD)">
+        <span class="nav-page-text">Moving Average Convergence Divergence (MACD)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
