@@ -33,6 +33,7 @@ website:
     contents:
       - href: index.qmd
         text: Welcome
+      - href: RSI.qmd
       - section: price-summary/Stock_price_summary.qmd
         contents:
           - price-summary/Stock_price_summary.qmd
