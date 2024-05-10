@@ -1,0 +1,161 @@
+---
+title: "# Moving Average Convergence Divergence (MACD)"
+format: html
+execute:
+  echo: false
+---
+
+
+```{python}
+from vnstock import stock_historical_data
+import pandas as pd
+import datetime
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+```
+
+```{python}
+def calculate_macd(df, close='close', fast=12, slow=26, signal=9):
+    df = df.copy()
+    # Get the fast EMA of the closing price
+    fast_ema = df[close].ewm(span=fast, adjust=False, min_periods=fast).mean()
+    # Get the slow EMA of the closing price
+    slow_ema = df[close].ewm(span=slow, adjust=False, min_periods=slow).mean()
+    # Calculate MACD line
+    macd_line = fast_ema - slow_ema
+    # Calculate signal line
+    signal_line = macd_line.ewm(span=signal, adjust=False, min_periods=signal).mean()
+    # Calculate MACD histogram
+    macd_histogram = macd_line - signal_line
+    
+    # Add the calculated values to the dataframe
+    df['macd'] = macd_line
+    df['macd_s'] = signal_line
+    df['macd_h'] = macd_histogram
+    
+    return df
+
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+
+def plot_macd(df, frequency):
+    # Construct a 2 x 1 Plotly figure
+    fig = make_subplots(rows=2, cols=1, subplot_titles=(f"{frequency} - Price and MACD", f"{frequency} - MACD Histogram"))
+
+    # Price Line
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df['open'],
+            line=dict(color='#ff9900', width=1),
+            name='open',
+            # showlegend=False,
+            legendgroup='1',
+        ), row=1, col=1
+    )
+
+    # Candlestick chart for pricing
+    fig.add_trace(
+        go.Candlestick(
+            x=df.index,
+            open=df['open'],
+            high=df['high'],
+            low=df['low'],
+            close=df['close'],
+            increasing_line_color='#ff9900',
+            decreasing_line_color='black',
+            showlegend=False
+        ), row=1, col=1
+    )
+
+    # Fast Signal (%k)
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df['macd'],
+            line=dict(color='#ff9900', width=2),
+            name='macd',
+            # showlegend=False,
+            legendgroup='2',
+        ), row=2, col=1
+    )
+
+    # Slow signal (%d)
+    fig.add_trace(
+        go.Scatter(
+            x=df.index,
+            y=df['macd_s'],
+            line=dict(color='#000000', width=2),
+            # showlegend=False,
+            legendgroup='2',
+            name='signal'
+        ), row=2, col=1
+    )
+
+    # Colorize the histogram values
+    colors = np.where(df['macd_h'] < 0, '#000', '#ff9900')
+
+    # Plot the histogram
+    fig.add_trace(
+        go.Bar(
+            x=df.index,
+            y=df['macd_h'],
+            name='histogram',
+            marker_color=colors,
+        ), row=2, col=1
+    )
+
+    # Make it pretty
+    layout = go.Layout(
+        plot_bgcolor='#efefef',
+        # Font Families
+        font_family='Monospace',
+        font_color='#000000',
+        font_size=20,
+        xaxis=dict(
+            rangeslider=dict(
+                visible=False
+            )
+        )
+    )
+
+    # Update options and show plot
+    fig.update_layout(layout)
+    fig.show()
+
+```
+
+```{python}
+start_date = "2006-01-01"
+end_date = datetime.datetime.now().strftime("%Y-%m-%d")
+data = stock_historical_data("VNINDEX", start_date, end_date, "1D", "index", source='TCBS')
+data.index = pd.to_datetime(data['time'])
+```
+
+```{python}
+# Daily MACD
+daily_data = data.tail(250)  # Assuming data is a DataFrame containing daily data
+daily_data = calculate_macd(daily_data, close='close', fast=12, slow=26, signal=9)
+
+# Weekly MACD
+weekly_data = data.resample('W').last().dropna().tail(250)
+weekly_data = calculate_macd(weekly_data, close='close', fast=12, slow=26, signal=9)
+
+# Monthly MACD
+monthly_data = data.resample('M').last().dropna().tail(250)
+monthly_data = calculate_macd(monthly_data, close='close', fast=12, slow=26, signal=9)
+
+```
+
+```{python}
+plot_macd(daily_data, 'Daily')
+```
+
+```{python}
+plot_macd(weekly_data, 'Weekly')
+```
+
+```{python}
+plot_macd(monthly_data, 'Monthly')
+```

@@ -34,6 +34,7 @@ website:
       - href: index.qmd
         text: Welcome
       - href: RSI.qmd
+      - href: MACD.qmd
       - section: price-summary/Stock_price_summary.qmd
         contents:
           - price-summary/Stock_price_summary.qmd
