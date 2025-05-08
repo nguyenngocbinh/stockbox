@@ -5,61 +5,56 @@ deploy_to_github:
   stage: deploy
   image: alpine:latest
   before_script:
-    # Install git and other required tools
-    - apk add --no-cache git curl jq
+    # Install git
+    - apk add --no-cache git bash
     
     # Set up git configuration
-    - git config --global user.email "$GIT_EMAIL"
-    - git config --global user.name "$GIT_NAME"
+    - git config --global user.email "nguyenngocbinhneu@gmail.com"
+    - git config --global user.name "Nguyen Ngoc Binh"
     
   script:
-    # Echo useful information for debugging
-    - echo "Starting GitHub sync process..."
+    - echo "Starting GitHub sync process to dev branch..."
     
-    # Clone the GitLab repository (with mirror to include all refs)
+    # Create a fresh clone of the repository
     - echo "Cloning repository from GitLab..."
-    - git clone --mirror https://oauth2:$GITLAB_PERSONAL_ACCESS_TOKEN@gitlab.com/nguyenngocbinh/stockbox.git || (echo "Clone failed"; exit 1)
-    - cd stockbox.git
+    - git clone https://oauth2:$GITLAB_PERSONAL_ACCESS_TOKEN@gitlab.com/nguyenngocbinh/stockbox.git
+    - cd stockbox
     
-    # Add GitHub remote
+    # Add GitHub as a remote
     - echo "Adding GitHub remote..."
     - git remote add github https://$GITHUB_TOKEN@github.com/nguyenngocbinh/stockbox.git
     
-    # Check GitHub branch protection status
-    - echo "Checking GitHub branch protection..."
+    # Fetch from GitHub to see current state
+    - echo "Fetching from GitHub..."
+    - git fetch github
+    
+    # Create or update dev branch from main
+    - echo "Creating/updating dev branch from main..."
+    - git checkout main
+    - git checkout -B dev  # Force create/reset the dev branch based on current main
+    
+    # Push dev branch to GitHub
+    - echo "Pushing dev branch to GitHub..."
+    - git push -f github dev
+    
+    # Also push gh-pages if it exists
+    - echo "Checking for gh-pages branch..."
     - |
-      if curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/nguyenngocbinh/stockbox/branches/main/protection | grep -q "protected"; then
-        echo "Main branch is protected on GitHub. Using alternative push strategy..."
-        
-        # Push all branches except protected ones
-        git push github +refs/heads/*:refs/heads/* --prune || echo "Some branches were not pushed, likely due to protection"
-        
-        # Push all tags
-        git push github +refs/tags/*:refs/tags/* --prune
-        
-        # Push all other refs except pipelines
-        git for-each-ref --format="%(refname)" | grep -v "refs/heads/" | grep -v "refs/tags/" | grep -v "refs/pipelines/" | 
-        while read ref; do
-          git push github $ref:$ref || echo "Failed to push $ref, skipping"
-        done
-        
-        echo "Push completed with exclusions for protected branches"
-      else
-        # Standard mirror push if no protection
-        echo "Pushing all refs to GitHub..."
-        git push --mirror github || (echo "Push failed"; exit 1)
+      if git branch -a | grep -q "remotes/origin/gh-pages"; then
+        echo "Found gh-pages branch, pushing to GitHub..."
+        git checkout gh-pages || git checkout -b gh-pages origin/gh-pages
+        git push -f github gh-pages
       fi
-      
-    # Verify the result
-    - echo "GitHub sync complete."
+    
+    # Push tags as well
+    - echo "Pushing tags..."
+    - git push github --tags
+    
+    # Summary
+    - echo "GitHub sync completed. Your main branch content has been pushed to 'dev' branch on GitHub."
     
   only:
     - main
   
-  # Add retry logic in case of temporary network issues
+  # Add retry logic for network issues
   retry: 2
-  
-  # Use environment variables for credentials instead of hardcoding
-  variables:
-    GIT_EMAIL: "${GIT_EMAIL:-nguyenngocbinhneu@gmail.com}"
-    GIT_NAME: "${GIT_NAME:-Nguyen Ngoc Binh}"
