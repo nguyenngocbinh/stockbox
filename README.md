@@ -155,7 +155,7 @@ Chúng tôi hoan nghênh mọi đóng góp! Vui lòng:
 
 Nếu bạn thấy dự án này hữu ích và muốn ủng hộ việc phát triển, hãy cân nhắc mua tôi một ly cà phê!
 
-<a href="https://www.buymeacoffee.com/nguyenngocbinh" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Mua cho tôi ly cà phê&emoji=☕&slug=nguyenngocbinh&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
+[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=Mua%20cho%20tôi%20ly%20cà%20phê&emoji=☕&slug=nguyenngocbinh&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/nguyenngocbinh)
 
 ## 📝 Giấy Phép Sử Dụng
 
