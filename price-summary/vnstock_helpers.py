@@ -5,19 +5,100 @@ Helper functions để thay thế VNDirectClient bằng vnstock
 Features:
 - Silent import và execution (không print thông báo)
 - Error handling graceful
+- Rate limiting và retry logic cho VCI API
 - Tương thích với cấu trúc dữ liệu VNDirectClient
 - Verbose mode có thể bật nếu cần debug
 """
 
 import pandas as pd
 import datetime
+import time
+import random
+import warnings
+import sys
+import contextlib
+from io import StringIO
 
 # Silent import của Vnstock
 try:
-    from vnstock import Vnstock
+    import warnings
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore')
+        import contextlib
+        from io import StringIO
+        
+        # Suppress all output during import
+        with contextlib.redirect_stdout(StringIO()), contextlib.redirect_stderr(StringIO()):
+            from vnstock import Vnstock
 except ImportError:
     print("Warning: vnstock not available")
     Vnstock = None
+
+# Silent context manager
+@contextlib.contextmanager
+def silent_mode():
+    """Context manager to suppress all output"""
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore')
+        with contextlib.redirect_stdout(StringIO()), contextlib.redirect_stderr(StringIO()):
+            yield
+
+def create_stock_silent(symbol, source='TCBS'):
+    """Create stock object in silent mode"""
+    with silent_mode():
+        return Vnstock().stock(symbol=symbol, source=source)
+
+# Rate limiting utilities
+def safe_api_call(func, stock_obj, *args, max_retries=3, **kwargs):
+    """
+    Safely call API with automatic source switching (TCBS -> VCI) on error
+    """
+    for attempt in range(max_retries):
+        try:
+            result = func(*args, **kwargs)
+            return result
+            
+        except Exception as e:
+            error_str = str(e).lower()
+            error_type = type(e).__name__
+            
+            # Check if it's any API error and we haven't tried switching yet
+            if attempt < max_retries - 1:
+                # Try switching to VCI source
+                try:
+                    print(f"TCBS error detected. Switching to VCI source... (attempt {attempt + 1}/{max_retries})")
+                    print(f"Error was: {e}")
+                    
+                    # Create new stock object with VCI source
+                    symbol = getattr(stock_obj, 'symbol', None) or getattr(stock_obj, '_symbol', None)
+                    if symbol:
+                        # Create new stock with VCI in silent mode
+                        new_stock = create_stock_silent(symbol, source='VCI')
+                        
+                        # Try with VCI using same parameters
+                        with silent_mode():
+                            result = new_stock.quote.history(*args, **kwargs)
+                        print(f"✅ Successfully switched to VCI for {symbol}")
+                        return result
+                    else:
+                        print("❌ Could not determine symbol for VCI fallback")
+                        
+                except Exception as vci_error:
+                    print(f"❌ VCI fallback failed: {vci_error}")
+                    # Continue to next retry
+                
+                # If both sources fail, wait before retry
+                delay = 2 + random.uniform(0, 1) * (2 ** attempt)
+                print(f"Both TCBS and VCI failed. Retrying in {delay:.1f} seconds...")
+                time.sleep(delay)
+                continue
+            
+            # For final attempt, re-raise
+            else:
+                print(f"Max retries reached. Final error: {e}")
+                raise e
+    
+    return None
 
 def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D', verbose=False):
     """
@@ -37,20 +118,44 @@ def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D
         raise ImportError("vnstock package is not available. Please install: pip install vnstock")
     
     if start_date is None:
-        start_date = "2020-01-01"
+        start_date = "2021-01-01"
     if end_date is None:
         end_date = datetime.datetime.now().strftime("%Y-%m-%d")
     
     all_data = []
     
-    for ticker in tickers:
+    for i, ticker in enumerate(tickers):
         try:
             if verbose:
-                print(f"Đang lấy dữ liệu cho {ticker}...")
+                print(f"Đang lấy dữ liệu cho {ticker}... ({i+1}/{len(tickers)})")
             
-            # Silent data retrieval - không print progress
-            stock = Vnstock().stock(symbol=ticker, source='VCI')
-            data = stock.quote.history(start=start_date, end=end_date, interval=interval)
+            # Start with TCBS as default source (more stable) in silent mode
+            stock = create_stock_silent(ticker, source='TCBS')
+            
+            # Use safe_api_call wrapper with automatic TCBS->VCI switching
+            if verbose:
+                data = safe_api_call(
+                    stock.quote.history,
+                    stock,  # Pass stock object for source switching
+                    start=start_date,
+                    end=end_date,
+                    interval=interval
+                )
+            else:
+                # Silent mode for API call too
+                with silent_mode():
+                    data = safe_api_call(
+                        stock.quote.history,
+                        stock,  # Pass stock object for source switching
+                        start=start_date,
+                        end=end_date,
+                        interval=interval
+                    )
+            
+            if data is None:
+                if verbose:
+                    print(f"Không thể lấy dữ liệu cho {ticker} sau nhiều lần thử")
+                continue
             
             # Thêm cột Symbol
             data['Symbol'] = ticker

@@ -14,6 +14,16 @@ Stockbox là một website được xây dựng bằng Quarto để phân tích 
 ### Yêu Cầu Hệ Thống
 - Python 3.8+
 - Quarto CLI
+- vnstock (phiên bản mới nhất)
+
+### Cài Đặt Dependencies
+```bash
+# Cài đặt vnstock
+pip install vnstock
+
+# Hoặc cài đặt từ requirements.txt
+pip install -r requirements.txt
+```
 
 ### Cài Đặt và Chạy
 ```bash
@@ -47,6 +57,49 @@ stockbox/
 ## 🌐 Truy Cập Website
 
 Website được triển khai tại: [https://nguyenngocbinh.github.io/stockbox](https://nguyenngocbinh.github.io/stockbox)
+
+## ⚡ Lưu Ý Khi Sử Dụng
+
+### Rate Limit API
+- API VCI có giới hạn số requests per minute (khoảng 30 requests/phút)
+- Nếu gặp lỗi "Rate Limit Exceeded", vui lòng đợi 1-2 phút rồi thử lại
+- Khuyến nghị render từng file riêng lẻ thay vì render toàn bộ website cùng lúc
+- Helper functions đã được tích hợp rate limiting và retry logic tự động
+
+### Render An Toàn
+```bash
+# Render từng file để tránh rate limit
+quarto render index.qmd
+quarto render RSI.qmd
+quarto render MACD.qmd
+quarto render price-summary/Stock_price_summary.qmd
+quarto render price-summary/DailyPriceIncrease.qmd
+
+# Hoặc render toàn bộ với thời gian chờ
+quarto render --execute-params delay=true
+```
+
+### Xử Lý Rate Limit Tự Động
+Project đã được tích hợp hệ thống thông minh:
+- **Silent Mode**: Import và API calls hoàn toàn im lặng (verbose=False)
+- **Default Source**: TCBS làm nguồn mặc định (ổn định, ít rate limit)
+- **Automatic Fallback**: Khi TCBS lỗi, tự động chuyển sang VCI
+- **Smart Detection**: Tự động nhận diện các loại lỗi API và chuyển source
+- **Zero Downtime**: Chuyển source ngay lập tức không cần delay
+- **Dual Strategy**: TCBS (ổn định) → VCI (nhanh) → Retry với delay
+- **Error Recovery**: Tự động retry cho các lỗi tạm thời (tối đa 3 lần)
+
+#### Silent Mode Features:
+- ✅ **Silent Import**: Suppress warnings khi import vnstock
+- ✅ **Silent Creation**: Tạo stock objects không in thông báo
+- ✅ **Silent API Calls**: Lấy dữ liệu không hiện progress
+- ✅ **Verbose Option**: Có thể bật verbose=True khi debug
+
+#### Workflow Xử Lý Lỗi:
+1. **TCBS Error** → Tạo stock object mới với VCI (silent)
+2. **VCI Error** → Retry với exponential backoff
+3. **Network Error** → Retry với delay tăng dần
+4. **Max Retries** → Throw exception và log chi tiết
 
 ## ⚠️ Tuyên Bố Miễn Trừ Trách Nhiệm
 
