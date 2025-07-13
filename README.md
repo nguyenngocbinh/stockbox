@@ -61,10 +61,10 @@ Website được triển khai tại: [https://nguyenngocbinh.github.io/stockbox]
 ## ⚡ Lưu Ý Khi Sử Dụng
 
 ### Rate Limit API
-- API VCI có giới hạn số requests per minute (khoảng 30 requests/phút)
-- Nếu gặp lỗi "Rate Limit Exceeded", vui lòng đợi 1-2 phút rồi thử lại
-- Khuyến nghị render từng file riêng lẻ thay vì render toàn bộ website cùng lúc
-- Helper functions đã được tích hợp rate limiting và retry logic tự động
+- API VCI và TCBS đều có giới hạn requests per minute
+- Nếu gặp lỗi "Rate Limit Exceeded", hệ thống tự động chuyển source
+- Project có backup strategy với VCI-only mode và delays
+- Helper functions tự động handle rate limiting và retry logic
 
 ### Render An Toàn
 ```bash
@@ -75,8 +75,8 @@ quarto render MACD.qmd
 quarto render price-summary/Stock_price_summary.qmd
 quarto render price-summary/DailyPriceIncrease.qmd
 
-# Hoặc render toàn bộ với thời gian chờ
-quarto render --execute-params delay=true
+# Nếu bị rate limit, đợi 5-10 phút rồi thử lại
+# Hoặc render với fallback strategy (tự động trong code)
 ```
 
 ### Xử Lý Rate Limit Tự Động
@@ -92,14 +92,39 @@ Project đã được tích hợp hệ thống thông minh:
 #### Silent Mode Features:
 - ✅ **Silent Import**: Suppress warnings khi import vnstock
 - ✅ **Silent Creation**: Tạo stock objects không in thông báo
-- ✅ **Silent API Calls**: Lấy dữ liệu không hiện progress
+- ✅ **Silent API Calls**: Lấy dữ liệu không hiện progress (verbose=False)
+- ✅ **Silent Source Switching**: TCBS→VCI switching trong silent mode
+- ✅ **Smart Chunking**: Tự động chia nhỏ date ranges lớn (>1 năm)
 - ✅ **Verbose Option**: Có thể bật verbose=True khi debug
+- ✅ **Error Handling**: Graceful error handling với/không verbose
+
+#### Smart Chunking Strategy:
+- **Small ranges** (<365 days): Single API call
+- **Large ranges** (>365 days): Auto-chunk theo năm
+- **VCI-only mode**: Chunk theo 6 tháng với delays dài hơn
+- **Deduplication**: Tự động remove duplicates và sort theo date
 
 #### Workflow Xử Lý Lỗi:
-1. **TCBS Error** → Tạo stock object mới với VCI (silent)
-2. **VCI Error** → Retry với exponential backoff
-3. **Network Error** → Retry với delay tăng dần
+1. **TCBS Rate Limit** → Chuyển ngay sang VCI
+2. **VCI Rate Limit** → Fallback sang VCI-only mode với delays
+3. **Network Error** → Retry với exponential backoff
 4. **Max Retries** → Throw exception và log chi tiết
+
+#### Emergency Fallback Strategy:
+- **Level 1**: TCBS → VCI switching (instant)
+- **Level 2**: Smart chunking by year/6-month periods  
+- **Level 3**: VCI-only với 4-6s delays giữa chunks
+- **Level 4**: Manual retry sau 5-10 phút
+
+#### Example Usage:
+```python
+# Short range - no chunking
+data = get_stock_data_vnstock(['VCB'], '2024-11-01', '2024-12-01')
+
+# Long range - auto chunking
+data = get_stock_data_vnstock(['VCB'], '2023-01-01', '2024-12-01', verbose=True)
+# Output: "Large date range detected (700 days). Using yearly chunks..."
+```
 
 ## ⚠️ Tuyên Bố Miễn Trừ Trách Nhiệm
 
