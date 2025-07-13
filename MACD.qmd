@@ -7,7 +7,7 @@ execute:
 
 
 ```{python}
-from vnstock import stock_historical_data
+from vnstock import Vnstock
 import pandas as pd
 import datetime
 import plotly.graph_objects as go
@@ -129,7 +129,17 @@ def plot_macd(df, frequency):
 ```{python}
 start_date = "2006-01-01"
 end_date = datetime.datetime.now().strftime("%Y-%m-%d")
-data = stock_historical_data("VNINDEX", start_date, end_date, "1D", "index", source='TCBS')
+
+# Sử dụng API mới của vnstock
+stock = Vnstock().stock(symbol='VNINDEX', source='VCI')
+data = stock.quote.history(start=start_date, end=end_date, interval='1D')
+
+# Đổi tên cột để tương thích với code cũ
+if 'time' not in data.columns and 'date' in data.columns:
+    data['time'] = data['date']
+elif data.index.name == 'date' or 'datetime' in str(type(data.index[0])):
+    data['time'] = data.index
+    
 data.index = pd.to_datetime(data['time'])
 ```
 

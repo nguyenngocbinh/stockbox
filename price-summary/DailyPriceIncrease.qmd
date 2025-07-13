@@ -6,17 +6,19 @@ execute:
 ---
 
 ```{python}
-from vndirect import VNDirectClient
+from vnstock_helpers import get_stock_data_vnstock, calculate_returns_vnstock
 from utils import format_df
 import pandas as pd
+import datetime
 ```
 
 ```{python}
+# Lấy dữ liệu cho các ticker
 list_tickers = ['TCB', 'AGR', 'BSI', 'HPG', 'SSI', 'VNM', 'DHG', 'VHC']
-vn_stock = VNDirectClient(list_tickers, 1000)
-vn_stock.get_data()
-ohlcv_data = vn_stock.ohlcv()
-returns_data = vn_stock.calculate_returns()
+
+# Sử dụng vnstock thay vì VNDirectClient (silent mode)
+ohlcv_data = get_stock_data_vnstock(list_tickers, start_date="2020-01-01", verbose=False)
+returns_data = calculate_returns_vnstock(ohlcv_data)
 ```
 
 
