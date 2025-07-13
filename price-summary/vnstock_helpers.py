@@ -1,13 +1,25 @@
 """
 Vnstock Helper Functions
 Helper functions để thay thế VNDirectClient bằng vnstock
+
+Features:
+- Silent import và execution (không print thông báo)
+- Error handling graceful
+- Tương thích với cấu trúc dữ liệu VNDirectClient
+- Verbose mode có thể bật nếu cần debug
 """
 
 import pandas as pd
 import datetime
-from vnstock import Vnstock
 
-def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D'):
+# Silent import của Vnstock
+try:
+    from vnstock import Vnstock
+except ImportError:
+    print("Warning: vnstock not available")
+    Vnstock = None
+
+def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D', verbose=False):
     """
     Lấy dữ liệu cổ phiếu cho nhiều ticker bằng vnstock
     
@@ -16,10 +28,14 @@ def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D
         start_date (str): Ngày bắt đầu (YYYY-MM-DD)
         end_date (str): Ngày kết thúc (YYYY-MM-DD)
         interval (str): Khoảng thời gian ('1D', '1W', '1M')
+        verbose (bool): In thông báo progress hay không
     
     Returns:
         pd.DataFrame: DataFrame với multi-index [Symbol, Date]
     """
+    if Vnstock is None:
+        raise ImportError("vnstock package is not available. Please install: pip install vnstock")
+    
     if start_date is None:
         start_date = "2020-01-01"
     if end_date is None:
@@ -29,7 +45,10 @@ def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D
     
     for ticker in tickers:
         try:
-            print(f"Đang lấy dữ liệu cho {ticker}...")
+            if verbose:
+                print(f"Đang lấy dữ liệu cho {ticker}...")
+            
+            # Silent data retrieval - không print progress
             stock = Vnstock().stock(symbol=ticker, source='VCI')
             data = stock.quote.history(start=start_date, end=end_date, interval=interval)
             
@@ -82,7 +101,8 @@ def get_stock_data_vnstock(tickers, start_date=None, end_date=None, interval='1D
             all_data.append(data)
             
         except Exception as e:
-            print(f"Lỗi khi lấy dữ liệu cho {ticker}: {e}")
+            if verbose:
+                print(f"Lỗi khi lấy dữ liệu cho {ticker}: {e}")
             continue
     
     if all_data:
@@ -117,7 +137,7 @@ def calculate_returns_vnstock(data):
     
     return returns_data
 
-def vnstock_ohlcv_wrapper(tickers, start_date=None, end_date=None):
+def vnstock_ohlcv_wrapper(tickers, start_date=None, end_date=None, verbose=False):
     """
     Wrapper function để thay thế VNDirectClient().ohlcv()
     
@@ -125,11 +145,12 @@ def vnstock_ohlcv_wrapper(tickers, start_date=None, end_date=None):
         tickers (list): Danh sách mã cổ phiếu
         start_date (str): Ngày bắt đầu
         end_date (str): Ngày kết thúc
+        verbose (bool): In thông báo progress hay không
         
     Returns:
         pd.DataFrame: OHLCV data với format tương tự VNDirectClient
     """
-    return get_stock_data_vnstock(tickers, start_date, end_date)
+    return get_stock_data_vnstock(tickers, start_date, end_date, verbose=verbose)
 
 def vnstock_returns_wrapper(ohlcv_data):
     """

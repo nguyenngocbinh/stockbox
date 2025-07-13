@@ -29,11 +29,9 @@ df_tickers = df_tickers[df_tickers['Symbol'].isin(list_tickers)]
 
 
 ```{python}
-# Sử dụng vnstock thay vì VNDirectClient
-print("Đang lấy dữ liệu cổ phiếu...")
-ohlcv_data = get_stock_data_vnstock(list_tickers, start_date="2020-01-01")
+# Sử dụng vnstock thay vì VNDirectClient (silent mode)
+ohlcv_data = get_stock_data_vnstock(list_tickers, start_date="2020-01-01", verbose=False)
 returns_data = calculate_returns_vnstock(ohlcv_data)
-print("Hoàn thành lấy dữ liệu!")
 ```
 
 ```{python}
