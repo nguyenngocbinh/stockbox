@@ -6,7 +6,7 @@ execute:
 ---
 
 ```{python}
-from vnstock import VNStockData
+from vndirect import VNDirectClient
 from utils import format_df
 import pandas as pd
 ```
@@ -28,7 +28,7 @@ df_tickers = df_tickers[df_tickers['Symbol'].isin(list_tickers)]
 
 
 ```{python}
-vn_stock = VNStockData(list_tickers)
+vn_stock = VNDirectClient(list_tickers)
 vn_stock.get_data()
 ohlcv_data = vn_stock.ohlcv()
 returns_data = vn_stock.calculate_returns()

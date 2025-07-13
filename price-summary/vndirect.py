@@ -1,5 +1,5 @@
 """
-VNStock - Vietnamese Stock Market Data Fetcher
+VNDIRECT - API
 
 This module provides a class to fetch and process stock data from the VNDIRECT API.
 It handles data retrieval, processing, and calculation of various metrics.
@@ -18,27 +18,45 @@ import requests
 from requests.exceptions import RequestException
 
 
-class VNStockData:
+class VNDirectClient:
     """
-    A class to fetch and analyze Vietnamese stock market data.
+    A client for fetching and analyzing Vietnamese stock market data from VNDIRECT API.
     
-    This class provides methods to:
-    - Fetch historical stock data from VNDIRECT API
-    - Process OHLCV (Open, High, Low, Close, Volume) data
-    - Calculate returns over various time periods
+    This client provides comprehensive functionality for Vietnamese stock market analysis including
+    data retrieval with caching, OHLCV processing, technical indicators calculation, and data export.
+    
+    Features:
+    - Fetch historical stock data from VNDIRECT API with retry logic
+    - Intelligent caching system with configurable expiry
+    - Parallel data fetching for multiple tickers
+    - Process raw data into standardized OHLCV format
+    - Calculate returns over various time periods (1d, 1w, 1m, 6m)
+    - Calculate volatility metrics with rolling windows
     - Resample data to different time frequencies
+    - Export data in multiple formats (CSV)
+    - Comprehensive error handling and validation
     
     Attributes:
-        base_url (str): Base URL for the VNDIRECT API
-        tickers (List[str]): List of stock tickers to fetch data for
-        size (int): Number of historical records to fetch per ticker
-        verbose (bool): Whether to print verbose output
-        cache_dir (str): Directory to cache data (if caching is enabled)
-        use_cache (bool): Whether to use cached data when available
-        cache_expiry (int): Cache expiry time in hours
-        raw_data (pd.DataFrame): Raw stock data fetched from API
-        ohlcv_df (pd.DataFrame): Processed OHLCV data
-        returns_data (pd.DataFrame): Calculated returns data
+        base_url (str): Base URL for the VNDIRECT API endpoint
+        tickers (List[str]): List of 3-character stock ticker symbols
+        size (int): Number of historical records to fetch per ticker (default: 125)
+        verbose (bool): Enable verbose logging output
+        cache_dir (str): Directory path for caching downloaded data
+        use_cache (bool): Whether to use local caching (default: True)
+        cache_expiry (int): Cache expiry time in hours (default: 24)
+        request_timeout (int): HTTP request timeout in seconds (default: 10)
+        max_retries (int): Maximum retry attempts for failed requests (default: 3)
+        retry_delay (int): Delay between retry attempts in seconds (default: 1)
+        raw_data (pd.DataFrame): Raw stock data as received from API
+        ohlcv_df (pd.DataFrame): Processed OHLCV data with multi-index
+        returns_data (pd.DataFrame): Data with calculated returns and metrics
+    
+    Example:
+        >>> client = VNDirectClient(['VIC', 'VHM', 'FPT'], size=100, verbose=True)
+        >>> data = client.get_data()
+        >>> ohlcv = client.ohlcv()
+        >>> returns = client.calculate_returns()
+        >>> client.export_to_csv('stock_data.csv', 'ohlcv')
     """
     
     # Default headers for API requests
@@ -69,7 +87,7 @@ class VNStockData:
                  max_retries: int = 3,
                  retry_delay: int = 1):
         """
-        Initialize the VNStockData class.
+        Initialize the VNDirectClient class.
         
         Args:
             tickers: List of stock tickers to fetch data for
