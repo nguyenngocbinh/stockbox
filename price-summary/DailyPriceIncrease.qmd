@@ -6,14 +6,14 @@ execute:
 ---
 
 ```{python}
-from vnstock import VNStockData
+from vndirect import VNDirectClient
 from utils import format_df
 import pandas as pd
 ```
 
 ```{python}
 list_tickers = ['TCB', 'AGR', 'BSI', 'HPG', 'SSI', 'VNM', 'DHG', 'VHC']
-vn_stock = VNStockData(list_tickers, 1000)
+vn_stock = VNDirectClient(list_tickers, 1000)
 vn_stock.get_data()
 ohlcv_data = vn_stock.ohlcv()
 returns_data = vn_stock.calculate_returns()
