@@ -6,9 +6,10 @@ execute:
 ---
 
 ```{python}
-from vndirect import VNDirectClient
+from vnstock_helpers import get_stock_data_vnstock, calculate_returns_vnstock
 from utils import format_df
 import pandas as pd
+import datetime
 ```
 ```{python}
 # Read features from the text file
@@ -28,10 +29,11 @@ df_tickers = df_tickers[df_tickers['Symbol'].isin(list_tickers)]
 
 
 ```{python}
-vn_stock = VNDirectClient(list_tickers)
-vn_stock.get_data()
-ohlcv_data = vn_stock.ohlcv()
-returns_data = vn_stock.calculate_returns()
+# Sử dụng vnstock thay vì VNDirectClient
+print("Đang lấy dữ liệu cổ phiếu...")
+ohlcv_data = get_stock_data_vnstock(list_tickers, start_date="2020-01-01")
+returns_data = calculate_returns_vnstock(ohlcv_data)
+print("Hoàn thành lấy dữ liệu!")
 ```
 
 ```{python}
