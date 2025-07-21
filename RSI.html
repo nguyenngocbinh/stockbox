@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
@@ -72,9 +72,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -383,160 +380,25 @@ window.Quarto = {
 
 
 <section id="chỉ-số-rsi-relative-strength-index---chỉ-số-sức-mạnh-tương-đối" class="level3">
-<h3 class="anchored">Chỉ số RSI (Relative Strength Index - Chỉ số Sức mạnh Tương đối)</h3>
+<h3 class="anchored" data-anchor-id="chỉ-số-rsi-relative-strength-index---chỉ-số-sức-mạnh-tương-đối">Chỉ số RSI (Relative Strength Index - Chỉ số Sức mạnh Tương đối)</h3>
 <p>Công thức tính:</p>
 <p><span class="math display">\[RSI = 100 - \frac{100}{1 + RS}\]</span></p>
 <p>Trong đó:</p>
 <p><span class="math inline">\(RS (Relative Strength) = \frac{\text{Average Gain}}{\text{Average Loss}}\)</span></p>
-<div id="2a1d2bd3" class="cell" data-execution_count="1">
+<div id="cb4c4f3c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stderr">
 <pre><code>/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/vnai/scope/profile.py:562: UserWarning:
 
 pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
 </code></pre>
 </div>
-<div class="cell-output cell-output-display">
-
-
-
-    <meta charset="UTF-8">
-    <meta name="ad-freq" content="3/wk">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-    <style>
-        .vnstock-ad-banner {
-            all: initial;
-            font-family: 'Lexend', sans-serif;
-            display: flex;
-            flex-wrap: wrap;
-            max-width: 100%;
-            margin: 12px 0;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #ffffff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            color: #333;
-        }
-
-        .vnstock-ad-content {
-            flex: 1;
-            padding: 12px 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .vnstock-ad-title {
-            margin: 0 0 10px 0;
-            line-height: 1.3;
-            font-size: 18px;
-            font-weight: 700;
-            color: #4CAF50;
-        }
-
-        .title-highlight {
-            color: #8C52FF;
-        }
-
-        .vnstock-ad-features {
-            list-style: none;
-            padding-left: 0;
-            margin: 10px 0 12px 0;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        .vnstock-ad-features li {
-            margin-bottom: 6px;
-        }
-
-        .feature-highlight {
-            color: #8C52FF;
-            font-weight: 600;
-        }
-
-        .button-container {
-            text-align: center;
-        }
-
-        .vnstock-ad-button {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 6px 16px;
-            text-decoration: none;
-            font-size: 13px;
-            border-radius: 20px;
-            font-weight: 600;
-            transition: all 0.2s;
-            box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
-        }
-
-        .vnstock-ad-button:hover {
-            background-color: #8C52FF;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(140, 82, 255, 0.3);
-        }
-
-        .vnstock-ad-image {
-            flex: 1;
-            min-width: 180px;
-            max-width: 45%;
-        }
-
-        .vnstock-ad-image img {
-            width: 100%;
-            height: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .vnstock-ad-banner {
-                flex-direction: column;
-            }
-            
-            .vnstock-ad-image {
-                min-width: auto;
-                max-width: 100%;
-            }
-        }
-    </style>
-
-
-    <div class="vnstock-ad-banner">
-        <div class="vnstock-ad-content">
-            <h2 class="vnstock-ad-title anchored" data-anchor-id="chỉ-số-rsi-relative-strength-index---chỉ-số-sức-mạnh-tương-đối">
-                <span class="title-highlight">🤖 Python Coding với AI:</span> Phân Tích Dữ liệu &amp; Bot Chứng Khoán K11
-            </h2>
-            <ul class="vnstock-ad-features">
-                <li><span class="feature-highlight">⚡ Điều khiển AI viết code Python:</span> Không cần thuộc lòng cú pháp, học cách dùng AI agent</li>
-                <li><span class="feature-highlight">🎯 Từ ý tưởng đến sản phẩm:</span> 15+ bot &amp; chương trình thực tế hoàn chỉnh trong 10 buổi học</li>
-                <li><span class="feature-highlight">🚀 Giáo trình mới tập trung vào AI:</span> Áp dụng cách tiếp cận AI thực chiến từ 15/6/2025. Truy cập trước nội dung khóa 10 ngay khi đăng ký.</li>
-                <li><span class="feature-highlight">💡 Cộng đồng chất lượng cao:</span> 100+ nhà đầu tư, chuyên gia &amp; lập trình viên cùng học hỏi</li>
-            </ul>
-            <div class="button-container">
-                <a href="https://vnstocks.com/lp-khoa-hoc-python-chung-khoan" class="vnstock-ad-button">
-                    Đăng ký ngay ›
-                </a>
-            </div>
-        </div>
-        <a href="https://vnstocks.com/lp-khoa-hoc-python-chung-khoan" class="vnstock-ad-image">
-            <img src="https://vnstocks.com/img/cta-python-chung-khoan-k11-start-now.jpg" alt="Khóa học Python Coding với AI" style="width: 100%; height: 100%; max-height: 250px; object-fit: cover; display: block;">
-        </a>
-    </div>
-
-
 </div>
-</div>
-<div id="2e7ac209" class="cell" data-execution_count="3">
+<div id="4f864816" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stderr">
-<pre><code>2025-07-16 10:02:37 - vnstock.common.data.data_explorer - INFO - Không phải là mã chứng khoán, thông tin công ty và tài chính không khả dụng.</code></pre>
+<pre><code>2025-07-21 10:09:08 - vnstock.common.data.data_explorer - INFO - Không phải là mã chứng khoán, thông tin công ty và tài chính không khả dụng.</code></pre>
 </div>
 </div>
-<div id="5dddc27c" class="cell" data-execution_count="4">
+<div id="88ff2ca1" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -545,7 +407,7 @@ pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/
 </div>
 </div>
 </div>
-<div id="c65e1873" class="cell" data-execution_count="5">
+<div id="f8b59a93" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -554,7 +416,7 @@ pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/
 </div>
 </div>
 </div>
-<div id="b0ad7c67" class="cell" data-execution_count="6">
+<div id="2c10fd7a" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stderr">
 <pre><code>'M' is deprecated and will be removed in a future version, please use 'ME' instead.</code></pre>
 </div>
