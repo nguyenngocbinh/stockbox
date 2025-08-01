@@ -4,7 +4,7 @@
     "href": "RSI.html",
     "title": "So sánh tốc độ tăng giá và tốc độ tăng của RSI",
     "section": "",
-    "text": "Chỉ số RSI (Relative Strength Index - Chỉ số Sức mạnh Tương đối)\nCông thức tính:\n\\[RSI = 100 - \\frac{100}{1 + RS}\\]\nTrong đó:\n\\(RS (Relative Strength) = \\frac{\\text{Average Gain}}{\\text{Average Loss}}\\)\n\n\n/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/vnai/scope/profile.py:562: UserWarning:\n\npkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.\n\n\n\n\n\n2025-07-31 10:05:46 - vnstock.common.data.data_explorer - INFO - Không phải là mã chứng khoán, thông tin công ty và tài chính không khả dụng.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'M' is deprecated and will be removed in a future version, please use 'ME' instead.",
+    "text": "Chỉ số RSI (Relative Strength Index - Chỉ số Sức mạnh Tương đối)\nCông thức tính:\n\\[RSI = 100 - \\frac{100}{1 + RS}\\]\nTrong đó:\n\\(RS (Relative Strength) = \\frac{\\text{Average Gain}}{\\text{Average Loss}}\\)\n\n\n/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/vnai/scope/profile.py:562: UserWarning:\n\npkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.\n\n\n\n\n\n2025-08-01 10:01:11 - vnstock.common.data.data_explorer - INFO - Không phải là mã chứng khoán, thông tin công ty và tài chính không khả dụng.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'M' is deprecated and will be removed in a future version, please use 'ME' instead.",
     "crumbs": [
       "So sánh tốc độ tăng giá và tốc độ tăng của RSI"
     ]
@@ -21,7 +21,7 @@
     "href": "MACD.html",
     "title": "# Moving Average Convergence Divergence (MACD)",
     "section": "",
-    "text": "/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/vnai/scope/profile.py:562: UserWarning:\n\npkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.\n\n\n\n\n\n2025-07-31 08:43:13 - vnstock.common.data.data_explorer - INFO - Không phải là mã chứng khoán, thông tin công ty và tài chính không khả dụng.\n\n\n\n\n'M' is deprecated and will be removed in a future version, please use 'ME' instead.",
+    "text": "/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/vnai/scope/profile.py:562: UserWarning:\n\npkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.\n\n\n\n\n\n2025-08-01 08:42:39 - vnstock.common.data.data_explorer - INFO - Không phải là mã chứng khoán, thông tin công ty và tài chính không khả dụng.\n\n\n\n\n'M' is deprecated and will be removed in a future version, please use 'ME' instead.",
     "crumbs": [
       "Moving Average Convergence Divergence (MACD)"
     ]
