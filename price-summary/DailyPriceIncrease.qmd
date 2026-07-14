@@ -1,77 +1,120 @@
 ---
-title: "Daily Price Increase"
-format: html
+title: "Daily Price Increase Calendar"
+format:
+  html:
+    theme: cosmo
 execute:
   echo: false
+  warning: false
+  message: false
 ---
 
 ```{python}
 from vnstock_helpers import get_stock_data_vnstock, calculate_returns_vnstock
-from utils import format_df
 import pandas as pd
-import datetime
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+
+# Set plot style
+plt.style.use('seaborn-v0_8-whitegrid')
+sns.set_palette("husl")
 ```
 
 ```{python}
-# Lấy dữ liệu cho các ticker
+# List of tickers to analyze
 list_tickers = ['TCB', 'AGR', 'BSI', 'HPG', 'SSI', 'VNM', 'DHG', 'VHC']
 
-# Sử dụng vnstock thay vì VNDirectClient (silent mode)
+# Fetch stock data using vnstock (silent mode)
 ohlcv_data = get_stock_data_vnstock(list_tickers, start_date="2020-01-01", verbose=False)
 returns_data = calculate_returns_vnstock(ohlcv_data)
 ```
 
-
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-
-def plot_price_increase(stock_data, ticker_name):
-  # Tạo cột mới 'Daily Change' để lưu giá trị thay đổi giá trong ngày
-  stock_data['Daily Change'] = stock_data['Adj Close'].diff()
-  
-  # Tính phần trăm thay đổi giá
-  stock_data['Daily Change (%)'] = stock_data['Adj Close'].pct_change() * 100
-  
-  # Thêm cột 'Direction' để xác định hướng thay đổi (Tăng, Giảm, Đứng giá)
-  stock_data['Direction'] = pd.cut(stock_data['Daily Change'], bins=[float('-inf'), 0, float('inf')], labels=['Decrease', 'Increase'])
-  
-  # Lọc chỉ những ngày tăng giá
-  increasing_days = stock_data[stock_data['Direction'] == 'Increase']
-  
-  # Tạo một DataFrame mới chỉ chứa thông tin ngày và hướng thay đổi
-  calendar_data = increasing_days[['Direction']].resample('D').first()
-  
-  # Đổi tên cột để dễ vẽ hơn
-  calendar_data = calendar_data.rename(columns={'Direction': 'D'})
-  
-  # Vẽ biểu đồ lịch
-  plt.figure(figsize=(12, 6))
-  ax = sns.heatmap(calendar_data.pivot_table(index=calendar_data.index.month, columns=calendar_data.index.day, aggfunc='count', fill_value=0), cmap="RdYlGn", annot=True, fmt='g', cbar=True)
-  
-  plt.title(f'Daily Price Increase ({ticker_name})')
-  plt.xlabel('Day')
-  plt.ylabel('Month')
-  plt.show()
-
+def plot_price_increase_calendar(stock_data, ticker_name):
+    """
+    Create a calendar heatmap showing daily price increases
+    
+    Args:
+        stock_data: DataFrame with OHLCV data for a single ticker
+        ticker_name: Stock ticker symbol
+    """
+    # Calculate daily change
+    stock_data = stock_data.copy()
+    stock_data['Daily Change'] = stock_data['Adj Close'].diff()
+    stock_data['Daily Change (%)'] = stock_data['Adj Close'].pct_change() * 100
+    
+    # Add direction column
+    stock_data['Direction'] = stock_data['Daily Change'].apply(lambda x: 1 if x > 0 else (0 if x == 0 else -1))
+    
+    # Create pivot table for calendar heatmap
+    stock_data['Month'] = stock_data.index.month
+    stock_data['Day'] = stock_data.index.day
+    stock_data['Year'] = stock_data.index.year
+    
+    # Get latest year data
+    latest_year = stock_data['Year'].max()
+    year_data = stock_data[stock_data['Year'] == latest_year]
+    
+    # Create pivot table
+    calendar_pivot = year_data.pivot_table(
+        index='Month', 
+        columns='Day', 
+        values='Daily Change (%)',
+        aggfunc='first'
+    )
+    
+    # Create figure with custom size
+    fig, ax = plt.subplots(figsize=(14, 8))
+    
+    # Create heatmap with improved colors
+    mask = calendar_pivot.isnull()
+    im = ax.imshow(calendar_pivot.values, cmap='RdYlGn', aspect='auto', 
+                   vmin=-5, vmax=5, alpha=~mask.values.astype(float) * 0.3 + 0.7)
+    
+    # Add colorbar
+    cbar = plt.colorbar(im, ax=ax, shrink=0.8)
+    cbar.set_label('Daily Change (%)', fontsize=12, fontweight='bold')
+    
+    # Set labels
+    ax.set_xticks(range(len(calendar_pivot.columns)))
+    ax.set_yticks(range(len(calendar_pivot.index)))
+    ax.set_xticklabels(calendar_pivot.columns, fontsize=9)
+    ax.set_yticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=10)
+    
+    ax.set_xlabel('Day', fontsize=12, fontweight='bold')
+    ax.set_ylabel('Month', fontsize=12, fontweight='bold')
+    ax.set_title(f'Daily Price Change Calendar - {ticker_name} ({latest_year})', 
+                 fontsize=14, fontweight='bold', pad=15)
+    
+    # Add grid
+    ax.set_xticks([x - 0.5 for x in range(len(calendar_pivot.columns) + 1)], minor=True)
+    ax.set_yticks([y - 0.5 for y in range(len(calendar_pivot.index) + 1)], minor=True)
+    ax.grid(which='minor', color='gray', linestyle='-', linewidth=0.5, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Print summary statistics
+    print(f"\n📊 Summary for {ticker_name} ({latest_year}):")
+    print(f"   Total trading days: {len(year_data)}")
+    print(f"   Up days: {(year_data['Direction'] == 1).sum()} ({(year_data['Direction'] == 1).mean()*100:.1f}%)")
+    print(f"   Down days: {(year_data['Direction'] == -1).sum()} ({(year_data['Direction'] == -1).mean()*100:.1f}%)")
+    print(f"   Avg daily change: {year_data['Daily Change (%)'].mean():.2f}%")
+    print(f"   Max daily gain: {year_data['Daily Change (%)'].max():.2f}%")
+    print(f"   Max daily loss: {year_data['Daily Change (%)'].min():.2f}%")
 ```
 
 ```{python}
-ohlcv_data.reset_index(inplace = True)
-ohlcv_data.set_index('Date', inplace = True)
-```
+# Prepare data
+ohlcv_data_reset = ohlcv_data.reset_index()
+ohlcv_data_reset.set_index('Date', inplace=True)
 
-```{python}
-ohlcv_data
-```
-
-
-```{python}
+# Plot calendar for each ticker
 for tk in list_tickers:
-  df = ohlcv_data.copy()
-  df = df[df['Symbol'] == tk]
-  plot_price_increase(df, tk)
-
+    df = ohlcv_data_reset[ohlcv_data_reset['Symbol'] == tk].copy()
+    if len(df) > 0:
+        plot_price_increase_calendar(df, tk)
 ```

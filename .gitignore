@@ -1,13 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.vnstock_cache
-
-/.quarto/
-*_cache/
-_site/
-
-.DS_Store
-
-.quarto
+Nothing should be ignored based on the provided file changes, as they consist only of source files (.css, .qmd, .py, .scss) and a markdown file (.md).

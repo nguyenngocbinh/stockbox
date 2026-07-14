@@ -4,28 +4,126 @@
 
 $font-family: "Atkinson Hyperlegible", sans-serif;
 
+/* Dark mode color scheme */
+$primary: #3d8bfd;
+$secondary: #6c757d;
+$success: #2ea043;
+$info: #39c5cf;
+$warning: #f0b72a;
+$danger: #ff5c5c;
+$light: #2d333b;
+$dark: #0d1117;
+
+$body-bg: #0d1117;
+$body-color: #c9d1d9;
+
+$link-color: #58a6ff;
+$link-hover-color: #79c0ff;
+
 /*-- scss:rules --*/
 
+/* Dark mode body */
+body {
+  line-height: 1.7;
+  font-size: 16px;
+  background-color: $body-bg;
+  color: $body-color;
+}
+
+/* Sidebar dark styling */
+.sidebar {
+  background-color: #161b22 !important;
+  border-right: 1px solid #30363d;
+}
+
+.sidebar-title {
+  font-weight: 700;
+  color: $primary;
+}
+
+/* Code block dark improvements */
+.sourceCode {
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  background-color: #161b22;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Table dark enhancements */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  background-color: #161b22;
+}
+
+.table thead {
+  background-color: #21262d;
+  color: $body-color;
+}
+
+.table td, .table th {
+  border-color: #30363d;
+}
+
+/* Card-like sections in dark mode */
+.quarto-section {
+  background: #161b22;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  margin-bottom: 2rem;
+}
+
+/* Better link styling for dark mode */
+a {
+  color: $link-color;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: $link-hover-color;
+  text-decoration: underline;
+}
+
+/* Footer dark styling */
+.page-footer {
+  background-color: #161b22;
+  border-top: 1px solid #30363d;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
+/* Responsive images in dark mode */
+img {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Render-commit-push and pull boxes for dark mode */
 .render-commit-push {
   padding: 0.5em 0.5em 0em 3em;
   margin-top: 5px;
   margin-bottom: 5px;
-  background: #f8f8f8 5px center/3em no-repeat;
+  background: #161b22 5px center/3em no-repeat;
   border-top: 1px solid #5B888C;
   border-bottom: 1px solid #5B888C;
   background-image: url("images/render-commit-push.png");
   background-size: 2em;
   background-position: 0.5em 0.5em;
+  border-radius: 8px;
 }
 
 .pull {
   padding: 0.5em 0.5em 0em 3em;
   margin-top: 5px;
   margin-bottom: 5px;
-  background: #f8f8f8 5px center/3em no-repeat;
+  background: #161b22 5px center/3em no-repeat;
   border-top: 1px solid #E0A890;
   border-bottom: 1px solid #E0A890;
   background-image: url("images/pull.png");
   background-size: 1em;
   background-position: 1em 0.5em;
+  border-radius: 8px;
 }

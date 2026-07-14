@@ -4,8 +4,89 @@
 
 $font-family: "Atkinson Hyperlegible", sans-serif;
 
+/* Improved color scheme */
+$primary: #0d6efd;
+$secondary: #6c757d;
+$success: #198754;
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;
+
 /*-- scss:rules --*/
 
+/* Better spacing and readability */
+body {
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* Enhanced navigation */
+.sidebar {
+  background-color: #f8f9fa !important;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar-title {
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+/* Code block improvements */
+.sourceCode {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Table enhancements */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.table thead {
+  background-color: #f8f9fa;
+}
+
+/* Card-like sections */
+.quarto-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+
+/* Better link styling */
+a {
+  color: #0d6efd;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #0a58ca;
+  text-decoration: underline;
+}
+
+/* Footer styling */
+.page-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
+/* Responsive images */
+img {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Render-commit-push and pull boxes */
 .render-commit-push {
   padding: 0.5em 0.5em 0em 3em;
   margin-top: 5px;
@@ -16,6 +97,7 @@ $font-family: "Atkinson Hyperlegible", sans-serif;
   background-image: url("images/render-commit-push.png");
   background-size: 2em;
   background-position: 0.5em 0.5em;
+  border-radius: 8px;
 }
 
 .pull {
@@ -28,4 +110,5 @@ $font-family: "Atkinson Hyperlegible", sans-serif;
   background-image: url("images/pull.png");
   background-size: 1em;
   background-position: 1em 0.5em;
+  border-radius: 8px;
 }
