@@ -1,9 +1,68 @@
 ---
-title: "Stock Indicator"
+title: "Stock Indicator Dashboard"
+format:
+  html:
+    theme: cosmo
+    toc: true
 ---
 
 ## Welcome {#welcome}
 
-Ai chiến thắng mà không hề chiến bại Ai nên khôn mà chẳng dại đôi lần
+<div class="quarto-section">
 
-![](images/dragon_curve.jpg)
+### 📈 Stock Analysis Platform
+
+Chào mừng bạn đến với **Stockbox** - Nền tảng phân tích kỹ thuật chứng khoán Việt Nam.
+
+> *"Ai chiến thắng mà không hề chiến bại*  
+> *Ai nên khôn mà chẳng dại đôi lần"*
+
+</div>
+
+## Features {#features}
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+
+### 📊 Price Summary
+Xem tổng quan giá và hiệu suất của các cổ phiếu VN theo ngành, với các chỉ số tăng trưởng 1 ngày, 1 tuần, 1 tháng và 6 tháng.
+
+[→ Xem Price Summary](price-summary/Stock_price_summary.qmd){.btn .btn-primary}
+
+### 📉 RSI Analysis
+Phân tích chỉ số Sức mạnh Tương đối (RSI) để xác định vùng quá mua/quá bán của thị trường.
+
+[→ Xem RSI Analysis](RSI.qmd){.btn .btn-primary}
+
+### 📈 MACD Indicator
+Theo dõi Moving Average Convergence Divergence để nhận diện xu hướng và tín hiệu giao dịch.
+
+[→ Xem MACD](MACD.qmd){.btn .btn-primary}
+
+### 📅 Daily Calendar
+Calendar heatmap hiển thị các ngày tăng/giảm giá trong năm cho từng cổ phiếu.
+
+[→ Xem Calendar](price-summary/DailyPriceIncrease.qmd){.btn .btn-primary}
+
+</div>
+
+## Quick Stats {#stats}
+
+::: {.panel-tabset}
+
+### Market Overview
+
+- **Coverage**: 200+ tickers from major sectors
+- **Data Source**: VNDirect & VCI API
+- **Update Frequency**: Daily
+- **Historical Data**: Since 2006
+
+### Technical Indicators
+
+- ✅ RSI (Relative Strength Index)
+- ✅ MACD (Moving Average Convergence Divergence)
+- ✅ Price Returns (1d, 1w, 1m, 6m)
+- ✅ Volatility Analysis
+
+:::
+
+![](images/dragon_curve.jpg){fig-alt="Dragon Curve visualization" fig-cap="Technical Analysis Visualization"}

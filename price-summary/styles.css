@@ -1,0 +1,65 @@
+/* Custom styles for Stock Price Summary */
+
+/* Table styling */
+.table {
+    width: 100%;
+    font-size: 13px;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table td {
+    padding: 8px;
+    border: 1px solid #dee2e6;
+    text-align: right;
+}
+
+.table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Positive and negative values */
+.positive {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.negative {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Caption styling */
+.caption {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+/* Responsive table */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Industry column highlighting */
+td:first-child {
+    font-weight: 500;
+    background-color: #fafafa;
+}
+
+/* Symbol column */
+td:nth-child(2) {
+    font-weight: 600;
+    color: #007bff;
+}
